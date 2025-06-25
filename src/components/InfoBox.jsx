@@ -3,6 +3,7 @@ import useMainStore from '../store/MainStore';
 import toast from 'react-hot-toast';
 import i18next from "i18next";
 import { useTranslation } from "react-i18next";
+import { add_Settlement_Form } from "../action/getXMLRootAttributes"
 
 const InfoBox = () => {
   const isInfoOpen = useMainStore((state) => state.isInfoOpen);
@@ -96,10 +97,57 @@ const InfoBox = () => {
   const handleSyncData = () => {
     selectedItems.forEach((item) =>{
       if(item === "settlement"){
-        // formData["settlement"].map((item, idx) => {
-        //   console.log(item)
-        // })
-        console.log(formData["settlement"])
+        formData["settlement"].map((item, idx) => {
+          
+          let xmlString = new XMLSerializer();
+          let removalIdx = []
+
+          let xmlStr = rootImports[screen_code];
+          let xmlParser = new DOMParser();
+          let xmlroot = xmlParser.parseFromString(xmlStr, "text/xml");
+          let xmlDoc = xmlroot.documentElement;
+
+          itemKeys = Object.keys(item)
+          itemKeys.forEach((item) => {
+            if(item === "GPS_point"){
+              let newElement = xmlroot.createElement(item)
+              let childElement = xmlroot.createElement("point_mapsappearance")
+              childElement.textContent = `${formData[item]["longitude"]} ${formData[item]["latitude"]}`
+              newElement.appendChild(childElement)
+              xmlDoc.appendChild(newElement)
+            }
+            else if(formData[item] !== null && Array.isArray(formData[item])){
+              let newElement = xmlroot.createElement(item)
+              let contentString = "";
+              formData[item].forEach((item) => {
+                  if(contentString.length === 0){contentString = item;}
+                  else{contentString = contentString + " " + item;}
+              })
+              newElement.textContent = contentString;
+              xmlDoc.appendChild(newElement);
+            }
+            else if (formData[item] !== null && typeof (formData[item]) === "object") {
+                const tempKeys = Object.keys(formData[item])
+                if(tempKeys !== null || tempKeys.length !== 0){
+                    let newElement = xmlroot.createElement(item)
+                    tempKeys.map((tempItem) => {
+                    let childElement = xmlroot.createElement(tempItem)
+                        childElement.textContent = `${formData[item][tempItem]}`
+                        newElement.appendChild(childElement)
+                    })
+                    xmlDoc.appendChild(newElement)
+                }
+            }
+            else {
+                if(formData[item] !== null){
+                    let newElement = xmlroot.createElement(item)
+                    newElement.textContent = `${formData[item]}`
+                    xmlDoc.appendChild(newElement)
+                }
+            }
+          })
+          console.log(xmlDoc)
+        })
       }
       else if(item === "well"){console.log("Well")}
       else if(item === "waterstructure"){console.log("waterstructure")}
