@@ -1,0 +1,202 @@
+{
+  "title": "Cropping Pattern Form",
+  "logoFit": "none",
+  "logoPosition": "right",
+  "completedHtml": "<h3>Cropping Pattern has been Recorded !!</h3>",
+  "loadingHtml": "<h3>Loading Form...</h3>",
+  "pages": [
+    {
+      "name": "page1",
+      "elements": [
+        {
+          "type": "html",
+          "name": "crop_note_1",
+          "html": "<span style=\"font-size: large; color:red\">Please provide cropping pattern information for a few sample crop grid on land owned by people in this settlement</span>"
+        },
+        {
+          "type": "text",
+          "name": "crop_Grid_id",
+          "title": "Crop Grid ID",
+          "readOnly": true
+        },
+        {
+          "type": "text",
+          "name": "beneficiary_settlement",
+          "title": "Name of Beneficiary's Settlement",
+          "isRequired": true
+        },
+        {
+          "type": "text",
+          "name": "ben_father",
+          "title": "Beneficiary's father's name"
+        },
+        {
+          "type": "checkbox",
+          "name": "select_multiple_widgets",
+          "title": "What is the main source of irrigation on this land in this grid of the settlement? ( Select all that apply)",
+          "choices": [
+            "Rainfall",
+            "Well",
+            "Borewell",
+            "Canal",
+            "Pond",
+            "Don't know"
+          ]
+        },
+        {
+          "type": "radiogroup",
+          "name": "select_one_classified",
+          "title": "What is this land classified as?",
+          "choices": [
+            "Upland",
+            "Midland",
+            "Lowland"
+          ]
+        },
+        {
+          "type": "radiogroup",
+          "name": "Uncropped_barren_land",
+          "title": "Is this grid classified as uncropped or barren land?",
+          "choices": [
+            "Yes",
+            "No"
+          ]
+        },
+        {
+          "type": "checkbox",
+          "name": "select_multiple_cropping_kharif",
+          "visibleIf": "{Uncropped_barren_land} = 'No'",
+          "title": "What are the different crops typically practiced as main crops on such lands during the Kharif season in this grid of the settlement?",
+          "choices": [
+            "Paddy",
+            "Millets",
+            "Pulses",
+            "Vegetables",
+            "Fruits",
+            "Oil Seeds",
+            "Fodder crop",
+            "None",
+            "Other"
+          ]
+        },
+        {
+          "type": "text",
+          "name": "select_multiple_cropping_kharif_other",
+          "visibleIf": "{select_multiple_cropping_kharif} contains 'Other'",
+          "title": "Specify other"
+        },
+        {
+          "type": "checkbox",
+          "name": "select_multiple_cropping_Rabi",
+          "visibleIf": "{Uncropped_barren_land} = 'No'",
+          "title": "What are the different cropping patterns typically practiced as main crops on such lands during the Rabi season in this grid of the settlement?",
+          "choices": [
+            "Paddy",
+            "Millets",
+            "Pulses",
+            "Vegetables",
+            "Fruits",
+            "Oil Seeds",
+            "Fodder crop",
+            "None",
+            "Other"
+          ]
+        },
+        {
+          "type": "text",
+          "name": "select_multiple_cropping_Rabi_other",
+          "visibleIf": "{select_multiple_cropping_Rabi} contains 'Other'",
+          "title": "Specify other"
+        },
+        {
+          "type": "checkbox",
+          "name": "select_multiple_cropping_Zaid",
+          "visibleIf": "{Uncropped_barren_land} = 'No'",
+          "title": "What are the different cropping patterns typically practiced as main crops on such lands during the Zaid season in this grid of the settlement?",
+          "choices": [
+            "Paddy",
+            "Millets",
+            "Pulses",
+            "Vegetables",
+            "Fruits",
+            "Oil Seeds",
+            "Fodder crop",
+            "None",
+            "Other"
+          ]
+        },
+        {
+          "type": "text",
+          "name": "select_multiple_cropping_Zaid_other",
+          "visibleIf": "{select_multiple_cropping_Zaid} contains 'Other'",
+          "title": "Specify other"
+        },
+        {
+          "type": "radiogroup",
+          "name": "select_one_productivity",
+          "title": "How has cropping intensity changed over the last 3 years?",
+          "choices": [
+            "Increased",
+            "Decreased",
+            "Remain Same"
+          ]
+        },
+        {
+          "type": "radiogroup",
+          "name": "soil_degraded",
+          "title": "Has the soil degraded over the last 3 years in this grid?",
+          "choices": [
+            "Yes",
+            "No"
+          ]
+        },
+        {
+          "type": "radiogroup",
+          "name": "select_one_reason_degradation",
+          "visibleIf": "{soil_degraded} = 'Yes'",
+          "title": "If degraded, what are the reasons for degradation?",
+          "choices": [
+            "Overuse of fertilizers",
+            "Heavy rains causing erosion",
+            "Deforestation",
+            "Overgrazing",
+            "Urbanization"
+          ]
+        },
+        {
+          "type": "html",
+          "name": "crop_note_2",
+          "html": "<span style=\"font-size: large; font-weight: bold; color:red;\">DO NOT MODIFY ANYTHING BEYOND THIS POINT</span>"
+        },
+        {
+          "type": "text",
+          "name": "block_name",
+          "title": "Block name"
+        },
+        {
+          "type": "text",
+          "name": "plan_id",
+          "title": "Plan ID",
+          "readOnly": true
+        },
+        {
+          "type": "text",
+          "name": "plan_name",
+          "title": "Plan name",
+          "readOnly": true
+        },
+        {
+          "type": "text",
+          "name": "user_latlon",
+          "title": "Current location of the user"
+        },
+        {
+          "type": "text",
+          "name": "username",
+          "title": "Username"
+        }
+      ]
+    }
+  ],
+  "widthMode": "responsive"
+}
