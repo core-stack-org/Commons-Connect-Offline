@@ -34,8 +34,8 @@ function getOfflineFilePath(layer_store) {
     case "cropping_intensity":
       return `${basePath}/cropping_intensity.geojson`;
 
-    case "crop_grid_layers":
-      return `${basePath}/crop_grid.geojson`;
+    // case "crop_grid_layers":
+    //   return `${basePath}/crop_grid.geojson`;
 
     default:
       console.error("Unknown layer_store for offline mode:", layer_store);
@@ -43,11 +43,6 @@ function getOfflineFilePath(layer_store) {
   }
 }
 
-    default:
-      console.error("Unknown layer_store for offline mode:", layer_store);
-      return null;
-  }
-}
 
 export default async function getWebglVectorLayers (layer_store, layer_name, setVisible = true, setActive = true, container_name) {
 
@@ -56,7 +51,7 @@ export default async function getWebglVectorLayers (layer_store, layer_name, set
 
     let url = `http://localhost:3000/containers/${container_name}/${offlinePath}`
 
-    console.log(url)
+    console.log("LAYER URL", url)
         
     const vectorSource = new Vector({
       url: url,

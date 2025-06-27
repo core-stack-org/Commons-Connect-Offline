@@ -385,51 +385,58 @@ const MapComponent = () => {
 
         const settlementLayer = await getVectorLayers(
             "resources",
-            "settlement_"+ currentPlan.plan_id + '_' +`${districtName.toLowerCase().replace(/\s+/g, "_")}_${blockName.toLowerCase().replace(/\s+/g, "_")}`,
+            "settlement_"+ currentPlan.plan_id,
             true,
-            true
+            true,
+            MainStore.containerName
         );
 
         const wellLayer = await getVectorLayers(
             "resources",
-            "well_"+ currentPlan.plan_id + '_' +`${districtName.toLowerCase().replace(/\s+/g, "_")}_${blockName.toLowerCase().replace(/\s+/g, "_")}`,
+            "well_"+ currentPlan.plan_id,
             true,
-            true
+            true,
+            MainStore.containerName
         )
 
         const waterStructureLayer = await getVectorLayers(
             "resources",
-            "waterbody_"+ currentPlan.plan_id + '_' +`${districtName.toLowerCase().replace(/\s+/g, "_")}_${blockName.toLowerCase().replace(/\s+/g, "_")}`,
+            "waterbody_"+ currentPlan.plan_id,
             true,
-            true
+            true,
+            MainStore.containerName
         )
 
         const cropGridLayer = await getVectorLayers(
             "crop_grid_layers",
-            `${districtName.toLowerCase().replace(/\s+/g, "_")}_${blockName.toLowerCase().replace(/\s+/g, "_")}` + "_grid",
+            "crop_grid",
             true,
-            true
+            true,
+            MainStore.containerName
         )
 
         const AgricultureWorkLayer = await getVectorLayers(
             "works",
-            `plan_agri_${currentPlan.plan_id}_${districtName.toLowerCase().replace(/\s+/g, "_")}_${blockName.toLowerCase().replace(/\s+/g, "_")}`,
+            `plan_agri_${currentPlan.plan_id}`,
             true,
-            true
+            true,
+            MainStore.containerName
         )
 
         const GroundWaterWorkLayer = await getVectorLayers(
             "works",
-            `plan_gw_${currentPlan.plan_id}_${districtName.toLowerCase().replace(/\s+/g, "_")}_${blockName.toLowerCase().replace(/\s+/g, "_")}`,
+            `plan_gw_${currentPlan.plan_id}`,
             true,
-            true
+            true,
+            MainStore.containerName
         )
 
         const livelihoodLayer = await getVectorLayers(
             "works",
-            `livelihood_${currentPlan.plan_id}_${districtName.toLowerCase().replace(/\s+/g, "_")}_${blockName.toLowerCase().replace(/\s+/g, "_")}`,
+            `livelihood_${currentPlan.plan_id}`,
             true,
-            true
+            true,
+            MainStore.containerName
         )
 
         settlementLayer.setStyle(
@@ -989,9 +996,10 @@ const MapComponent = () => {
             if(groundwaterRefs[0].current === null && currentStep === 0){
                 const deltaGWellDepth = await getVectorLayers(
                     "mws_layers",
-                    "deltaG_well_depth_" + `${districtName.toLowerCase().replace(/\s+/g, "_")}_${blockName.toLowerCase().replace(/\s+/g, "_")}`,
+                    "well_depth_yearly",
                     true,
-                    true
+                    true,
+                    MainStore.containerName
                 );
                 groundwaterRefs[0].current = deltaGWellDepth
             }
@@ -999,9 +1007,10 @@ const MapComponent = () => {
             if(groundwaterRefs[2].current === null && currentStep === 0){
                 const deltaGWellDepthFortnight = await getVectorLayers(
                     "mws_layers",
-                    "deltaG_fortnight_" + `${districtName.toLowerCase().replace(/\s+/g, "_")}_${blockName.toLowerCase().replace(/\s+/g, "_")}`,
+                    "well_depth_fortnightly",
                     true,
-                    true
+                    true,
+                    MainStore.containerName
                 );
                 groundwaterRefs[2].current = deltaGWellDepthFortnight
             }
@@ -1015,7 +1024,8 @@ const MapComponent = () => {
                 );
                 groundwaterRefs[1].current = drainageLayer
             }
-
+            
+            // TODO: add this layer to the container
             if(ClartLayerRef.current === null){
                 const ClartLayer = await getImageLayer(
                     "clart",
