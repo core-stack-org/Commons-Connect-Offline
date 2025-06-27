@@ -1,5 +1,3 @@
-// MARK:- Offline Map Component
-
 import { useEffect, useRef, useState } from "react";
 import useMainStore from "../store/MainStore.jsx";
 import useLayersStore from "../store/LayerStore.jsx";
@@ -39,7 +37,9 @@ import loadOfflineBaseLayer from "../action/getOfflineLayer.js";
 import settlementOffline from "../assets/settlement_icon_offline.svg"
 import wellOffline from "../assets/well_proposed_offline.svg"
 import LargeWaterBodyOffline from "../assets/waterbodiesScreenIcon_offline.svg"
-
+import rechargeIconOffline from "../assets/recharge_icon_offline.svg"
+import irrigationIconOffline from "../assets/irrigation_icon_offline.svg"
+import livelihoodIconOffline from "../assets/livelihood_icon_offline.svg"
 
 const MapComponent = () => {
     const mapElement = useRef(null);
@@ -385,58 +385,51 @@ const MapComponent = () => {
 
         const settlementLayer = await getVectorLayers(
             "resources",
-            "settlement_"+ currentPlan.plan_id,
+            "settlement_"+ currentPlan.plan_id + '_' +`${districtName.toLowerCase().replace(/\s+/g, "_")}_${blockName.toLowerCase().replace(/\s+/g, "_")}`,
             true,
-            true,
-            MainStore.containerName
+            true
         );
 
         const wellLayer = await getVectorLayers(
             "resources",
-            "well_"+ currentPlan.plan_id,
+            "well_"+ currentPlan.plan_id + '_' +`${districtName.toLowerCase().replace(/\s+/g, "_")}_${blockName.toLowerCase().replace(/\s+/g, "_")}`,
             true,
-            true,
-            MainStore.containerName
+            true
         )
 
         const waterStructureLayer = await getVectorLayers(
             "resources",
-            "waterbody_"+ currentPlan.plan_id,
+            "waterbody_"+ currentPlan.plan_id + '_' +`${districtName.toLowerCase().replace(/\s+/g, "_")}_${blockName.toLowerCase().replace(/\s+/g, "_")}`,
             true,
-            true,
-            MainStore.containerName
+            true
         )
 
         const cropGridLayer = await getVectorLayers(
             "crop_grid_layers",
-            "crop_grid",
+            `${districtName.toLowerCase().replace(/\s+/g, "_")}_${blockName.toLowerCase().replace(/\s+/g, "_")}` + "_grid",
             true,
-            true,
-            MainStore.containerName
+            true
         )
 
         const AgricultureWorkLayer = await getVectorLayers(
             "works",
-            `plan_agri_${currentPlan.plan_id}`,
+            `plan_agri_${currentPlan.plan_id}_${districtName.toLowerCase().replace(/\s+/g, "_")}_${blockName.toLowerCase().replace(/\s+/g, "_")}`,
             true,
-            true,   
-            MainStore.containerName
+            true
         )
 
         const GroundWaterWorkLayer = await getVectorLayers(
             "works",
-            `plan_gw_${currentPlan.plan_id}`,
+            `plan_gw_${currentPlan.plan_id}_${districtName.toLowerCase().replace(/\s+/g, "_")}_${blockName.toLowerCase().replace(/\s+/g, "_")}`,
             true,
-            true,
-            MainStore.containerName
+            true
         )
 
         const livelihoodLayer = await getVectorLayers(
             "works",
-            `livelihood_${currentPlan.plan_id}`,
+            `livelihood_${currentPlan.plan_id}_${districtName.toLowerCase().replace(/\s+/g, "_")}_${blockName.toLowerCase().replace(/\s+/g, "_")}`,
             true,
-            true,
-            MainStore.containerName
+            true
         )
 
         settlementLayer.setStyle(
@@ -533,7 +526,10 @@ const MapComponent = () => {
 
         //? Adding Offline icons to the Map
         const submissions = await JSON.parse(localStorage.getItem(MainStore.currentPlan.plan_id));
-        if(submissions["settlement"] !== undefined){
+
+        MainStore.setFormData(submissions)
+
+        if(submissions !== null && submissions["settlement"] !== undefined){
             submissions["settlement"].map(async(formData) =>{
                 const tempFeature = new Feature({
                     geometry : new Point([formData.GPS_point["longitude"], formData.GPS_point["latitude"]]),
@@ -550,7 +546,7 @@ const MapComponent = () => {
             })
         }
 
-        if(submissions["well"] !== undefined){
+        if(submissions !== null && submissions["well"] !== undefined){
             submissions["well"].map(async(formData) =>{
                 const tempFeature = new Feature({
                     geometry : new Point([formData.GPS_point["longitude"], formData.GPS_point["latitude"]]),
@@ -567,7 +563,7 @@ const MapComponent = () => {
             })
         }
 
-        if(submissions["waterstructure"] !== undefined){
+        if(submissions !== null && submissions["waterstructure"] !== undefined){
             submissions["waterstructure"].map(async(formData) =>{
                 const tempFeature = new Feature({
                     geometry : new Point([formData.GPS_point["longitude"], formData.GPS_point["latitude"]]),
@@ -581,6 +577,57 @@ const MapComponent = () => {
                     })
                 )
                 await assetsLayerRefs[1].current.getSource().addFeature(tempFeature)
+            })
+        }
+
+        if(submissions !== null && submissions["recharge"] !== undefined){
+            submissions["recharge"].map(async(formData) =>{
+                const tempFeature = new Feature({
+                    geometry : new Point([formData.GPS_point["longitude"], formData.GPS_point["latitude"]]),
+                    ...formData
+                });
+
+                tempFeature.setStyle(
+                    new Style({
+                      image:
+                        new Icon({ src: rechargeIconOffline})
+                    })
+                )
+                await groundwaterRefs[3].current.getSource().addFeature(tempFeature)
+            })
+        }
+
+        if(submissions !== null && submissions["irrigation"] !== undefined){
+            submissions["irrigation"].map(async(formData) =>{
+                const tempFeature = new Feature({
+                    geometry : new Point([formData.GPS_point["longitude"], formData.GPS_point["latitude"]]),
+                    ...formData
+                });
+
+                tempFeature.setStyle(
+                    new Style({
+                      image:
+                        new Icon({ src: irrigationIconOffline})
+                    })
+                )
+                await AgriLayersRefs[2].current.getSource().addFeature(tempFeature)
+            })
+        }
+
+        if(submissions !== null && submissions["livelihood"] !== undefined){
+            submissions["livelihood"].map(async(formData) =>{
+                const tempFeature = new Feature({
+                    geometry : new Point([formData.GPS_point["longitude"], formData.GPS_point["latitude"]]),
+                    ...formData
+                });
+
+                tempFeature.setStyle(
+                    new Style({
+                      image:
+                        new Icon({ src: livelihoodIconOffline})
+                    })
+                )
+                await LivelihoodRefs[0].current.getSource().addFeature(tempFeature)
             })
         }
 
@@ -680,7 +727,6 @@ const MapComponent = () => {
     const refreshResourceLayers = async() => {
 
         if(currentScreen === "Resource_mapping"){
-            mapRef.current.removeLayer(assetsLayerRefs[currentStep].current)
 
             if(currentStep === 0){
                 const submissions = await JSON.parse(localStorage.getItem(MainStore.currentPlan.plan_id));
@@ -738,77 +784,57 @@ const MapComponent = () => {
 
         }
         else if(currentScreen === "Groundwater"){
-            const GroundWaterWorkLayer = await getVectorLayers(
-                "works",
-                `plan_gw_${currentPlan.plan_id}_${districtName.toLowerCase().replace(/\s+/g, "_")}_${blockName.toLowerCase().replace(/\s+/g, "_")}`,
-                true,
-                true
-            )
-            GroundWaterWorkLayer.setStyle(function (feature) {
-                // const status = feature.values_;
-                // if(status.work_type in iconsDetails.Recharge_Icons){
-                //     return new Style({
-                //         image: new Icon({ src: iconsDetails.Recharge_Icons[status.work_type] }),
-                //     })
-                // }
-                // else{
-                    return new Style({
-                        image: new Icon({ src: RechargeIcon }),
-                    })
-                //}
+            const submissions = await JSON.parse(localStorage.getItem(MainStore.currentPlan.plan_id));
+            let formData = submissions["recharge"][submissions["recharge"].length - 1]
+
+            const tempFeature = new Feature({
+                geometry : new Point([formData.GPS_point["longitude"], formData.GPS_point["latitude"]]),
+                ...formData
             });
 
-            mapRef.current.removeLayer(groundwaterRefs[2].current)
-            groundwaterRefs[3].current = GroundWaterWorkLayer
-            mapRef.current.addLayer(groundwaterRefs[3].current)
+            tempFeature.setStyle(
+                new Style({
+                  image:
+                    new Icon({ src: rechargeIconOffline})
+                })
+            )
+            await groundwaterRefs[3].current.getSource().addFeature(tempFeature)
         }
         else if(currentScreen === "Agriculture"){
-            const AgricultureWorkLayer = await getVectorLayers(
-                "works",
-                `plan_agri_${currentPlan.plan_id}_${districtName.toLowerCase().replace(/\s+/g, "_")}_${blockName.toLowerCase().replace(/\s+/g, "_")}`,
-                true,
-                true
-            )
-            AgricultureWorkLayer.setStyle(function (feature) {
-                const status = feature.values_;
-                if (status.TYPE_OF_WO == "New farm pond") {
-                    return new Style({
-                      image: new Icon({ src: farm_pond_proposed }),
-                    });
-                  } else if (status.TYPE_OF_WO == "Land leveling") {
-                    return new Style({
-                      image: new Icon({ src: land_leveling_proposed }),
-                    });
-                  } else if (status.TYPE_OF_WO == "New well") {
-                    return new Style({
-                      image: new Icon({ src: well_mrker }),
-                    });
-                  } else {
-                    return new Style({
-                      image: new Icon({ src: LargeWaterBody }),
-                    });
-                  }
+            const submissions = await JSON.parse(localStorage.getItem(MainStore.currentPlan.plan_id));
+            let formData = submissions["irrigation"][submissions["irrigation"].length - 1]
+            
+            const tempFeature = new Feature({
+                geometry : new Point([formData.GPS_point["longitude"], formData.GPS_point["latitude"]]),
+                ...formData
             });
 
-            mapRef.current.removeLayer(AgriLayersRefs[2].current)
-            AgriLayersRefs[2].current = AgricultureWorkLayer
-            mapRef.current.addLayer(AgriLayersRefs[2].current)
+            tempFeature.setStyle(
+                new Style({
+                  image:
+                    new Icon({ src: irrigationIconOffline})
+                })
+            )
+
+            await AgriLayersRefs[2].current.getSource().addFeature(tempFeature)
         }
         else if(currentScreen === "Livelihood"){
-            const livelihoodLayer = await getVectorLayers(
-                "works",
-                `livelihood_${currentPlan.plan_id}_${districtName.toLowerCase().replace(/\s+/g, "_")}_${blockName.toLowerCase().replace(/\s+/g, "_")}`,
-                true,
-                true
-            )
-            livelihoodLayer.setStyle(
+            const submissions = await JSON.parse(localStorage.getItem(MainStore.currentPlan.plan_id));
+            let formData = submissions["livelihood"][submissions["livelihood"].length - 1]
+            
+            const tempFeature = new Feature({
+                geometry : new Point([formData.GPS_point["longitude"], formData.GPS_point["latitude"]]),
+                ...formData
+            });
+
+            tempFeature.setStyle(
                 new Style({
-                  image: new Icon({ src: livelihoodIcons}),
+                  image:
+                    new Icon({ src: livelihoodIconOffline})
                 })
-            );
-            mapRef.current.removeLayer(LivelihoodRefs[0].current)
-            LivelihoodRefs[0].current = livelihoodLayer
-            mapRef.current.addLayer(LivelihoodRefs[0].current)
+            )
+
+            await LivelihoodRefs[0].current.getSource().addFeature(tempFeature)
         }
     }
 
@@ -1464,7 +1490,7 @@ const MapComponent = () => {
 
 export default MapComponent;
 
-// MARK:- Online Map Component
+
 
 // import { useEffect, useRef, useState } from "react";
 // import useMainStore from "../store/MainStore.jsx";
@@ -1501,10 +1527,14 @@ export default MapComponent;
 // import well_mrker from "../assets/well_proposed.svg"
 // import Man_icon from "../assets/Man_icon.png"
 // import livelihoodIcons from "../assets/livelihood_proposed.svg"
+// import IrrigationIcon from "../assets/irrigation_icon.svg"
 
 // import settlementOffline from "../assets/settlement_icon_offline.svg"
 // import wellOffline from "../assets/well_proposed_offline.svg"
 // import LargeWaterBodyOffline from "../assets/waterbodiesScreenIcon_offline.svg"
+// import rechargeIconOffline from "../assets/recharge_icon_offline.svg"
+// import irrigationIconOffline from "../assets/irrigation_icon_offline.svg"
+// import livelihoodIconOffline from "../assets/livelihood_icon_offline.svg"
 
 // const MapComponent = () => {
 //     const mapElement = useRef(null);
@@ -1960,7 +1990,7 @@ export default MapComponent;
 //                 });
 //               } else {
 //                 return new Style({
-//                   image: new Icon({ src: LargeWaterBody }),
+//                   image: new Icon({ src: IrrigationIcon }),
 //                 });
 //               }
 //         });
@@ -2058,6 +2088,57 @@ export default MapComponent;
 //             })
 //         }
 
+//         if(submissions !== null && submissions["recharge"] !== undefined){
+//             submissions["recharge"].map(async(formData) =>{
+//                 const tempFeature = new Feature({
+//                     geometry : new Point([formData.GPS_point["longitude"], formData.GPS_point["latitude"]]),
+//                     ...formData
+//                 });
+
+//                 tempFeature.setStyle(
+//                     new Style({
+//                       image:
+//                         new Icon({ src: rechargeIconOffline})
+//                     })
+//                 )
+//                 await groundwaterRefs[3].current.getSource().addFeature(tempFeature)
+//             })
+//         }
+
+//         if(submissions !== null && submissions["irrigation"] !== undefined){
+//             submissions["irrigation"].map(async(formData) =>{
+//                 const tempFeature = new Feature({
+//                     geometry : new Point([formData.GPS_point["longitude"], formData.GPS_point["latitude"]]),
+//                     ...formData
+//                 });
+
+//                 tempFeature.setStyle(
+//                     new Style({
+//                       image:
+//                         new Icon({ src: irrigationIconOffline})
+//                     })
+//                 )
+//                 await AgriLayersRefs[2].current.getSource().addFeature(tempFeature)
+//             })
+//         }
+
+//         if(submissions !== null && submissions["livelihood"] !== undefined){
+//             submissions["livelihood"].map(async(formData) =>{
+//                 const tempFeature = new Feature({
+//                     geometry : new Point([formData.GPS_point["longitude"], formData.GPS_point["latitude"]]),
+//                     ...formData
+//                 });
+
+//                 tempFeature.setStyle(
+//                     new Style({
+//                       image:
+//                         new Icon({ src: livelihoodIconOffline})
+//                     })
+//                 )
+//                 await LivelihoodRefs[0].current.getSource().addFeature(tempFeature)
+//             })
+//         }
+
 //         //? Adding Marker to the Map on Click
 //         const markerFeature = new Feature()
 //         const iconStyle = new Style({
@@ -2145,6 +2226,12 @@ export default MapComponent;
 //                 setFeatureStat(true)
 //                 MainStore.setIsResource(true)
 //               }
+//               else if(layer === groundwaterRefs[3].current){
+//                 mapRef.current.removeInteraction(selectSettleIcon)
+//                 //setSelectedResource(feature.values_)
+//                 // setFeatureStat(true)
+//                 MainStore.setIsResource(true)
+//               }
 //             })
 //         });
 //         setIsLoading(false);
@@ -2153,7 +2240,6 @@ export default MapComponent;
 //     const refreshResourceLayers = async() => {
 
 //         if(currentScreen === "Resource_mapping"){
-//             //mapRef.current.removeLayer(assetsLayerRefs[currentStep].current)
 
 //             if(currentStep === 0){
 //                 const submissions = await JSON.parse(localStorage.getItem(MainStore.currentPlan.plan_id));
@@ -2211,77 +2297,57 @@ export default MapComponent;
 
 //         }
 //         else if(currentScreen === "Groundwater"){
-//             const GroundWaterWorkLayer = await getVectorLayers(
-//                 "works",
-//                 `plan_gw_${currentPlan.plan_id}_${districtName.toLowerCase().replace(/\s+/g, "_")}_${blockName.toLowerCase().replace(/\s+/g, "_")}`,
-//                 true,
-//                 true
-//             )
-//             GroundWaterWorkLayer.setStyle(function (feature) {
-//                 // const status = feature.values_;
-//                 // if(status.work_type in iconsDetails.Recharge_Icons){
-//                 //     return new Style({
-//                 //         image: new Icon({ src: iconsDetails.Recharge_Icons[status.work_type] }),
-//                 //     })
-//                 // }
-//                 // else{
-//                     return new Style({
-//                         image: new Icon({ src: RechargeIcon }),
-//                     })
-//                 //}
+//             const submissions = await JSON.parse(localStorage.getItem(MainStore.currentPlan.plan_id));
+//             let formData = submissions["recharge"][submissions["recharge"].length - 1]
+
+//             const tempFeature = new Feature({
+//                 geometry : new Point([formData.GPS_point["longitude"], formData.GPS_point["latitude"]]),
+//                 ...formData
 //             });
 
-//             mapRef.current.removeLayer(groundwaterRefs[2].current)
-//             groundwaterRefs[3].current = GroundWaterWorkLayer
-//             mapRef.current.addLayer(groundwaterRefs[3].current)
+//             tempFeature.setStyle(
+//                 new Style({
+//                   image:
+//                     new Icon({ src: rechargeIconOffline})
+//                 })
+//             )
+//             await groundwaterRefs[3].current.getSource().addFeature(tempFeature)
 //         }
 //         else if(currentScreen === "Agriculture"){
-//             const AgricultureWorkLayer = await getVectorLayers(
-//                 "works",
-//                 `plan_agri_${currentPlan.plan_id}_${districtName.toLowerCase().replace(/\s+/g, "_")}_${blockName.toLowerCase().replace(/\s+/g, "_")}`,
-//                 true,
-//                 true
-//             )
-//             AgricultureWorkLayer.setStyle(function (feature) {
-//                 const status = feature.values_;
-//                 if (status.TYPE_OF_WO == "New farm pond") {
-//                     return new Style({
-//                       image: new Icon({ src: farm_pond_proposed }),
-//                     });
-//                   } else if (status.TYPE_OF_WO == "Land leveling") {
-//                     return new Style({
-//                       image: new Icon({ src: land_leveling_proposed }),
-//                     });
-//                   } else if (status.TYPE_OF_WO == "New well") {
-//                     return new Style({
-//                       image: new Icon({ src: well_mrker }),
-//                     });
-//                   } else {
-//                     return new Style({
-//                       image: new Icon({ src: LargeWaterBody }),
-//                     });
-//                   }
+//             const submissions = await JSON.parse(localStorage.getItem(MainStore.currentPlan.plan_id));
+//             let formData = submissions["irrigation"][submissions["irrigation"].length - 1]
+            
+//             const tempFeature = new Feature({
+//                 geometry : new Point([formData.GPS_point["longitude"], formData.GPS_point["latitude"]]),
+//                 ...formData
 //             });
 
-//             mapRef.current.removeLayer(AgriLayersRefs[2].current)
-//             AgriLayersRefs[2].current = AgricultureWorkLayer
-//             mapRef.current.addLayer(AgriLayersRefs[2].current)
+//             tempFeature.setStyle(
+//                 new Style({
+//                   image:
+//                     new Icon({ src: irrigationIconOffline})
+//                 })
+//             )
+
+//             await AgriLayersRefs[2].current.getSource().addFeature(tempFeature)
 //         }
 //         else if(currentScreen === "Livelihood"){
-//             const livelihoodLayer = await getVectorLayers(
-//                 "works",
-//                 `livelihood_${currentPlan.plan_id}_${districtName.toLowerCase().replace(/\s+/g, "_")}_${blockName.toLowerCase().replace(/\s+/g, "_")}`,
-//                 true,
-//                 true
-//             )
-//             livelihoodLayer.setStyle(
+//             const submissions = await JSON.parse(localStorage.getItem(MainStore.currentPlan.plan_id));
+//             let formData = submissions["livelihood"][submissions["livelihood"].length - 1]
+            
+//             const tempFeature = new Feature({
+//                 geometry : new Point([formData.GPS_point["longitude"], formData.GPS_point["latitude"]]),
+//                 ...formData
+//             });
+
+//             tempFeature.setStyle(
 //                 new Style({
-//                   image: new Icon({ src: livelihoodIcons}),
+//                   image:
+//                     new Icon({ src: livelihoodIconOffline})
 //                 })
-//             );
-//             mapRef.current.removeLayer(LivelihoodRefs[0].current)
-//             LivelihoodRefs[0].current = livelihoodLayer
-//             mapRef.current.addLayer(LivelihoodRefs[0].current)
+//             )
+
+//             await LivelihoodRefs[0].current.getSource().addFeature(tempFeature)
 //         }
 //     }
 
@@ -2316,8 +2382,10 @@ export default MapComponent;
 //             }
             
 //             mapRef.current.addLayer(groundwaterRefs[1].current)
-//             mapRef.current.addLayer(assetsLayerRefs[0].current)
+//             mapRef.current.removeLayer(assetsLayerRefs[0].current)
 //             mapRef.current.addLayer(assetsLayerRefs[2].current)
+//             mapRef.current.addLayer(groundwaterRefs[3].current) 
+//             tempSettlementLayer.current.setVisible(true)
 
 //             if(!LayersStore["CLARTLayer"] && layerCollection.getArray().some(layer => layer === ClartLayerRef.current)){
 //                 LayersStore.setCLARTLayer(true)
@@ -2370,6 +2438,7 @@ export default MapComponent;
 //             else{
 //                 LayersStore.setDrainageLayer(false)
 //             }
+//             mapRef.current.addLayer(AgriLayersRefs[2].current)
 //         }
         
 //         else if(currentScreen === "Livelihood"){
@@ -2416,6 +2485,7 @@ export default MapComponent;
 //                 tempSettlementLayer.current.setVisible(false)
 //             }
 //         }
+
 //         else if(currentScreen === "Resource_mapping"){
 //             layerCollection.getArray().slice().forEach(layer => {
 //                 if (layer !== baseLayerRef.current && layer !== AdminLayerRef.current && layer !== MapMarkerRef.current) {
@@ -2426,6 +2496,7 @@ export default MapComponent;
 //             MainStore.setFeatureStat(false)
 //             MainStore.setMarkerPlaced(false)
 //         }
+
 //         else if(currentScreen === "Groundwater"){
 //             layerCollection.getArray().slice().forEach(layer => {
 //                 if (layer !== baseLayerRef.current && layer !== AdminLayerRef.current) {
@@ -2505,6 +2576,7 @@ export default MapComponent;
 //             LayersStore.setWaterStructure(true)
 //             LayersStore.setWorkGroundwater(true)
 //         }
+
 //         else if(currentScreen === "SurfaceWater"){
 //             layerCollection.getArray().slice().forEach(layer => {
 //                 if (layer !== baseLayerRef.current && layer !== AdminLayerRef.current) {
@@ -2536,6 +2608,7 @@ export default MapComponent;
 //             mapRef.current.addLayer(groundwaterRefs[1].current)
 //             mapRef.current.addLayer(assetsLayerRefs[2].current)
 //         }
+        
 //         else if(currentScreen === "Agriculture"){
 //             layerCollection.getArray().slice().forEach(layer => {
 //                 if (layer !== baseLayerRef.current && layer !== AdminLayerRef.current) {
@@ -2608,6 +2681,7 @@ export default MapComponent;
 //                 LayersStore.setCLARTLayer(false)
 //             }
 //         }
+
 //         else if(currentScreen === "Livelihood"){
 //             layerCollection.getArray().slice().forEach(layer => {
 //                 if (layer !== baseLayerRef.current && layer !== AdminLayerRef.current) {

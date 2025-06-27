@@ -3,7 +3,7 @@ import useMainStore from '../store/MainStore';
 import toast from 'react-hot-toast';
 import i18next from "i18next";
 import { useTranslation } from "react-i18next";
-import { add_Settlement_Form } from "../action/getXMLRootAttributes"
+import { add_Settlement_Form, add_Well_Form, add_Water_Structures_Form, propose_recharge_structure, propose_irrigation_structure, propose_livelihood } from "../action/getXMLRootAttributes"
 
 const InfoBox = () => {
   const isInfoOpen = useMainStore((state) => state.isInfoOpen);
@@ -13,8 +13,12 @@ const InfoBox = () => {
   const currentStep = useMainStore((state) => state.currentStep);
   const currentMenuOption = useMainStore((state) => state.menuOption);
   const setMenuOption = useMainStore((state) => state.setMenuOption);
-  const plan = useMainStore((state) => state.currentPlan);
   const formData = useMainStore((state) => state.formData);
+  const setFormData = useMainStore((state) => state.setFormData);
+  const setIsEditForm = useMainStore((state) => state.setIsEditForm);
+  const setFormEditData = useMainStore((state) => state.setFormEditData);
+  const setFormEditType = useMainStore((state) => state.setFormEditType);
+  const setIsOpen = useMainStore((state) => state.setIsOpen);
 
   const { t } = useTranslation();
   const isHome = currentScreen === 'HomeScreen';
@@ -95,62 +99,469 @@ const InfoBox = () => {
   };
 
   const handleSyncData = () => {
+    let tempFormData = formData
     selectedItems.forEach((item) =>{
       if(item === "settlement"){
-        formData["settlement"].map((item, idx) => {
-          
-          let xmlString = new XMLSerializer();
-          let removalIdx = []
 
-          let xmlStr = rootImports[screen_code];
+        let xmlString = new XMLSerializer();
+
+        let remainingData = []
+
+        formData["settlement"].map(async(item, idx) => {
+          
           let xmlParser = new DOMParser();
-          let xmlroot = xmlParser.parseFromString(xmlStr, "text/xml");
+          let xmlroot = xmlParser.parseFromString(add_Settlement_Form, "text/xml");
           let xmlDoc = xmlroot.documentElement;
 
-          itemKeys = Object.keys(item)
-          itemKeys.forEach((item) => {
-            if(item === "GPS_point"){
-              let newElement = xmlroot.createElement(item)
+          let itemKeys = Object.keys(item)
+          
+          itemKeys.forEach((label) => {
+            if(label === "GPS_point"){
+              let newElement = xmlroot.createElement(label)
               let childElement = xmlroot.createElement("point_mapsappearance")
-              childElement.textContent = `${formData[item]["longitude"]} ${formData[item]["latitude"]}`
+              childElement.textContent = `${item[label]["longitude"]} ${item[label]["latitude"]}`
               newElement.appendChild(childElement)
               xmlDoc.appendChild(newElement)
             }
-            else if(formData[item] !== null && Array.isArray(formData[item])){
-              let newElement = xmlroot.createElement(item)
+            else if(item[label] !== null && Array.isArray(item[label])){
+              let newElement = xmlroot.createElement(label)
               let contentString = "";
-              formData[item].forEach((item) => {
-                  if(contentString.length === 0){contentString = item;}
-                  else{contentString = contentString + " " + item;}
+              item[label].forEach((content) => {
+                  if(contentString.length === 0){contentString = content;}
+                  else{contentString = contentString + " " + content;}
               })
               newElement.textContent = contentString;
               xmlDoc.appendChild(newElement);
             }
-            else if (formData[item] !== null && typeof (formData[item]) === "object") {
-                const tempKeys = Object.keys(formData[item])
-                if(tempKeys !== null || tempKeys.length !== 0){
-                    let newElement = xmlroot.createElement(item)
-                    tempKeys.map((tempItem) => {
-                    let childElement = xmlroot.createElement(tempItem)
-                        childElement.textContent = `${formData[item][tempItem]}`
-                        newElement.appendChild(childElement)
-                    })
-                    xmlDoc.appendChild(newElement)
-                }
+            else if (item[label] !== null && typeof (item[label]) === "object"){
+              const tempKeys = Object.keys(item[label])
+              if(tempKeys !== null || tempKeys.length !== 0){
+                  let newElement = xmlroot.createElement(item)
+                  tempKeys.map((tempItem) => {
+                  let childElement = xmlroot.createElement(tempItem)
+                      childElement.textContent = `${item[label][tempItem]}`
+                      newElement.appendChild(childElement)
+                  })
+                  xmlDoc.appendChild(newElement)
+              }
             }
             else {
-                if(formData[item] !== null){
-                    let newElement = xmlroot.createElement(item)
-                    newElement.textContent = `${formData[item]}`
-                    xmlDoc.appendChild(newElement)
-                }
+              if(item[label] !== null){
+                let newElement = xmlroot.createElement(label)
+                newElement.textContent = `${item[label]}`
+                xmlDoc.appendChild(newElement)
+              }
             }
           })
-          console.log(xmlDoc)
+
+          let tempString = xmlString.serializeToString(xmlDoc);
+
+          const response = await fetch(`${import.meta.env.VITE_API_URL}/sync_offline_data/resource/settlement/`, {
+            method : "POST",
+            headers: {
+                'Content-Type': 'application/xml',
+            },
+            body: tempString
+          })
+
+          let result = await response.json()
+
+          console.log(result)
+
+          if(result.sync_status){
+            toast.success("Your settlement submission synced successfully to ODK.");
+          }
+          else{
+            remainingData.push(item)
+          }
+          if(idx === formData["settlement"].length - 1){
+            tempFormData['settlement'] = remainingData
+            setFormData(tempFormData)
+            const arrayString = JSON.stringify(tempFormData);
+            localStorage.setItem(currentPlan.plan_id, arrayString);
+          }
         })
       }
-      else if(item === "well"){console.log("Well")}
-      else if(item === "waterstructure"){console.log("waterstructure")}
+      else if(item === "well"){
+        let xmlString = new XMLSerializer();
+        let remainingData = []
+
+        formData["well"].map(async(item, idx) => {
+          
+          let xmlParser = new DOMParser();
+          let xmlroot = xmlParser.parseFromString(add_Well_Form, "text/xml");
+          let xmlDoc = xmlroot.documentElement;
+
+          let itemKeys = Object.keys(item)
+          
+          itemKeys.forEach((label) => {
+            if(label === "GPS_point"){
+              let newElement = xmlroot.createElement(label)
+              let childElement = xmlroot.createElement("point_mapappearance")
+              childElement.textContent = `${item[label]["longitude"]} ${item[label]["latitude"]}`
+              newElement.appendChild(childElement)
+              xmlDoc.appendChild(newElement)
+            }
+            else if(item[label] !== null && Array.isArray(item[label])){
+              let newElement = xmlroot.createElement(label)
+              let contentString = "";
+              item[label].forEach((content) => {
+                  if(contentString.length === 0){contentString = content;}
+                  else{contentString = contentString + " " + content;}
+              })
+              newElement.textContent = contentString;
+              xmlDoc.appendChild(newElement);
+            }
+            else if (item[label] !== null && typeof (item[label]) === "object"){
+              const tempKeys = Object.keys(item[label])
+              if(tempKeys !== null || tempKeys.length !== 0){
+                  let newElement = xmlroot.createElement(item)
+                  tempKeys.map((tempItem) => {
+                  let childElement = xmlroot.createElement(tempItem)
+                      childElement.textContent = `${item[label][tempItem]}`
+                      newElement.appendChild(childElement)
+                  })
+                  xmlDoc.appendChild(newElement)
+              }
+            }
+            else {
+              if(item[label] !== null){
+                let newElement = xmlroot.createElement(label)
+                newElement.textContent = `${item[label]}`
+                xmlDoc.appendChild(newElement)
+              }
+            }
+          })
+          let tempString = xmlString.serializeToString(xmlDoc);
+
+          const response = await fetch(`${import.meta.env.VITE_API_URL}/sync_offline_data/resource/well/`, {
+            method : "POST",
+            headers: {
+                'Content-Type': 'application/xml',
+            },
+            body: tempString
+          })
+
+          let result = await response.json()
+          if(result.sync_status){
+            toast.success("Your Well submission synced successfully to ODK.");
+          }
+          else{
+            remainingData.push(item)
+          }
+
+          if(idx === formData["well"].length - 1){
+            tempFormData['well'] = remainingData
+            setFormData(tempFormData)
+            const arrayString = JSON.stringify(tempFormData);
+            localStorage.setItem(currentPlan.plan_id, arrayString);
+          }
+        })
+      }
+      else if(item === "waterstructure"){
+        let xmlString = new XMLSerializer();
+        let remainingData = []
+
+        formData["waterstructure"].map(async(item, idx) => {
+          
+          let xmlParser = new DOMParser();
+          let xmlroot = xmlParser.parseFromString(add_Water_Structures_Form, "text/xml");
+          let xmlDoc = xmlroot.documentElement;
+
+          let itemKeys = Object.keys(item)
+          
+          itemKeys.forEach((label) => {
+            if(label === "GPS_point"){
+              let newElement = xmlroot.createElement(label)
+              let childElement = xmlroot.createElement("point_mapappearance")
+              childElement.textContent = `${item[label]["longitude"]} ${item[label]["latitude"]}`
+              newElement.appendChild(childElement)
+              xmlDoc.appendChild(newElement)
+            }
+            else if(item[label] !== null && Array.isArray(item[label])){
+              let newElement = xmlroot.createElement(label)
+              let contentString = "";
+              item[label].forEach((content) => {
+                  if(contentString.length === 0){contentString = content;}
+                  else{contentString = contentString + " " + content;}
+              })
+              newElement.textContent = contentString;
+              xmlDoc.appendChild(newElement);
+            }
+            else if (item[label] !== null && typeof (item[label]) === "object"){
+              const tempKeys = Object.keys(item[label])
+              if(tempKeys !== null || tempKeys.length !== 0){
+                  let newElement = xmlroot.createElement(item)
+                  tempKeys.map((tempItem) => {
+                  let childElement = xmlroot.createElement(tempItem)
+                      childElement.textContent = `${item[label][tempItem]}`
+                      newElement.appendChild(childElement)
+                  })
+                  xmlDoc.appendChild(newElement)
+              }
+            }
+            else {
+              if(item[label] !== null){
+                let newElement = xmlroot.createElement(label)
+                newElement.textContent = `${item[label]}`
+                xmlDoc.appendChild(newElement)
+              }
+            }
+          })
+          let tempString = xmlString.serializeToString(xmlDoc);
+
+          const response = await fetch(`${import.meta.env.VITE_API_URL}/sync_offline_data/resource/water_structures/`, {
+            method : "POST",
+            headers: {
+                'Content-Type': 'application/xml',
+            },
+            body: tempString
+          })
+
+          let result = await response.json()
+          if(result.sync_status){
+            toast.success("Your Waterstructure submission synced successfully to ODK.");
+          }
+          else{
+            remainingData.push(item)
+          }
+
+          if(idx === formData["waterstructure"].length - 1){
+            tempFormData['waterstructure'] = remainingData
+            setFormData(tempFormData)
+            const arrayString = JSON.stringify(tempFormData);
+            localStorage.setItem(currentPlan.plan_id, arrayString);
+          }
+        })
+      }
+      else if(item === "recharge"){
+        let xmlString = new XMLSerializer();
+        let remainingData = []
+
+        formData["recharge"].map(async(item, idx) => {
+          
+          let xmlParser = new DOMParser();
+          let xmlroot = xmlParser.parseFromString(propose_recharge_structure, "text/xml");
+          let xmlDoc = xmlroot.documentElement;
+
+          let itemKeys = Object.keys(item)
+          
+          itemKeys.forEach((label) => {
+            if(label === "GPS_point"){
+              let newElement = xmlroot.createElement(label)
+              let childElement = xmlroot.createElement("point_mapappearance")
+              childElement.textContent = `${item[label]["longitude"]} ${item[label]["latitude"]}`
+              newElement.appendChild(childElement)
+              xmlDoc.appendChild(newElement)
+            }
+            else if(item[label] !== null && Array.isArray(item[label])){
+              let newElement = xmlroot.createElement(label)
+              let contentString = "";
+              item[label].forEach((content) => {
+                  if(contentString.length === 0){contentString = content;}
+                  else{contentString = contentString + " " + content;}
+              })
+              newElement.textContent = contentString;
+              xmlDoc.appendChild(newElement);
+            }
+            else if (item[label] !== null && typeof (item[label]) === "object"){
+              const tempKeys = Object.keys(item[label])
+              if(tempKeys !== null || tempKeys.length !== 0){
+                  let newElement = xmlroot.createElement(item)
+                  tempKeys.map((tempItem) => {
+                  let childElement = xmlroot.createElement(tempItem)
+                      childElement.textContent = `${item[label][tempItem]}`
+                      newElement.appendChild(childElement)
+                  })
+                  xmlDoc.appendChild(newElement)
+              }
+            }
+            else {
+              if(item[label] !== null){
+                let newElement = xmlroot.createElement(label)
+                newElement.textContent = `${item[label]}`
+                xmlDoc.appendChild(newElement)
+              }
+            }
+          })
+          let tempString = xmlString.serializeToString(xmlDoc);
+
+          const response = await fetch(`${import.meta.env.VITE_API_URL}sync_offline_data/work/recharge_st/`, {
+            method : "POST",
+            headers: {
+                'Content-Type': 'application/xml',
+            },
+            body: tempString
+          })
+
+          let result = await response.json()
+          if(result.sync_status){
+            toast.success("Your Recharge Structure submission synced successfully to ODK.");
+          }
+          else{
+            remainingData.push(item)
+          }
+
+          if(idx === formData["recharge"].length - 1){
+            tempFormData['recharge'] = remainingData
+            setFormData(tempFormData)
+            const arrayString = JSON.stringify(tempFormData);
+            localStorage.setItem(currentPlan.plan_id, arrayString);
+          }
+        })
+      }
+      else if(item === "irrigation"){
+        let xmlString = new XMLSerializer();
+        let remainingData = []
+
+        formData["irrigation"].map(async(item, idx) => {
+          
+          let xmlParser = new DOMParser();
+          let xmlroot = xmlParser.parseFromString(propose_irrigation_structure, "text/xml");
+          let xmlDoc = xmlroot.documentElement;
+
+          let itemKeys = Object.keys(item)
+          
+          itemKeys.forEach((label) => {
+            if(label === "GPS_point"){
+              let newElement = xmlroot.createElement(label)
+              let childElement = xmlroot.createElement("point_mapappearance")
+              childElement.textContent = `${item[label]["longitude"]} ${item[label]["latitude"]}`
+              newElement.appendChild(childElement)
+              xmlDoc.appendChild(newElement)
+            }
+            else if(item[label] !== null && Array.isArray(item[label])){
+              let newElement = xmlroot.createElement(label)
+              let contentString = "";
+              item[label].forEach((content) => {
+                  if(contentString.length === 0){contentString = content;}
+                  else{contentString = contentString + " " + content;}
+              })
+              newElement.textContent = contentString;
+              xmlDoc.appendChild(newElement);
+            }
+            else if (item[label] !== null && typeof (item[label]) === "object"){
+              const tempKeys = Object.keys(item[label])
+              if(tempKeys !== null || tempKeys.length !== 0){
+                  let newElement = xmlroot.createElement(item)
+                  tempKeys.map((tempItem) => {
+                  let childElement = xmlroot.createElement(tempItem)
+                      childElement.textContent = `${item[label][tempItem]}`
+                      newElement.appendChild(childElement)
+                  })
+                  xmlDoc.appendChild(newElement)
+              }
+            }
+            else {
+              if(item[label] !== null){
+                let newElement = xmlroot.createElement(label)
+                newElement.textContent = `${item[label]}`
+                xmlDoc.appendChild(newElement)
+              }
+            }
+          })
+          let tempString = xmlString.serializeToString(xmlDoc);
+
+          const response = await fetch(`${import.meta.env.VITE_API_URL}sync_offline_data/work/irrigation_st/`, {
+            method : "POST",
+            headers: {
+                'Content-Type': 'application/xml',
+            },
+            body: tempString
+          })
+
+          let result = await response.json()
+          if(result.sync_status){
+            toast.success("Your Recharge Structure submission synced successfully to ODK.");
+          }
+          else{
+            remainingData.push(item)
+          }
+
+          if(idx === formData["irrigation"].length - 1){
+            tempFormData['irrigation'] = remainingData
+            setFormData(tempFormData)
+            const arrayString = JSON.stringify(tempFormData);
+            localStorage.setItem(currentPlan.plan_id, arrayString);
+          }
+        })
+      }
+      else if(item === "livelihood"){
+        let xmlString = new XMLSerializer();
+        let remainingData = []
+
+        formData["livelihood"].map(async(item, idx) => {
+          
+          let xmlParser = new DOMParser();
+          let xmlroot = xmlParser.parseFromString(propose_livelihood, "text/xml");
+          let xmlDoc = xmlroot.documentElement;
+
+          let itemKeys = Object.keys(item)
+          
+          itemKeys.forEach((label) => {
+            if(label === "GPS_point"){
+              let newElement = xmlroot.createElement(label)
+              let childElement = xmlroot.createElement("point_mapappearance")
+              childElement.textContent = `${item[label]["longitude"]} ${item[label]["latitude"]}`
+              newElement.appendChild(childElement)
+              xmlDoc.appendChild(newElement)
+            }
+            else if(item[label] !== null && Array.isArray(item[label])){
+              let newElement = xmlroot.createElement(label)
+              let contentString = "";
+              item[label].forEach((content) => {
+                  if(contentString.length === 0){contentString = content;}
+                  else{contentString = contentString + " " + content;}
+              })
+              newElement.textContent = contentString;
+              xmlDoc.appendChild(newElement);
+            }
+            else if (item[label] !== null && typeof (item[label]) === "object"){
+              const tempKeys = Object.keys(item[label])
+              if(tempKeys !== null || tempKeys.length !== 0){
+                  let newElement = xmlroot.createElement(item)
+                  tempKeys.map((tempItem) => {
+                  let childElement = xmlroot.createElement(tempItem)
+                      childElement.textContent = `${item[label][tempItem]}`
+                      newElement.appendChild(childElement)
+                  })
+                  xmlDoc.appendChild(newElement)
+              }
+            }
+            else {
+              if(item[label] !== null){
+                let newElement = xmlroot.createElement(label)
+                newElement.textContent = `${item[label]}`
+                xmlDoc.appendChild(newElement)
+              }
+            }
+          })
+          let tempString = xmlString.serializeToString(xmlDoc);
+
+          const response = await fetch(`${import.meta.env.VITE_API_URL}sync_offline_data/work/livelihood/`, {
+            method : "POST",
+            headers: {
+                'Content-Type': 'application/xml',
+            },
+            body: tempString
+          })
+
+          let result = await response.json()
+          if(result.sync_status){
+            toast.success("Your Livelihood submission synced successfully to ODK.");
+          }
+          else{
+            remainingData.push(item)
+          }
+
+          if(idx === formData["livelihood"].length - 1){
+            tempFormData['livelihood'] = remainingData
+            setFormData(tempFormData)
+            const arrayString = JSON.stringify(tempFormData);
+            localStorage.setItem(currentPlan.plan_id, arrayString);
+          }
+        })
+      }
     })
   }
   
@@ -485,7 +896,7 @@ const InfoBox = () => {
               <>
                 <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-6 space-y-4">
 
-                  {plan !== null && formData !== null && (
+                  {currentPlan !== null && formData !== null && (
                     <>
                     <div className="mb-6">
                       <div className="flex flex-wrap gap-2 mb-3">
@@ -506,51 +917,58 @@ const InfoBox = () => {
 
                       {selectedFormType && formData[selectedFormType] && (
                         <div className="space-y-3 sm:space-y-4">
-                          {/* ---- scrollable grid wrapper ---- */}
-                          <div
-                            className={`grid gap-3 sm:gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ${
-                              formData[selectedFormType].length > 6
-                                ? 'max-h-[60vh] overflow-y-auto pr-1' // scroll when > 6 cards
-                                : ''
-                            }`}
-                          >
-                            {formData[selectedFormType].map((item, index) => (
-                              <div
-                                key={item[`${selectedFormType}_id`] || item.Settlements_id || index}
-                                className="bg-white border border-gray-200 rounded-lg p-3 sm:p-4 hover:shadow-md transition-shadow"
-                              >
-                                {/* --- content --- */}
-                                <div className="space-y-1.5 sm:space-y-2">
-                                  <h4 className="font-medium text-gray-900 text-sm sm:text-base">
-                                    {getCardTitle(item, selectedFormType)}
-                                  </h4>
-
-                                  <p className="text-xs sm:text-sm text-gray-600 line-clamp-2">
-                                    {getCardSubtitle(item, selectedFormType)}
-                                  </p>
-
-                                  {item.plan_name && (
-                                    <p className="text-xs text-gray-500">Plan: {item.plan_name}</p>
-                                  )}
+                          {/* Scrollable container - this is key */}
+                          <div className="max-h-[60vh] overflow-y-auto">
+                            {/* Grid container */}
+                            <div className="grid gap-3 sm:gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 pr-1">
+                              {formData[selectedFormType].map((item, index) => (
+                                <div
+                                  key={item[`${selectedFormType}_id`] || item.Settlements_id || index}
+                                  className="bg-white border border-gray-200 rounded-lg p-3 sm:p-4 hover:shadow-md transition-shadow"
+                                >
+                                  {/* --- content --- */}
+                                  <div className="space-y-1.5 sm:space-y-2">
+                                    <h4 className="font-medium text-gray-900 text-sm sm:text-base">
+                                      {getCardTitle(item, selectedFormType)}
+                                    </h4>
+                        
+                                    <p className="text-xs sm:text-sm text-gray-600 line-clamp-2">
+                                      {getCardSubtitle(item, selectedFormType)}
+                                    </p>
+                        
+                                    {item.plan_name && (
+                                      <p className="text-xs text-gray-500">Plan: {item.plan_name}</p>
+                                    )}
+                                  </div>
+                        
+                                  {/* --- CTA --- */}
+                                  <div className="mt-2 pt-2 sm:mt-3 sm:pt-3 border-t border-gray-100">
+                                    <button 
+                                      className="text-xs sm:text-sm text-blue-600 hover:text-blue-800 font-medium"
+                                      onClick={() => {
+                                        setFormEditData(item)
+                                        setFormEditType(selectedFormType)
+                                        setIsInfoOpen(false);
+                                        setMenuOption(null);
+                                        setIsEditForm(true)
+                                        setIsOpen(true)
+                                      }}
+                                    >
+                                      View Details
+                                    </button>
+                                  </div>
                                 </div>
-
-                                {/* --- CTA --- */}
-                                <div className="mt-2 pt-2 sm:mt-3 sm:pt-3 border-t border-gray-100">
-                                  <button className="text-xs sm:text-sm text-blue-600 hover:text-blue-800 font-medium">
-                                    View Details
-                                  </button>
-                                </div>
-                              </div>
-                            ))}
+                              ))}
+                            </div>
                           </div>
                         </div>
                       )}
                     </div>
                     </>
                   )}
-                  {plan === null && (<h2 className="text-lg font-semibold text-gray-900 mb-2">Select a Plan First !</h2>)}
+                  {currentPlan === null && (<h2 className="text-lg font-semibold text-gray-900 mb-2">Select a Plan First !</h2>)}
                 
-                  {plan !== null && formData === null && <p className="text-sm text-gray-600">No Forms Filled !</p>}
+                  {currentPlan !== null && formData === null && <p className="text-sm text-gray-600">No Forms Filled !</p>}
                 </div>
               </>
             )}
@@ -566,7 +984,7 @@ const InfoBox = () => {
                 <div className="space-y-3">
                   <h4 className="text-sm font-medium text-gray-700">Available Data Items:</h4>
                   <div className="space-y-2 max-h-48 overflow-y-auto">
-                    {plan !== null && formData !== null && Object.keys(formData).map((key, index) => (
+                    {currentPlan !== null && formData !== null && Object.keys(formData).map((key, index) => (
                       <label key={index} className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer">
                         <input
                           type="checkbox"
@@ -583,9 +1001,9 @@ const InfoBox = () => {
                         <span className="text-sm text-gray-700 capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
                       </label>
                     ))}
-                    {plan === null && <p className="text-sm text-gray-600">First Select a Plan !</p>}
+                    {currentPlan === null && <p className="text-sm text-gray-600">First Select a Plan !</p>}
 
-                    {plan !== null && formData === null && <p className="text-sm text-gray-600">No Forms Filled !</p>}
+                    {currentPlan !== null && formData === null && <p className="text-sm text-gray-600">No Forms Filled !</p>}
 
                   </div>
                 </div>
@@ -635,11 +1053,11 @@ const InfoBox = () => {
               </button>
               <button
                 className={`flex-1 text-center py-2 font-medium text-sm ${
-                  activeTab === 'plan'
+                  activeTab === 'currentPlan'
                     ? 'text-indigo-600 border-b-2 border-indigo-600'
                     : 'text-gray-500 hover:text-gray-700'
                 }`}
-                onClick={() => setActiveTab('plan')}
+                onClick={() => setActiveTab('currentPlan')}
               >
                 {t("Plan Information")}
               </button>

@@ -34,35 +34,12 @@ const Livelihood = () => {
         }
     };
 
-    const toggleFormsUrl = () =>{
-
-      let gpsCoords = MainStore.gpsLocation
-
-      if(gpsCoords === null){
-        try{
-          navigator.geolocation.getCurrentPosition(
-            ({ coords }) => {
-              gpsCoords = [coords.longitude, coords.latitude];
-            },
-            (err) => {
-              console.log("In first err : ", err)
-            }
-          );
-          if(gpsCoords === null){
-            throw new Error('User object missing');
-          }
-        }catch(e){
-          console.log("In the catch ")
-        }
-        MainStore.setGpsLocation(gpsCoords)
+    const toggleFormsUrl = (type) =>{
+      if(MainStore.markerCoords){
+        MainStore.setIsForm(true)
+        MainStore.setFormUrl(type)
+        MainStore.setIsOpen(true)
       }
-        if(MainStore.markerCoords){
-          MainStore.setIsForm(true)
-          
-          MainStore.setFormUrl(getImportString(MainStore.currentScreen, MainStore.currentStep, MainStore.markerCoords, MainStore.settlementName, "", MainStore.blockName, MainStore.currentPlan.plan_id, MainStore.currentPlan.plan, MainStore.selectedResource.id, false, gpsCoords))
-          
-          MainStore.setIsOpen(true)
-        }
     }
 
     const handleAnalyze = () =>{
@@ -170,7 +147,7 @@ const Livelihood = () => {
                 <div className="flex gap-4 w-full">
                     <button
                         className="flex-1 px-4 py-3 rounded-xl shadow-sm text-sm"
-                        onClick={toggleFormsUrl}
+                        onClick={() => toggleFormsUrl("livelihood")}
                         style={{ 
                             backgroundColor: MainStore.isFeatureClicked ? '#696969' : '#D6D5C9',
                             color: MainStore.isFeatureClicked ? '#A8A8A8' : '#592941',

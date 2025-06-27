@@ -1,10 +1,10 @@
 // MARK:- Offline Android Storage Vector Layers
-
 import Vector from "ol/source/Vector";
 import GeoJSON from 'ol/format/GeoJSON';
 
-import WebGLVectorLayer from 'ol/layer/WebGLVector.js';
+// import WebGLVectorLayer from 'ol/layer/WebGLVector.js';
 
+import WebGLVectorLayer from 'ol/layer/WebGLVector.js';
 
 function getOfflineFilePath(layer_store) {
   const basePath = 'vector_layers';
@@ -43,6 +43,11 @@ function getOfflineFilePath(layer_store) {
   }
 }
 
+    default:
+      console.error("Unknown layer_store for offline mode:", layer_store);
+      return null;
+  }
+}
 
 export default async function getWebglVectorLayers (layer_store, layer_name, setVisible = true, setActive = true, container_name) {
 
@@ -140,9 +145,6 @@ export default async function getWebglVectorLayers (layer_store, layer_name, set
  
    return wmsLayer;
 }
-
-
-// MARK:- Online WebGL Vector Layers
 
 // import Vector from "ol/source/Vector";
 // import GeoJSON from 'ol/format/GeoJSON';

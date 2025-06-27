@@ -1,0 +1,372 @@
+{
+  "title": "Propose Maintenance On Existing Irrigation Structures",
+  "logoFit": "none",
+  "logoPosition": "right",
+  "completedHtml": "<h3>Irrigation Structure Maintenance proposal has been recorded!</h3>",
+  "loadingHtml": "<h3>Loading Form...</h3>",
+  "pages": [
+    {
+      "name": "page1",
+      "elements": [
+        {
+          "type": "text",
+          "name": "beneficiary_settlement",
+          "title": "Name of Beneficiary's Settlement",
+          "isRequired": true
+        },
+        {
+          "type": "text",
+          "name": "Beneficiary_Name",
+          "title": "Beneficiary's Name",
+          "isRequired": true
+        },
+        {
+          "type": "text",
+          "name": "Beneficiary_Contact_Number",
+          "title": "Beneficiary's Contact Number",
+          "inputType": "tel",
+          "validators": [
+            {
+              "type": "regex",
+              "regex": "^(\\+?91[ -]?)?0?[6-9][0-9]{2}[ -]?[0-9]{3}[ -]?[0-9]{4}$",
+              "text": "Enter a phone number (format: 9876543210)"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "name": "ben_father",
+          "title": "Beneficiary's father's name",
+          "isRequired": true
+        },
+        {
+          "type": "text",
+          "name": "work_id",
+          "title": "Work ID",
+          "readOnly": true
+        },
+        {
+          "type": "radiogroup",
+          "name": "select_one_irrigation_structure",
+          "title": "Select type of irrigation structure",
+          "choices": [
+            {
+              "value": "Farm pond",
+              "text": "Farm pond"
+            },
+            {
+              "value": "Community Pond",
+              "text": "Community Pond"
+            },
+            {
+              "value": "Well",
+              "text": "Well"
+            },
+            {
+              "value": "Canal",
+              "text": "Canal"
+            },
+            {
+              "value": "Farm bund",
+              "text": "Farm bund"
+            }
+          ]
+        },
+        {
+          "type": "radiogroup",
+          "name": "select_one_activities",
+          "title": "Have there been any previous repairs or maintenance activities on the Irrigation structures?",
+          "choices": [
+            {
+              "value": "yes",
+              "text": "Yes"
+            },
+            {
+              "value": "no",
+              "text": "No"
+            }
+          ]
+        },
+        {
+          "type": "panel",
+          "name": "repair_options_section",
+          "title": "Maintenance and Repair Options",
+          "elements": [
+            {
+              "type": "radiogroup",
+              "name": "select_one_farm_pond",
+              "visibleIf": "{select_one_irrigation_structure} = 'Farm pond' and {select_one_activities} = 'yes'",
+              "title": "Repair of farm pond",
+              "choices": [
+                {
+                  "value": "Removal of accumulated sediments",
+                  "text": "Removal of accumulated sediments"
+                },
+                {
+                  "value": "Repairing cracks or damage in embankments",
+                  "text": "Repairing cracks or damage in embankments"
+                },
+                {
+                  "value": "Controlling seepage or leaks in the pond bed",
+                  "text": "Controlling seepage or leaks in the pond bed"
+                },
+                {
+                  "value": "Erosion control on embankments",
+                  "text": "Erosion control on embankments"
+                },
+                {
+                  "value": "Addressing excessive aquatic vegetation growth",
+                  "text": "Addressing excessive aquatic vegetation growth"
+                },
+                {
+                  "value": "other",
+                  "text": "Other"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "name": "select_one_farm_pond_other",
+              "visibleIf": "{select_one_farm_pond} = 'other'",
+              "title": "Specify other farm pond repair",
+              "isRequired": true
+            },
+            {
+              "type": "radiogroup",
+              "name": "select_one_community_pond",
+              "visibleIf": "{select_one_irrigation_structure} = 'Community Pond' and {select_one_activities} = 'yes'",
+              "title": "Repair of community pond",
+              "choices": [
+                {
+                  "value": "Removal of accumulated sediments",
+                  "text": "Removal of accumulated sediments"
+                },
+                {
+                  "value": "Shoreline erosion control",
+                  "text": "Shoreline erosion control"
+                },
+                {
+                  "value": "Repairing cracks or damage in embankments",
+                  "text": "Repairing cracks or damage in embankments"
+                },
+                {
+                  "value": "Controlling excessive aquatic vegetation growth",
+                  "text": "Controlling excessive aquatic vegetation growth"
+                },
+                {
+                  "value": "Repair or cleaning of inlet/outlet structures",
+                  "text": "Repair or cleaning of inlet/outlet structures"
+                },
+                {
+                  "value": "other",
+                  "text": "Other"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "name": "select_one_community_pond_other",
+              "visibleIf": "{select_one_community_pond} = 'other'",
+              "title": "Specify other community pond repair",
+              "isRequired": true
+            },
+            {
+              "type": "radiogroup",
+              "name": "select_one_well",
+              "visibleIf": "{select_one_irrigation_structure} = 'Well' and {select_one_activities} = 'yes'",
+              "title": "Repair of well",
+              "choices": [
+                {
+                  "value": "Cleaning and removal of silt or debris",
+                  "text": "Cleaning and removal of silt or debris"
+                },
+                {
+                  "value": "Repairing cracks or damage to well walls",
+                  "text": "Repairing cracks or damage to well walls"
+                },
+                {
+                  "value": "Deepening the well to enhance water availability",
+                  "text": "Deepening the well to enhance water availability"
+                },
+                {
+                  "value": "Repair or replacement of well cover or structure",
+                  "text": "Repair or replacement of well cover or structure"
+                },
+                {
+                  "value": "Installing or repairing pumping mechanisms",
+                  "text": "Installing or repairing pumping mechanisms"
+                },
+                {
+                  "value": "other",
+                  "text": "Other"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "name": "select_one_well_other",
+              "visibleIf": "{select_one_well} = 'other'",
+              "title": "Specify other well repair",
+              "isRequired": true
+            },
+            {
+              "type": "radiogroup",
+              "name": "select_one_canal",
+              "visibleIf": "{select_one_irrigation_structure} = 'Canal' and {select_one_activities} = 'yes'",
+              "title": "Repair of canal",
+              "choices": [
+                {
+                  "value": "Stabilizing canal banks to prevent erosion",
+                  "text": "Stabilizing canal banks to prevent erosion"
+                },
+                {
+                  "value": "Lining Repairs",
+                  "text": "Lining Repairs"
+                },
+                {
+                  "value": "Desiliting",
+                  "text": "Desilting"
+                },
+                {
+                  "value": "Structural repairs",
+                  "text": "Structural repairs"
+                },
+                {
+                  "value": "other",
+                  "text": "Other"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "name": "select_one_canal_other",
+              "visibleIf": "{select_one_canal} = 'other'",
+              "title": "Specify other canal repair",
+              "isRequired": true
+            },
+            {
+              "type": "radiogroup",
+              "name": "select_one_farm_bund",
+              "visibleIf": "{select_one_irrigation_structure} = 'Farm bund' and {select_one_activities} = 'yes'",
+              "title": "Repair of farm bund",
+              "choices": [
+                {
+                  "value": "Repairing cracks or breaches in the bund",
+                  "text": "Repairing cracks or breaches in the bund"
+                },
+                {
+                  "value": "Strengthening bund structure with additional soil or materials",
+                  "text": "Strengthening bund structure with additional soil or materials"
+                },
+                {
+                  "value": "Leveling and reshaping the bund for better water retention",
+                  "text": "Leveling and reshaping the bund for better water retention"
+                },
+                {
+                  "value": "Vegetative stabilization to prevent erosion",
+                  "text": "Vegetative stabilization to prevent erosion"
+                },
+                {
+                  "value": "other",
+                  "text": "Other"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "name": "select_one_farm_bund_other",
+              "visibleIf": "{select_one_farm_bund} = 'other'",
+              "title": "Specify other farm bund repair",
+              "isRequired": true
+            }
+          ]
+        },
+        {
+          "type": "panel",
+          "name": "documentation_section",
+          "title": "Documentation and Justification",
+          "elements": [
+            {
+              "type": "file",
+              "name": "image_widget",
+              "title": "Photo of the area",
+              "acceptedTypes": "image/*",
+              "maxSize": 5242880
+            },
+            {
+              "type": "file",
+              "name": "audio_record",
+              "title": "Record a message justifying the need for the maintenance of recharge structure at this location",
+              "acceptedTypes": "audio/*",
+              "maxSize": 10485760
+            },
+            {
+              "type": "comment",
+              "name": "text_record",
+              "title": "If you cannot record, write down the justification for the need of maintenance of recharge structure at this location"
+            }
+          ]
+        },
+        {
+          "type": "html",
+          "name": "main_irr_note_1",
+          "html": "<span style=\"font-size: large; font-weight: bold; color:red;\">DO NOT MODIFY ANYTHING BEYOND THIS POINT</span>"
+        },
+        {
+          "type": "multipletext",
+          "name": "GPS_point",
+          "title": "GPS point of the marked area",
+          "description": "Takes a GPS point from the marker you placed in the application",
+          "isRequired": true,
+          "items": [
+            {
+              "name": "latitude",
+              "title": "Latitude (x.y °)"
+            },
+            {
+              "name": "longitude",
+              "title": "Longitude (x.y °)"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "name": "block_name",
+          "title": "Block name",
+          "readOnly": true
+        },
+        {
+          "type": "text",
+          "name": "plan_id",
+          "title": "Plan ID",
+          "readOnly": true
+        },
+        {
+          "type": "text",
+          "name": "plan_name",
+          "title": "Plan name",
+          "readOnly": true
+        },
+        {
+          "type": "text",
+          "name": "corresponding_work_id",
+          "title": "Corresponding Work ID",
+          "readOnly": true
+        },
+        {
+          "type": "text",
+          "name": "user_latlon",
+          "title": "Current location of the user",
+          "readOnly": true
+        },
+        {
+          "type": "text",
+          "name": "username",
+          "title": "Username",
+          "readOnly": true
+        }
+      ]
+    }
+  ],
+  "widthMode": "responsive"
+}

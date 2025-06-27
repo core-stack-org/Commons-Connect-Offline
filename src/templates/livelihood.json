@@ -1,0 +1,252 @@
+{
+  "title": "Livelihood Details Form",
+  "logoFit": "none",
+  "logoPosition": "right",
+  "completedHtml": "<h3>Livelihood Details have been recorded!</h3>",
+  "loadingHtml": "<h3>Loading Form...</h3>",
+  "pages": [
+    {
+      "name": "page1",
+      "elements": [
+        {
+          "type": "text",
+          "name": "beneficiary_settlement",
+          "title": "Name of Beneficiary's Settlement"
+        },
+        {
+          "type": "text",
+          "name": "beneficiary_name",
+          "title": "Beneficiary's Name",
+          "isRequired": true
+        },
+        {
+          "type": "text",
+          "name": "ben_father",
+          "title": "Beneficiary's father's name",
+          "isRequired": true
+        },
+        {
+          "type": "text",
+          "name": "Beneficiary_Contact_Number",
+          "title": "Beneficiary's contact number",
+          "inputType": "tel",
+          "validators": [
+            {
+              "type": "regex",
+              "regex": "^(\\+?91[ -]?)?0?[6-9][0-9]{2}[ -]?[0-9]{3}[ -]?[0-9]{4}$",
+              "text": "Enter a phone number (format: 9876543210)"
+            }
+          ]
+        },
+        {
+          "type": "panel",
+          "name": "livestock_section",
+          "title": "Livestock Development",
+          "elements": [
+            {
+              "type": "radiogroup",
+              "name": "select_one_demand_promoting_livestock",
+              "title": "Are there demands for promoting livestock development as Individual assets in the settlement?",
+              "choices": [
+                "Yes",
+                "No"
+              ]
+            },
+            {
+              "type": "radiogroup",
+              "name": "select_one_promoting_livestock",
+              "visibleIf": "{select_one_demand_promoting_livestock} = 'Yes'",
+              "title": "Please select the requirements for promoting livestock development as individual assets",
+              "choices": [
+                {
+                  "value": "poultry_shelter",
+                  "text": "Poultry shelter"
+                },
+                {
+                  "value": "goat_shelter",
+                  "text": "Goat shelter"
+                },
+                {
+                  "value": "piggery_shelter",
+                  "text": "Piggery shelter"
+                },
+                {
+                  "value": "cattle_shelter",
+                  "text": "Cattle shelter"
+                },
+                {
+                  "value": "fodder_troughts_for_cattle",
+                  "text": "Fodder troughs for cattle"
+                },
+                {
+                  "value": "other",
+                  "text": "Other"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "name": "select_one_promoting_livestock_other",
+              "visibleIf": "{select_one_promoting_livestock} = 'other'",
+              "title": "Specify other livestock requirement",
+              "isRequired": true
+            }
+          ]
+        },
+        {
+          "type": "panel",
+          "name": "fisheries_section",
+          "title": "Fisheries Development",
+          "elements": [
+            {
+              "type": "radiogroup",
+              "name": "select_one_demand_promoting_fisheries",
+              "title": "Are there demands for promoting fisheries in the settlement?",
+              "choices": [
+                "Yes",
+                "No"
+              ]
+            },
+            {
+              "type": "radiogroup",
+              "name": "select_one_promoting_fisheries",
+              "visibleIf": "{select_one_demand_promoting_fisheries} = 'Yes'",
+              "title": "Please select the requirements for promoting fisheries",
+              "choices": [
+                {
+                  "value": "Storage_facilities",
+                  "text": "Storage facilities"
+                },
+                {
+                  "value": "Promotion_of_fisheries_in_seasonal_water_bodies_on_public_land",
+                  "text": "Promotion of fisheries in seasonal water bodies on public land"
+                },
+                {
+                  "value": "other",
+                  "text": "Other"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "name": "select_one_promoting_fisheries_other",
+              "visibleIf": "{select_one_promoting_fisheries} = 'other'",
+              "title": "Specify other fisheries requirement",
+              "isRequired": true
+            }
+          ]
+        },
+        {
+          "type": "panel",
+          "name": "plantation_section",
+          "title": "Plantation Development",
+          "elements": [
+            {
+              "type": "radiogroup",
+              "name": "select_one_demand_plantation",
+              "title": "Are there demands for plantation in the settlement?",
+              "choices": [
+                "Yes",
+                "No"
+              ]
+            },
+            {
+              "type": "text",
+              "name": "Plantation",
+              "visibleIf": "{select_one_demand_plantation} = 'Yes'",
+              "title": "Please specify the Plantation crop",
+              "isRequired": true
+            },
+            {
+              "type": "text",
+              "name": "Plantation_crop",
+              "visibleIf": "{select_one_demand_plantation} = 'Yes'",
+              "title": "Total area of plantation in acre",
+              "inputType": "number",
+              "isRequired": true
+            }
+          ]
+        },
+        {
+          "type": "panel",
+          "name": "documentation_section",
+          "title": "Documentation and Justification",
+          "elements": [
+            {
+              "type": "file",
+              "name": "image_widget",
+              "title": "Photo of the area",
+              "acceptedTypes": "image/*",
+              "maxSize": 5242880
+            },
+            {
+              "type": "file",
+              "name": "audio_record",
+              "title": "Record a message justifying the need for the maintenance of recharge structure at this location",
+              "acceptedTypes": "audio/*",
+              "maxSize": 10485760
+            },
+            {
+              "type": "comment",
+              "name": "text_record",
+              "title": "If you cannot record, write down the justification for the need of maintenance of recharge structure at this location"
+            }
+          ]
+        },
+        {
+          "type": "html",
+          "name": "note",
+          "html": "<span style=\"font-size: large; font-weight: bold; color:red;\">DO NOT MODIFY ANYTHING BEYOND THIS POINT</span>"
+        },
+        {
+          "type": "multipletext",
+          "name": "GPS_point",
+          "title": "GPS point of the marked area",
+          "description": "Takes a GPS point from the marker you placed in the application",
+          "isRequired": true,
+          "items": [
+            {
+              "name": "latitude",
+              "title": "Latitude (x.y °)"
+            },
+            {
+              "name": "longitude",
+              "title": "Longitude (x.y °)"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "name": "block_name",
+          "title": "Block Name",
+          "readOnly": true
+        },
+        {
+          "type": "text",
+          "name": "plan_id",
+          "title": "Plan ID",
+          "readOnly": true
+        },
+        {
+          "type": "text",
+          "name": "plan_name",
+          "title": "Plan name",
+          "readOnly": true
+        },
+        {
+          "type": "text",
+          "name": "user_latlon",
+          "title": "Current location of the user",
+          "readOnly": true
+        },
+        {
+          "type": "text",
+          "name": "username",
+          "title": "Username",
+          "readOnly": true
+        }
+      ]
+    }
+  ],
+  "widthMode": "responsive"
+}

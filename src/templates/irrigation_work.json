@@ -1,0 +1,312 @@
+{
+  "title": "Propose New Irrigation Work",
+  "logoFit": "none",
+  "logoPosition": "right",
+  "completedHtml": "<h3>Irrigation Work has been Proposed !!</h3>",
+  "loadingHtml": "<h3>Loading Form...</h3>",
+  "pages": [
+    {
+      "name": "page1",
+      "elements": [
+        {
+          "type": "text",
+          "name": "beneficiary_settlement",
+          "title": "Name of Beneficiary's Settlement",
+          "validators": [
+            {
+              "type": "regex",
+              "regex": "[a-zA-Z]+"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "name": "Beneficiary_Name",
+          "title": "Beneficiary's Name"
+        },
+        {
+          "type": "text",
+          "name": "Beneficiary_Contact_Number",
+          "title": "Beneficiary's Contact Number",
+          "validators": [
+            {
+              "type": "regex",
+              "text": "Enter a phone number (format: 9876543210)",
+              "regex": "^(\\+?91[ -]?)?0?[6-9][0-9]{2}[ -]?[0-9]{3}[ -]?[0-9]{4}$"
+            }
+          ],
+          "inputType": "number"
+        },
+        {
+          "type": "text",
+          "name": "work_id",
+          "title": "Work ID",
+          "readOnly": true
+        },
+        {
+          "type": "radiogroup",
+          "name": "TYPE_OF_WORK_ID",
+          "title": "Select the type of Irrigation work in this settlement",
+          "isRequired": true,
+          "choices": [
+            "Farm pond",
+            "Community Pond",
+            "Well",
+            "Canal",
+            "Farm bund",
+            {
+              "value": "other",
+              "text": "Other"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "name": "TYPE_OF_WORK_ID_other",
+          "visibleIf": "{TYPE_OF_WORK_ID} = 'other'",
+          "title": "Specify other."
+        },
+        {
+          "type": "panel",
+          "name": "Farm_pond",
+          "visibleIf": "{TYPE_OF_WORK_ID} = 'Farm pond'",
+          "title": "Provide dimensions for Farm pond",
+          "elements": [
+            {
+              "type": "text",
+              "name": "Length_1",
+              "title": "Provide dimensions - Length"
+            },
+            {
+              "type": "text",
+              "name": "Width_1",
+              "title": "Provide dimensions - Width"
+            },
+            {
+              "type": "text",
+              "name": "Depth_1",
+              "title": "Provide dimensions - Depth"
+            },
+            {
+              "type": "html",
+              "name": "note_dimensions_feet_1",
+              "html": "<span>Length, Width and Height is in feet</span>"
+            }
+          ]
+        },
+        {
+          "type": "panel",
+          "name": "Well",
+          "visibleIf": "{TYPE_OF_WORK_ID} = 'Well'",
+          "title": "Provide dimensions for well",
+          "elements": [
+            {
+              "type": "text",
+              "name": "Diameter_2",
+              "title": "Provide dimensions - Diameter"
+            },
+            {
+              "type": "text",
+              "name": "Depth_2",
+              "title": "Provide dimensions - Depth"
+            },
+            {
+              "type": "html",
+              "name": "note_dimensions_feet_2",
+              "html": "<span>Diameter and Depth is in feet</span>"
+            }
+          ]
+        },
+        {
+          "type": "panel",
+          "name": "Canal",
+          "visibleIf": "{TYPE_OF_WORK_ID} = 'Canal'",
+          "title": "Provide dimensions Canal",
+          "elements": [
+            {
+              "type": "text",
+              "name": "Width_3",
+              "title": "Provide dimensions - Width"
+            },
+            {
+              "type": "text",
+              "name": "Depth_3",
+              "title": "Provide dimensions - Depth"
+            },
+            {
+              "type": "html",
+              "name": "note_dimensions_feet_3",
+              "html": "<span>Width and Depth is in feet</span>"
+            }
+          ]
+        },
+        {
+          "type": "panel",
+          "name": "Community_pond",
+          "visibleIf": "{TYPE_OF_WORK_ID} = 'Community Pond'",
+          "title": "Provide dimensions of community pond",
+          "elements": [
+            {
+              "type": "text",
+              "name": "Length_4",
+              "title": "Provide dimensions - Length"
+            },
+            {
+              "type": "text",
+              "name": "Width_4",
+              "title": "Provide dimensions - Width"
+            },
+            {
+              "type": "text",
+              "name": "Height_4",
+              "title": "Provide dimensions - Height"
+            },
+            {
+              "type": "html",
+              "name": "note_dimensions_feet_4",
+              "html": "<span>Length, Width and Height is in feet</span>"
+            }
+          ]
+        },
+        {
+          "type": "panel",
+          "name": "Farm_bund",
+          "visibleIf": "{TYPE_OF_WORK_ID} = 'Farm bund'",
+          "title": "Provide dimensions farm bund",
+          "elements": [
+            {
+              "type": "text",
+              "name": "Length_5",
+              "title": "Provide dimensions - Length"
+            },
+            {
+              "type": "text",
+              "name": "Width_5",
+              "title": "Provide dimensions - Width"
+            },
+            {
+              "type": "text",
+              "name": "Height_5",
+              "title": "Provide dimensions - Height"
+            },
+            {
+              "type": "html",
+              "name": "note_dimensions_feet_5",
+              "html": "<span>Length, Width and Height is in feet</span>"
+            }
+          ]
+        },
+        {
+          "type": "checkbox",
+          "name": "select_multiple_cropping_kharif",
+          "title": "What type of crops are grown in Kharif?",
+          "choices": [
+            "Paddy",
+            "Millets",
+            "Pulses",
+            "Vegetables",
+            "Fruits",
+            {
+              "value": "Oil_Seeds",
+              "text": "Oil Seeds"
+            },
+            {
+              "value": "Fodder_crop",
+              "text": "Fodder crop"
+            },
+            {
+              "value": "other",
+              "text": "Other"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "name": "select_multiple_cropping_kharif_other",
+          "visibleIf": "{select_multiple_cropping_kharif} contains 'other'",
+          "title": "Specify other."
+        },
+        {
+          "type": "radiogroup",
+          "name": "select_one_cropping_pattern",
+          "title": "What type of cropping pattern is practiced?",
+          "choices": [
+            "Mono cropping",
+            "Inter cropping",
+            "Mixed cropping",
+            "Crop rotation"
+          ]
+        },
+        {
+          "type": "file",
+          "name": "image_widget",
+          "title": "Photo of the area",
+          "acceptedTypes": "image/*",
+          "maxSize": 1024000
+        },
+        {
+          "type": "file",
+          "name": "audio_record",
+          "title": "Record a message justifying the need for the maintenance of recharge structure at this location -",
+          "acceptedTypes": "audio/*"
+        },
+        {
+          "type": "comment",
+          "name": "text_record",
+          "title": "If you cannot record, write down the justification for the need of maintenance of recharge structure at this location"
+        },
+        {
+          "type": "html",
+          "name": "irr_struc_note_1",
+          "html": "<span style=\"font-size: large; font-weight: bold; color:red;\">DO NOT MODIFY ANYTHING BEYOND THIS POINT</span>"
+        },
+        {
+          "type": "multipletext",
+          "name": "GPS_point",
+          "title": "GPS point to be marked of the area",
+          "description": "Take a GPS point",
+          "isRequired": true,
+          "readOnly": true,
+          "items": [
+            {
+              "name": "latitude",
+              "title": "latitude (x.y °)"
+            },
+            {
+              "name": "longitude",
+              "title": "longitude (x.y °)"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "name": "block_name",
+          "title": "Block name"
+        },
+        {
+          "type": "text",
+          "name": "plan_id",
+          "title": "Plan ID",
+          "readOnly": true
+        },
+        {
+          "type": "text",
+          "name": "plan_name",
+          "title": "Plan name",
+          "readOnly": true
+        },
+        {
+          "type": "text",
+          "name": "user_latlon",
+          "title": "Current location of the user"
+        },
+        {
+          "type": "text",
+          "name": "username",
+          "title": "Username"
+        }
+      ]
+    }
+  ],
+  "widthMode": "responsive"
+}

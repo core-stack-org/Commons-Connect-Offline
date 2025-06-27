@@ -262,7 +262,7 @@ const Groundwater = () => {
                     <div className="flex gap-4 w-full">
                       <button
                         className="flex-1 px-4 py-3 rounded-xl shadow-sm text-sm"
-                        onClick={() => toggleFormsUrl("maintain_recharge")}
+                        onClick={() => toggleFormsUrl("maintainGW")}
                         disabled={!MainStore.isFeatureClicked}
                         style={{
                           backgroundColor: !MainStore.isFeatureClicked ? '#696969' : '#D6D5C9',

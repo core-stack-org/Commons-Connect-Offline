@@ -22,6 +22,11 @@ import wellForm from "../templates/add_well.json"
 import WaterStructureForm from "../templates/water_structure.json"
 import croppingForm from "../templates/cropping_pattern.json"
 import rechargeStructure from "../templates/recharge_structure.json"
+import livelihoodForm from "../templates/livelihood.json"
+import irrigationForm from "../templates/irrigation_work.json"
+import maintainenceSWB from "../templates/maintenance_rs_swb.json"
+import maintainenceGW from "../templates/maintenance_recharge_st.json"
+import maintainenceAG from "../templates/maintenance_irr.json"
 
 const Bottomsheet = () => {
 
@@ -29,6 +34,7 @@ const Bottomsheet = () => {
     const MainStore = useMainStore((state) => state);
     const LayerStore = useLayersStore((state) => state)
     const [sheetBody, setSheetBody] = useState(<>Nothing Here</>);
+    const [editBody, setEditBody] = useState(<>Nothing Here</>);
     let flg = false
 
     useEffect(() => {
@@ -44,6 +50,11 @@ const Bottomsheet = () => {
         else if(MainStore.formUrl === "waterstructure"){ schema = WaterStructureForm}
         else if(MainStore.formUrl === "cropping"){ schema = croppingForm }
         else if(MainStore.formUrl === "recharge"){ schema = rechargeStructure }
+        else if(MainStore.formUrl === "livelihood"){ schema = livelihoodForm }
+        else if(MainStore.formUrl === "irrigation"){ schema = irrigationForm }
+        else if(MainStore.formUrl === "maintainSWB"){ schema = maintainenceSWB }
+        else if(MainStore.formUrl === "maintainGW"){ schema = maintainenceGW }
+        else{ schema = maintainenceAG }
 
         try{
             const survey = new Model(schema);
@@ -52,6 +63,8 @@ const Bottomsheet = () => {
               Settlements_id:  crypto.randomUUID().slice(0, 15),
               well_id:         crypto.randomUUID().slice(0, 15),
               waterbodies_id:  crypto.randomUUID().slice(0, 15),
+              Corresponding_Work_ID:  crypto.randomUUID().slice(0, 15),
+              work_id : crypto.randomUUID().slice(0, 15),
               plan_id:         MainStore.currentPlan.plan_id,
               plan_name:       MainStore.currentPlan.plan,
               GPS_point: {
@@ -60,7 +73,6 @@ const Bottomsheet = () => {
               },
               block_name:             MainStore.blockName,
               beneficiary_settlement: MainStore.settlementName,
-              Corresponding_Work_ID:  "random",
               crop_Grid_id : MainStore.selectedResource?.id
             };
 
@@ -80,6 +92,45 @@ const Bottomsheet = () => {
           cancelled = true; // guard against setState after unmount
         };
     }, [MainStore.isForm, MainStore.formUrl]);
+
+    useEffect(() => {
+
+        if (!(MainStore.isEditForm && MainStore.formEditData && MainStore.formEditType)) return;
+
+        let cancelled = false;
+        setEditBody(<span>Loading form…</span>);
+
+        let schema = null
+        
+        if(MainStore.formEditType === "settlement"){ schema = settlementForm}
+        else if(MainStore.formEditType === "well"){ schema = wellForm }
+        else if(MainStore.formEditType === "waterstructure"){ schema = WaterStructureForm}
+        else if(MainStore.formEditType === "cropping"){ schema = croppingForm }
+        else if(MainStore.formEditType === "recharge"){ schema = rechargeStructure }
+        else if(MainStore.formEditType === "irrigation"){ schema = irrigationForm }
+        else if(MainStore.formEditType === "livelihood"){ schema = livelihoodForm }
+
+        try{
+            const survey = new Model(schema);
+
+            survey.data = MainStore.formEditData;
+
+            survey.onComplete.add(surveyComplete);
+            setEditBody(<Survey model={survey} />);
+
+        }catch(err){
+            if (cancelled) return;
+            console.error(err);
+            setEditBody(
+              <span style={{ color: "#0047ab", fontWeight: "bold" }}>
+                Failed to load form: {err.message}
+              </span>
+            );
+        }
+        return () => {
+          cancelled = true; // guard against setState after unmount
+        };
+    }, [MainStore.isEditForm, MainStore.formEditData, MainStore.formEditType])
     
     const LayerNameMapping = {
         0 : "settlement_layer",
@@ -165,83 +216,6 @@ const Bottomsheet = () => {
         "CLARTLayer" : "setCLARTLayer",
         "LULCLayer" : "setLULCLayer"
     }
-
-    // const handleOnLoadEvent = async() => {
-    //     if(flg){
-    //         if (MainStore.currentScreen === "Resource_mapping"){
-    //             try{
-    //                 MainStore.setIsLoading(true)
-    //                 const payload = {
-    //                     layer_name: LayerNameMapping[MainStore.currentStep],
-    //                     resource_type: ResourceMapping[MainStore.currentStep],
-    //                     plan_id: MainStore.currentPlan.plan_id,
-    //                     plan_name: MainStore.currentPlan.plan,
-    //                     district_name: MainStore.districtName,
-    //                     block_name: MainStore.blockName,
-    //                 }
-
-    //                 const response = await fetch(`${import.meta.env.VITE_API_URL}add_resources/`, {
-    //                     method: 'POST',
-    //                     headers: {
-    //                         'Content-Type': 'application/json'
-    //                     },
-    //                     body: JSON.stringify(payload)
-    //                 })
-
-    //                 const res = await response.json()
-
-    //                 MainStore.setIsLoading(false)
-
-    //                 if (res.message === "Success") {
-    //                     MainStore.setIsSubmissionSuccess(true)
-    //                 }
-    //                 onDismiss()
-
-    //             }catch(err){
-    //                 console.log(err)
-    //             }
-    //         }
-    //         else{
-    //             try{
-    //                 MainStore.setIsLoading(true)
-    //                 const payload = {
-    //                     layer_name: "planning_layer",
-    //                     work_type: PlanningResource[MainStore.currentScreen],
-    //                     plan_id: MainStore.currentPlan.plan_id,
-    //                     plan_name: MainStore.currentPlan.plan,
-    //                     district_name: MainStore.districtName,
-    //                     block_name: MainStore.blockName,
-    //                 }
-    //                 console.log(payload)
-    //                 const response = await fetch(`${import.meta.env.VITE_API_URL}add_works/`, {
-    //                     method: 'POST',
-    //                     headers: {
-    //                         'Content-Type': 'application/json'
-    //                     },
-    //                     body: JSON.stringify(payload)
-    //                 })
-
-    //                 const res = await response.json()
-
-    //                 MainStore.setIsLoading(false)
-
-    //                 console.log(res)
-
-    //                 if (res.message === "Success") {
-    //                     MainStore.setIsSubmissionSuccess(true)
-    //                 }
-    //                 onDismiss()
-    //             }
-    //             catch(err){
-    //                 console.log(err)
-    //             }
-    //         }
-    //         flg = false;
-    //     }
-    //     else{
-    //         flg = true
-    //     }
-    // }
 
     const handleWorkdAdd = (work) => {
         let checked = MainStore.nregaWorks.includes(nregaDetails.workToNumMapping[work])
@@ -547,21 +521,55 @@ const Bottomsheet = () => {
     )
 
     const surveyComplete = (sender) => {
-        const formData = sender.data;
+        if(MainStore.isForm){
+            const formData = sender.data;
 
-        const submissions = JSON.parse(localStorage.getItem(MainStore.currentPlan.plan_id) || '{}');
+            console.log(formData)
+            console.log(MainStore.formUrl)
 
-        if(submissions[MainStore.formUrl] === undefined){
-            submissions[MainStore.formUrl] = []
+            const submissions = JSON.parse(localStorage.getItem(MainStore.currentPlan.plan_id) || '{}');
+
+            if(submissions[MainStore.formUrl] === undefined){
+                submissions[MainStore.formUrl] = []
+            }
+            
+            submissions[MainStore.formUrl].push(formData)
+
+            const arrayString = JSON.stringify(submissions);
+
+            localStorage.setItem(MainStore.currentPlan.plan_id, arrayString);
+
+            MainStore.setIsSubmissionSuccess(true)
         }
-        
-        submissions[MainStore.formUrl].push(formData)
 
-        const arrayString = JSON.stringify(submissions);
+        if(MainStore.isEditForm){
+            const formData = sender.data
 
-        localStorage.setItem(MainStore.currentPlan.plan_id, arrayString);
+            const submissions = JSON.parse(localStorage.getItem(MainStore.currentPlan.plan_id));
 
-        MainStore.setIsSubmissionSuccess(true)
+            let changeIdx = -1
+
+            let compareKey = null
+
+            if(MainStore.formEditType === "settlement"){compareKey = "Settlements_id"}
+            else if(MainStore.formEditType === "well"){compareKey = "well_id"}
+            else if(MainStore.formEditType === "waterstructure"){compareKey = "waterbodies_id"}
+            else if(MainStore.formEditType === "recharge"){compareKey = "Corresponding_Work_ID"}
+
+            submissions[MainStore.formEditType].map((item, idx) => {
+                if(item[compareKey] === formData[compareKey]){
+                    changeIdx = idx
+                }
+            })
+
+            submissions[MainStore.formEditType][changeIdx] = formData
+
+            const arrayString = JSON.stringify(submissions);
+
+            localStorage.setItem(MainStore.currentPlan.plan_id, arrayString);
+
+            MainStore.setFormData(submissions)
+        }
 
         onDismiss();
 
@@ -579,6 +587,7 @@ const Bottomsheet = () => {
 
         MainStore.setIsWaterBody(false)
 
+        MainStore.setIsEditForm(false)
 
         MainStore.setIsGroundWater(false)
 
@@ -596,6 +605,9 @@ const Bottomsheet = () => {
         switch (true) {
           case MainStore.isForm && MainStore.formUrl !== "":
            return sheetBody
+           
+          case MainStore.isEditForm && MainStore.formEditType !== null:
+           return editBody
     
           case MainStore.isNregaSheet:
             return nregaBody;

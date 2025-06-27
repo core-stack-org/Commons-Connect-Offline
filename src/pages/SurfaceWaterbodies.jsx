@@ -11,31 +11,11 @@ const SurfaceWaterBodies = () => {
         MainStore.setIsOpen(true)
     }
 
-    const toggleFormsUrl = () =>{
-        let gpsCoords = MainStore.gpsLocation
-
-        if(gpsCoords === null){
-            try{
-              navigator.geolocation.getCurrentPosition(
-                ({ coords }) => {
-                  gpsCoords = [coords.longitude, coords.latitude];
-                },
-                (err) => {
-                  console.log("In first err : ", err)
-                }
-              );
-              if(gpsCoords === null){
-                throw new Error('User object missing');
-              }
-            }catch(e){
-              console.log("In the catch ")
-            }
-            MainStore.setGpsLocation(gpsCoords)
-        }
+    const toggleFormsUrl = (type) =>{
         if(MainStore.markerCoords){
-          MainStore.setIsForm(true)
-          MainStore.setFormUrl(getImportString(MainStore.currentScreen, MainStore.currentStep, MainStore.markerCoords, "", "", MainStore.blockName, MainStore.currentPlan.plan_id, MainStore.currentPlan.plan, "", false, gpsCoords))
-          MainStore.setIsOpen(true)
+            MainStore.setIsForm(true)
+            MainStore.setFormUrl(type)
+            MainStore.setIsOpen(true)
         }
     }
 
@@ -149,7 +129,7 @@ const SurfaceWaterBodies = () => {
                         </button>
                         <button
                             className="flex-1 px-4 py-3 rounded-xl shadow-sm text-sm"
-                            onClick={toggleFormsUrl}
+                            onClick={() => toggleFormsUrl("maintainSWB")}
                             disabled={!MainStore.isWaterbody}
                             style={{ 
                                 backgroundColor: !MainStore.isWaterbody ? '#696969' : '#D6D5C9',

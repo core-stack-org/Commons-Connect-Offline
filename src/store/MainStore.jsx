@@ -29,7 +29,9 @@ const useMainStore = create((set) => ({
     currentPlan : null,
     plans : null,
     formData : null,
-
+    isEditForm : false,
+    formEditData : null,
+    formEditType : null,
     fetchPlans : async(plansData) => {
         console.log("In offline mode - loading plans from localStorage");
         try {
@@ -42,8 +44,6 @@ const useMainStore = create((set) => ({
             console.error('Error loading plans from localStorage:', err);
         }
     },
-
-    // MARK:- Online Plans Fetching
     // fetchPlans : async(url) => {
     //     try{
     //         let response = await fetch(url, {
@@ -63,10 +63,11 @@ const useMainStore = create((set) => ({
     //         console.log("Not able to Fetch Plans !")
     //     }
     // },
-
     setCurrentPlan : (id) => set((state) => ({currentPlan : id})),
     setFormData : (data) => set((state) => ({formData : data})),
-
+    setIsEditForm : (data) => set((state) => ({isEditForm : data})),
+    setFormEditData : (data) => set((state) => ({formEditData : data})),
+    setFormEditType : (data) => set((state) => ({formEditType : data})),
 
     //? Layers Hooks
     currentScreen : "HomeScreen",

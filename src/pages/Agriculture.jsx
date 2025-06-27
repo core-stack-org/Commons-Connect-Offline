@@ -27,45 +27,12 @@ const Agriculture = () => {
     const percent = (MainStore.lulcYearIdx / (years.length - 1)) * 100;    // 0 – 100 %
   
 
-  const toggleFormsUrl = (toggle) => {
-    let gpsCoords = MainStore.gpsLocation
+  const toggleFormsUrl = (type) => {
 
-    if(gpsCoords === null){
-      try{
-        navigator.geolocation.getCurrentPosition(
-          ({ coords }) => {
-            gpsCoords = [coords.longitude, coords.latitude];
-          },
-          (err) => {
-            console.log("In first err : ", err)
-          }
-        );
-        if(gpsCoords === null){
-          throw new Error('User object missing');
-        }
-      }catch(e){
-        console.log("In the catch ")
-      }
-      MainStore.setGpsLocation(gpsCoords)
-    }
-    if (MainStore.markerCoords) {
-      MainStore.setIsForm(true);
-      MainStore.setFormUrl(
-        getImportString(
-          MainStore.currentScreen,
-          MainStore.currentStep,
-          MainStore.markerCoords,
-          "",
-          "",
-          MainStore.blockName,
-          MainStore.currentPlan.plan_id,
-          MainStore.currentPlan.plan,
-          "",
-          toggle,
-          gpsCoords
-        )
-      );
-      MainStore.setIsOpen(true);
+    if(MainStore.markerCoords){
+      MainStore.setIsForm(true)
+      MainStore.setFormUrl(type)
+      MainStore.setIsOpen(true)
     }
   };
 
@@ -249,7 +216,7 @@ const Agriculture = () => {
             <div className="flex gap-4 w-full">
               <button
                 className="flex-1 px-4 py-3 rounded-xl shadow-sm text-sm"
-                onClick={() => toggleFormsUrl(false)}
+                onClick={() => toggleFormsUrl("irrigation")}
                 disabled={!MainStore.isMarkerPlaced}
                 style={{
                   backgroundColor: !MainStore.isMarkerPlaced ? "#696969" : "#D6D5C9",
@@ -262,7 +229,7 @@ const Agriculture = () => {
 
               <button
                 className="flex-1 px-4 py-3 rounded-xl shadow-sm text-sm"
-                onClick={() => toggleFormsUrl(true)}
+                onClick={() => toggleFormsUrl("Maintain")}
                 style={{ 
                   backgroundColor: !MainStore.isMarkerPlaced ? "#696969" : "#D6D5C9",
                   color: !MainStore.isMarkerPlaced ? "#A8A8A8" : "#592941",
