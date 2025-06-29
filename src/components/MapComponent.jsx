@@ -195,7 +195,6 @@ const MapComponent = () => {
                 "nrega_assets",
                 `${district.toLowerCase().replace(/\s+/g, "_")}_${block.toLowerCase().replace(/\s+/g, "_")}`,
                 setAllNregaYears,
-                MainStore.nregaStyle,
                 MainStore.containerName
             )
 
@@ -1020,7 +1019,8 @@ const MapComponent = () => {
                     "drainage",
                     `${districtName.toLowerCase().replace(/\s+/g, "_")}_${blockName.toLowerCase().replace(/\s+/g, "_")}`,
                     true,
-                    true
+                    true,
+                    MainStore.containerName
                 );
                 groundwaterRefs[1].current = drainageLayer
             }
@@ -1080,7 +1080,8 @@ const MapComponent = () => {
                     "swb",
                     `surface_waterbodies_${districtName.toLowerCase().replace(/\s+/g, "_")}_${blockName.toLowerCase().replace(/\s+/g, "_")}`,
                     true,
-                    true
+                    true,
+                    MainStore.containerName
                 );
                 WaterbodiesLayerRef.current = waterBodyLayers
             }
@@ -1089,7 +1090,8 @@ const MapComponent = () => {
                     "drainage",
                     `${districtName.toLowerCase().replace(/\s+/g, "_")}_${blockName.toLowerCase().replace(/\s+/g, "_")}`,
                     true,
-                    true
+                    true,
+                    MainStore.containerName
                 );
                 groundwaterRefs[1].current = drainageLayer
             }
@@ -1153,7 +1155,8 @@ const MapComponent = () => {
                     "drainage",
                     `${districtName.toLowerCase().replace(/\s+/g, "_")}_${blockName.toLowerCase().replace(/\s+/g, "_")}`,
                     true,
-                    true
+                    true,
+                    MainStore.containerName
                 );
                 groundwaterRefs[1].current = drainageLayer
             }

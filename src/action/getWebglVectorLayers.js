@@ -25,7 +25,7 @@ function getOfflineFilePath(layer_store) {
       return `${basePath}/drainage.geojson`;
 
     // surface water bodies
-    case "water_bodies":
+    case "swb":
       return `${basePath}/surface_waterbodies.geojson`;
 
     case "cropping_drought":

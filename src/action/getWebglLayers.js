@@ -19,6 +19,9 @@ const colorMapping = {
 
 export default async function getWebGlLayers(layer_store, layer_name, setAllNregaYears, container_name){
 
+    console.log("================================NREGA LAYER LOADING================================")
+    console.log("Container name", container_name)
+
     let url = `http://localhost:3000/containers/${container_name}/vector_layers/nrega_assets.geojson`
 
     let nregaYears_temp = [];
