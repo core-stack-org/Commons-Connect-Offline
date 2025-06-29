@@ -1113,7 +1113,8 @@ const MapComponent = () => {
                     "cropping_intensity",
                     `${districtName.toLowerCase().replace(/\s+/g, "_")}_${blockName.toLowerCase().replace(/\s+/g, "_")}_intensity`,
                     true,
-                    true
+                    true,
+                    MainStore.containerName
                 );
                 AgriLayersRefs[0].current = CroppingIntensity
             }
@@ -1123,7 +1124,8 @@ const MapComponent = () => {
                     "cropping_drought",
                     `${districtName.toLowerCase().replace(/\s+/g, "_")}_${blockName.toLowerCase().replace(/\s+/g, "_")}_drought`,
                     true,
-                    true
+                    true,
+                    MainStore.containerName
                 );
                 AgriLayersRefs[1].current = DroughtIntensity
             }
