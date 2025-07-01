@@ -1,5 +1,4 @@
 import useMainStore from "../store/MainStore.jsx";
-import getImportString from "../action/getSurveyForm.js";
 import { useTranslation } from "react-i18next";
 
 const SurfaceWaterBodies = () => {

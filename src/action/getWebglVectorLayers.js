@@ -2,8 +2,6 @@
 import Vector from "ol/source/Vector";
 import GeoJSON from 'ol/format/GeoJSON';
 
-// import WebGLVectorLayer from 'ol/layer/WebGLVector.js';
-
 import WebGLVectorLayer from 'ol/layer/WebGLVector.js';
 
 function getOfflineFilePath(layer_store) {
@@ -140,6 +138,8 @@ export default async function getWebglVectorLayers (layer_store, layer_name, set
  
    return wmsLayer;
 }
+
+// MARK:- Online WebGL Layers
 
 // import Vector from "ol/source/Vector";
 // import GeoJSON from 'ol/format/GeoJSON';

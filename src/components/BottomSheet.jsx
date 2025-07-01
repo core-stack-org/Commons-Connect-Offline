@@ -131,26 +131,6 @@ const Bottomsheet = () => {
           cancelled = true; // guard against setState after unmount
         };
     }, [MainStore.isEditForm, MainStore.formEditData, MainStore.formEditType])
-    
-    const LayerNameMapping = {
-        0 : "settlement_layer",
-        1 : "well_layer",
-        2 : "waterbody_layer",
-        3 : "cropgrid_layer"
-    }
-    
-    const ResourceMapping = {
-        0 : "settlement",
-        1 : "well",
-        2 : "waterbody",
-        3 : "cropgrid"
-    }
-
-    const PlanningResource = {
-        "Agriculture" : "plan_agri",
-        "Groundwater" : "plan_gw",
-        "Livelihood" : "livelihood"
-    }
 
     const LayerStoreKeysGW = [
         "AdminBoundary", "NregaLayer", "WellDepth", "DrainageLayer",
@@ -524,20 +504,23 @@ const Bottomsheet = () => {
         if(MainStore.isForm){
             const formData = sender.data;
 
-            console.log(formData)
-            console.log(MainStore.formUrl)
+            if(formData.Settlements_name !== null && formData.Settlements_name !== ""){
+                MainStore.setSettlementName(formData.Settlements_name)
+            }
 
             const submissions = JSON.parse(localStorage.getItem(MainStore.currentPlan.plan_id) || '{}');
 
             if(submissions[MainStore.formUrl] === undefined){
                 submissions[MainStore.formUrl] = []
             }
-            
+
             submissions[MainStore.formUrl].push(formData)
 
             const arrayString = JSON.stringify(submissions);
 
             localStorage.setItem(MainStore.currentPlan.plan_id, arrayString);
+
+            MainStore.setFormData(submissions)
 
             MainStore.setIsSubmissionSuccess(true)
         }

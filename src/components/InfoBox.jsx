@@ -900,8 +900,8 @@ const InfoBox = () => {
                     <>
                     <div className="mb-6">
                       <div className="flex flex-wrap gap-2 mb-3">
-                       {Object.keys(formData).map((item) => {
-                        return (<button
+                       {Object.keys(formData).map((item) => (
+                        formData[item].length > 0 ? <button
                           key={item}
                           onClick={() => setSelectedFormType(item)}
                           className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 ${
@@ -911,8 +911,8 @@ const InfoBox = () => {
                           }`}
                         >
                           {formatFormType(item)} ({formData[item]?.length || 0})
-                        </button>)
-                       })}
+                        </button> : <></>
+                       ))}
                       </div>
 
                       {selectedFormType && formData[selectedFormType] && (
@@ -985,7 +985,7 @@ const InfoBox = () => {
                   <h4 className="text-sm font-medium text-gray-700">Available Data Items:</h4>
                   <div className="space-y-2 max-h-48 overflow-y-auto">
                     {currentPlan !== null && formData !== null && Object.keys(formData).map((key, index) => (
-                      <label key={index} className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer">
+                      formData[key].length > 0 ? <label key={index} className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer">
                         <input
                           type="checkbox"
                           checked={selectedItems.includes(key)}
@@ -999,7 +999,7 @@ const InfoBox = () => {
                           className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 focus:ring-2"
                         />
                         <span className="text-sm text-gray-700 capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
-                      </label>
+                      </label> : <></>
                     ))}
                     {currentPlan === null && <p className="text-sm text-gray-600">First Select a Plan !</p>}
 

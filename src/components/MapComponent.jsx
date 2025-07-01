@@ -219,7 +219,7 @@ const MapComponent = () => {
                         });
                         setTimeout(() => {
                             vectorSource.getFeatures().length > 0 ? resolve() : reject(new Error('Timeout loading features'));
-                        }, 10000);
+                        }, 2000);
                     }
                 };
                 checkFeatures();
@@ -694,6 +694,9 @@ const MapComponent = () => {
                 setSelectedResource(feature.values_)
                 tempSettlementFeature.current.setGeometry(new Point(e.coordinate))
                 MainStore.setSettlementName(feature.values_.sett_name)
+                if(feature.values_.Settlements_name !== undefined){
+                    MainStore.setSettlementName(feature.values_.Settlements_name)
+                }
                 MainStore.setIsResource(true)
                 MainStore.setIsResourceOpen(true)
               }
@@ -2210,6 +2213,9 @@ export default MapComponent;
 //                 setSelectedResource(feature.values_)
 //                 tempSettlementFeature.current.setGeometry(new Point(e.coordinate))
 //                 MainStore.setSettlementName(feature.values_.sett_name)
+//                 if(feature.values_.Settlements_name !== undefined){
+//                     MainStore.setSettlementName(feature.values_.Settlements_name)
+//                 }
 //                 MainStore.setIsResource(true)
 //                 MainStore.setIsResourceOpen(true)
 //               }
