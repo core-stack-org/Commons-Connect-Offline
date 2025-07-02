@@ -760,7 +760,7 @@ const InfoBox = () => {
               ? t('Select Language')
               : currentMenuOption === 'submissions'
               ? 'Form Submissions'
-              : 'Upload Data'
+              : 'Sync Offline Data'
             : t('Information')}
         </h2>
 

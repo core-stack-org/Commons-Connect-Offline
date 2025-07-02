@@ -59,7 +59,7 @@ const HamburgerMenu = ({ open, onClose }) => {
             >
             <div className="flex items-center gap-3">
                 <FileText size={18} style={{color: '#592941'}} />
-                <span>{t("Form Submissions")}</span>
+                <span>{t("View Form Submissions")}</span>
             </div>
             <ChevronRight size={18} className="text-gray-400" />
             </button>
@@ -74,7 +74,7 @@ const HamburgerMenu = ({ open, onClose }) => {
             >
             <div className="flex items-center gap-3">
                 <UploadCloud size={18} style={{color: '#592941'}} />
-                <span>{t("Upload Data")}</span>
+                <span>{t("Sync Offline Data")}</span>
             </div>
             <ChevronRight size={18} className="text-gray-400" />
             </button>
