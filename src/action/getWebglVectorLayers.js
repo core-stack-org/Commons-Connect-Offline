@@ -77,8 +77,6 @@ export default async function getWebglVectorLayers (layer_store, layer_name, set
       }
     });
 
-    console.log(vectorSource)
-
     let style = {}
 
     if(layer_store === "panchayat_boundaries"){

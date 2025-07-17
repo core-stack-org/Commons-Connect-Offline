@@ -166,8 +166,6 @@ const InfoBox = () => {
 
           let result = await response.json()
 
-          console.log(result)
-
           if(result.sync_status){
             toast.success("Your settlement submission synced successfully to ODK.");
           }
