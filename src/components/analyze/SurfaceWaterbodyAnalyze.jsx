@@ -54,6 +54,11 @@ const SurfaceWaterBodies = () => {
 
   const boldFont = { weight: "bold" };
 
+  const toggleFormsUrl = () => {
+    MainStore.setIsForm(true)
+    MainStore.setFormUrl("feedbackSWB")
+  }
+
   return (
     <>
       {/* title */}
@@ -138,6 +143,23 @@ const SurfaceWaterBodies = () => {
             {t("info_swb_modal_1")}
           </p>
         </div>
+
+        {/* Provide Feedback */}
+        <div className="flex justify-center mt-6">
+          <button
+            className="flex-1 px-4 py-3 rounded-xl shadow-sm text-md"
+            onClick={toggleFormsUrl}
+            style={{ 
+                backgroundColor: '#D6D5C9',
+                color: '#592941',
+                border: 'none', 
+            }}
+            disabled={MainStore.isFeatureClicked && !MainStore.isMarkerPlaced}
+          >
+          {t("Provide Feedback")}
+          </button>
+        </div>
+
       </div>
     </>
   );

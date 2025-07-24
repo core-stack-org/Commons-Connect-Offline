@@ -29,8 +29,8 @@
             "validators": [
               {
                 "type": "regex",
-                "text": "Enter a valid 10-digit mobile number",
-                "regex": "^(?:(?:\\\\+?91[\\\\-\\\\s]?)|0)?[6-9]\\\\d{9}$"
+                "regex": "^(?:(?:\\+?91[-\\s]?)|0)?[6-9]\\d{9}$",
+                "text": "Enter a phone number (format: 9876543210)"
               }
             ],
             "inputType": "tel"
@@ -257,12 +257,6 @@
                 "isRequired": true
               }
             ]
-          },
-          {
-            "type": "imagepicker",
-            "name": "question14",
-            "title": "Photo of the area",
-            "imageFit": "cover"
           },
           {
             "type": "comment",

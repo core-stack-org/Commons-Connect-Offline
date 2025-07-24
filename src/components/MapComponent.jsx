@@ -19,6 +19,9 @@ import Select from "ol/interaction/Select.js";
 import WebGLVectorLayer from 'ol/layer/WebGLVector.js';
 import VectorSource from "ol/source/Vector.js";
 
+import { getTileInfo } from "../action/getTileInfo.js"
+import loadOfflineBaseLayer from "../action/getOfflineLayer.js";
+
 import settlementIcon from "../assets/settlement_icon.svg"
 import LargeWaterBody from "../assets/waterbodiesScreenIcon.svg"
 import RechargeIcon from "../assets/recharge_icon.svg"
@@ -29,10 +32,9 @@ import farm_pond_proposed from "../assets/farm_pond_proposed.svg"
 import land_leveling_proposed from "../assets/land_leveling_proposed.svg"
 import well_mrker from "../assets/well_proposed.svg"
 import Man_icon from "../assets/Man_icon.png"
-import livelihoodIcons from "../assets/livelihood_proposed.svg"
-
-import { getTileInfo } from "../action/getTileInfo.js"
-import loadOfflineBaseLayer from "../action/getOfflineLayer.js";
+import fisheriesIcon from "../assets/Fisheries.svg"
+import plantationsIcon from "../assets/Plantation.svg"
+import IrrigationIcon from "../assets/irrigation_icon.svg"
 
 import settlementOffline from "../assets/settlement_icon_offline.svg"
 import wellOffline from "../assets/well_proposed_offline.svg"
@@ -40,6 +42,103 @@ import LargeWaterBodyOffline from "../assets/waterbodiesScreenIcon_offline.svg"
 import rechargeIconOffline from "../assets/recharge_icon_offline.svg"
 import irrigationIconOffline from "../assets/irrigation_icon_offline.svg"
 import livelihoodIconOffline from "../assets/livelihood_icon_offline.svg"
+
+const WATER_STRUCTURE_MAPPING = {
+    GROUNDWATER: [
+      'check dam',
+      'percolation tank', 
+      'earthern gully plugs',
+      'drainage/soakage channels',
+      'recharge pits',
+      'sokage pits', // should be "soakage pits"
+      'trench cum bund network',
+      'continuous contour trenches (cct)',
+      'staggered contour trenches(sct)',
+      'water absorption trenches(wat)',
+      'rock fill dam',
+      'loose boulder structure',
+      'stone bunding',
+      'diversion drains',
+      'contour bunds/graded bunds',
+      'bunding:contour bunds/ graded bunds',
+      '5% model structure',
+      '30-40 model structure'
+    ],
+  
+    SURFACE_WATERBODIES: [
+      'farm pond',
+      'canal',
+      'check dam',
+      'percolation tank',
+      'large water bodies',
+      'large water body',
+      'irrigation channel',
+      'rock fill dam',
+      'loose boulder structure', 
+      'community pond'
+    ],
+  
+    AGRICULTURE: [
+      'farm pond',
+      'canal', 
+      'farm bund',
+      'community pond',
+      'well'
+    ]
+  };
+  
+  function getWaterStructureStyle(feature) {
+    const status = feature.values_;
+    const wbsType = status.wbs_type?.toLowerCase() || '';
+    
+    if (status.need_maint === "Yes") {
+      try {
+        if (wbsType === "trench cum bund network") {
+          return new Style({
+            image: new Icon({ 
+              src: iconsDetails.WB_Icons_Maintenance[status.wbs_type], 
+              scale: 0.6 
+            }),
+          });
+        } else {
+          return new Style({
+            image: new Icon({ 
+              src: iconsDetails.WB_Icons_Maintenance[status.wbs_type] 
+            }),
+          });
+        }
+      } catch(err) {
+        console.log('Maintenance icon not found for:', status.wbs_type);
+      }
+    }
+    
+    if (status.wbs_type in iconsDetails.WB_Icons) {
+      return new Style({
+        image: new Icon({ 
+          src: iconsDetails.WB_Icons[status.wbs_type] 
+        }),
+      });
+    }
+    
+    return new Style({
+      image: new Icon({ src: LargeWaterBody }),
+    });
+  }
+  
+  function shouldShowWaterStructure(wbsType, screen) {
+    const normalizedType = wbsType?.toLowerCase() || '';
+    
+    switch(screen) {
+      case 'Groundwater':
+        return WATER_STRUCTURE_MAPPING.GROUNDWATER.includes(normalizedType);
+      case 'SurfaceWater':
+        return WATER_STRUCTURE_MAPPING.SURFACE_WATERBODIES.includes(normalizedType);
+      case 'Agriculture':
+        return WATER_STRUCTURE_MAPPING.AGRICULTURE.includes(normalizedType);
+      default:
+        return true; // Show all on homepage/default
+    }
+  }
 
 const MapComponent = () => {
     const mapElement = useRef(null);
@@ -446,11 +545,21 @@ const MapComponent = () => {
 
         wellLayer.setStyle(function (feature) {
             const status = feature.values_;
+            const m = status.Well_condi.match(/'select_one_maintenance'\s*:\s*'([^']*)'/i);
+            const wellMaintenance = m ? m[1].toLowerCase() === 'yes' : null;
+
             if(status.status_re in iconsDetails.socialMapping_icons.well){
                 return new Style({
                     image: new Icon({ src: iconsDetails.socialMapping_icons.well[status.status_re] }),
                 })
             }
+
+            else if(wellMaintenance){
+                return new Style({
+                    image: new Icon({ src: iconsDetails.socialMapping_icons.well["maintenance"], scale : 0.5 }),
+                })
+            }
+
             else{
                 return new Style({
                     image: new Icon({ src: iconsDetails.socialMapping_icons.well["proposed"] }),
@@ -460,9 +569,25 @@ const MapComponent = () => {
 
         waterStructureLayer.setStyle(function (feature) {
             const status = feature.values_;
-            if(status.status_re in iconsDetails.WB_Icons){
+
+            if (status.need_maint === "Yes"){
+                try{
+                    if(status.wbs_type === "Trench cum bund network" || status.wbs_type === "Water absorption trenches(WAT)" || status.wbs_type === "Staggered Contour trenches(SCT)"){
+                        return new Style({
+                            image: new Icon({ src: iconsDetails.WB_Icons_Maintenance[status.wbs_type], scale: 0.6}),
+                        })
+                    }else{
+                        return new Style({
+                            image: new Icon({ src: iconsDetails.WB_Icons_Maintenance[status.wbs_type]}),
+                        })
+                    }
+                }catch(err){
+                    console.log(status.wbs_type)
+                }
+            }
+            else if (status.wbs_type in iconsDetails.WB_Icons) {
                 return new Style({
-                    image: new Icon({ src: iconsDetails.WB_Icons[status.wbs_type] }),
+                    image: new Icon({ src: iconsDetails.WB_Icons[status.wbs_type]}),
                 })
             }
             else{
@@ -488,7 +613,7 @@ const MapComponent = () => {
                 });
               } else {
                 return new Style({
-                  image: new Icon({ src: LargeWaterBody }),
+                  image: new Icon({ src: IrrigationIcon }),
                 });
               }
         });
@@ -507,11 +632,24 @@ const MapComponent = () => {
             //}
         });
 
-        livelihoodLayer.setStyle(
-            new Style({
-              image: new Icon({ src: livelihoodIcons}),
-            })
-        );
+        livelihoodLayer.setStyle(function (feature) {
+            if(feature.values_.select_o_5 === "Yes"){
+                return new Style({
+                    image: new Icon({ src: livelihoodIcons}),
+                })
+            }
+            else if(feature.values_.select_o_6 === "Yes"){
+                return new Style({
+                    image: new Icon({ src: fisheriesIcon}),
+                })
+            }
+            else {
+                return new Style({
+                    image: new Icon({ src: plantationsIcon}),
+                })
+            }
+        });
+
 
         if(assetsLayerRefs[0].current !== null){mapRef.current.removeLayer(assetsLayerRefs[0].current)}
         if(assetsLayerRefs[1].current !== null){mapRef.current.removeLayer(assetsLayerRefs[1].current)}
@@ -680,7 +818,6 @@ const MapComponent = () => {
             setMarkerPlaced(true)
             setMarkerCoords(e.coordinate)
             MainStore.setIsResource(false)
-            //MainStore.setSettlementName(null)
 
             markerFeature.setGeometry(new Point(e.coordinate))
             MapMarkerRef.current.setVisible(true);
@@ -727,6 +864,25 @@ const MapComponent = () => {
                 setSelectedResource(feature.values_)
                 setFeatureStat(true)
                 MainStore.setIsResource(true)
+              }
+              else if(layer === groundwaterRefs[3].current){
+                MainStore.setResourceType("Recharge")
+                mapRef.current.removeInteraction(selectSettleIcon)
+                tempSettlementLayer.current.setVisible(false)
+                setSelectedResource(feature.values_)
+                setFeatureStat(true)
+                MainStore.setIsResource(true)
+              }
+              else if(layer === AgriLayersRefs[2].current){
+                setFeatureStat(true)
+                setSelectedResource(feature.values_)
+                MainStore.setResourceType("Irrigation")
+                mapRef.current.removeInteraction(selectSettleIcon)
+                MainStore.setIsResource(true)
+                tempSettlementLayer.current.setVisible(false)
+              }
+              if(feature.geometryChangeKey_.target.flatCoordinates[0] === GeolocationRef.current.position_[0] && feature.geometryChangeKey_.target.flatCoordinates[1] === GeolocationRef.current.position_[1]){
+                mapRef.current.removeInteraction(selectSettleIcon)
               }
             })
         });
@@ -872,41 +1028,51 @@ const MapComponent = () => {
                     layerCollection.remove(layer);
                 }
             });
+            
+            //? Code has been changed here from previous ones, the previous was working fine, check previous commit and match the changes, the offline has the code in the commit before this
+            // Step 0
+            if(currentStep === 0){
 
-            if(currentStep === 1 && !layerCollection.getArray().some(layer => layer === ClartLayerRef.current)){
-                mapRef.current.addLayer(ClartLayerRef.current)
+                if(groundwaterRefs[2].current !== null){
+                    mapRef.current.addLayer(groundwaterRefs[2].current) // Fortnight layer
+                }
+                if(groundwaterRefs[0].current !== null){
+                    mapRef.current.addLayer(groundwaterRefs[0].current) // Well depth layer
+                }
+
+                mapRef.current.addLayer(assetsLayerRefs[0].current) // Settlement layer
+                mapRef.current.addLayer(assetsLayerRefs[2].current)
+                mapRef.current.addLayer(groundwaterRefs[3].current) // Works layer
+
+                LayersStore.setSettlementLayer(true)
+                LayersStore.setWellDepth(true)
+                LayersStore.setDrainageLayer(false)
+                LayersStore.setCLARTLayer(false)
+                LayersStore.setWaterStructure(false)
+                LayersStore.setWorkGroundwater(true)
             }
             
-            mapRef.current.addLayer(groundwaterRefs[1].current)
-            mapRef.current.addLayer(assetsLayerRefs[0].current)
-            mapRef.current.addLayer(assetsLayerRefs[2].current)
-
-            if(!LayersStore["CLARTLayer"] && layerCollection.getArray().some(layer => layer === ClartLayerRef.current)){
-                LayersStore.setCLARTLayer(true)
-            }
-            else{
-                LayersStore.setCLARTLayer(false)
-            }
-
-            if(!LayersStore["DrainageLayer"] && layerCollection.getArray().some(layer => layer === groundwaterRefs[1].current)){
-                LayersStore.setDrainageLayer(true)
-            }
-            else{
-                LayersStore.setDrainageLayer(false)
-            }
-
-            if(!LayersStore["SettlementLayer"] && layerCollection.getArray().some(layer => layer === assetsLayerRefs[0].current)){
+            // Step 1: In the planning step
+            // TODO: Should I show works layer in both the steps?
+            if(currentStep === 1){
+                if(ClartLayerRef.current !== null){
+                    ClartLayerRef.current.setOpacity(0.4)
+                    mapRef.current.addLayer(ClartLayerRef.current) // CLART layer
+                }
+                if(groundwaterRefs[1].current !== null){
+                    mapRef.current.addLayer(groundwaterRefs[1].current) // Drainage layer
+                }
+                if(groundwaterRefs[3].current !== null){
+                    mapRef.current.addLayer(groundwaterRefs[3].current) // Works layer
+                }
+                mapRef.current.addLayer(assetsLayerRefs[2].current)
+                
                 LayersStore.setSettlementLayer(true)
-            }
-            else{
-                LayersStore.setSettlementLayer(false)
-            }
-
-            if(!LayersStore["WaterStructure"] && layerCollection.getArray().some(layer => layer === assetsLayerRefs[2].current)){
-                LayersStore.setWaterStructure(true)
-            }
-            else{
+                LayersStore.setWellDepth(false)
+                LayersStore.setDrainageLayer(true)
+                LayersStore.setCLARTLayer(true)
                 LayersStore.setWaterStructure(false)
+                LayersStore.setWorkGroundwater(true)
             }
         }
         
@@ -917,20 +1083,34 @@ const MapComponent = () => {
                 }
             });
 
-            if(!layerCollection.getArray().some(layer => layer === ClartLayerRef.current)){
-                mapRef.current.addLayer(ClartLayerRef.current)
-                LayersStore.setCLARTLayer(true)
+            if(currentStep === 0){
+                mapRef.current.addLayer(LulcLayerRefs[0].current)
+                mapRef.current.addLayer(AgriLayersRefs[0].current)
+                mapRef.current.addLayer(AgriLayersRefs[1].current)
+                mapRef.current.addLayer(AgriLayersRefs[2].current)
+                mapRef.current.addLayer(assetsLayerRefs[0].current)
+                mapRef.current.addLayer(assetsLayerRefs[1].current)
+                mapRef.current.addLayer(assetsLayerRefs[2].current)
             }
-            else{
-                LayersStore.setCLARTLayer(false)
-            }
-
-            if(!layerCollection.getArray().some(layer => layer === groundwaterRefs[1].current)){
-                mapRef.current.addLayer(groundwaterRefs[1].current)
-                LayersStore.setDrainageLayer(true)
-            }
-            else{
-                LayersStore.setDrainageLayer(false)
+            if(currentStep === 1){
+                if(!layerCollection.getArray().some(layer => layer === ClartLayerRef.current)){
+                    mapRef.current.addLayer(ClartLayerRef.current)
+                    LayersStore.setCLARTLayer(true)
+                }
+                else{
+                    LayersStore.setCLARTLayer(false)
+                }
+    
+                if(!layerCollection.getArray().some(layer => layer === groundwaterRefs[1].current)){
+                    mapRef.current.addLayer(groundwaterRefs[1].current)
+                    LayersStore.setDrainageLayer(true)
+                }
+                else{
+                    LayersStore.setDrainageLayer(false)
+                }
+                //mapRef.current.addLayer(assetsLayerRefs[1].current)
+                mapRef.current.addLayer(assetsLayerRefs[2].current)
+                mapRef.current.addLayer(AgriLayersRefs[2].current)
             }
         }
         
@@ -998,7 +1178,7 @@ const MapComponent = () => {
             if(groundwaterRefs[0].current === null && currentStep === 0){
                 const deltaGWellDepth = await getVectorLayers(
                     "mws_layers",
-                    "well_depth_yearly",
+                    "deltaG_well_depth_" + `${districtName.toLowerCase().replace(/\s+/g, "_")}_${blockName.toLowerCase().replace(/\s+/g, "_")}`,
                     true,
                     true,
                     MainStore.containerName
@@ -1009,7 +1189,7 @@ const MapComponent = () => {
             if(groundwaterRefs[2].current === null && currentStep === 0){
                 const deltaGWellDepthFortnight = await getVectorLayers(
                     "mws_layers",
-                    "well_depth_fortnightly",
+                    "deltaG_fortnight_" + `${districtName.toLowerCase().replace(/\s+/g, "_")}_${blockName.toLowerCase().replace(/\s+/g, "_")}`,
                     true,
                     true,
                     MainStore.containerName
@@ -1027,8 +1207,7 @@ const MapComponent = () => {
                 );
                 groundwaterRefs[1].current = drainageLayer
             }
-            
-            // TODO: add this layer to the container
+
             if(ClartLayerRef.current === null){
                 const ClartLayer = await getImageLayer(
                     "clart",
@@ -1036,7 +1215,7 @@ const MapComponent = () => {
                     true,
                     ""
                 )
-                ClartLayer.setOpacity(0.6)
+                ClartLayer.setOpacity(0.4)
                 ClartLayerRef.current = ClartLayer
             }
 
@@ -1062,8 +1241,14 @@ const MapComponent = () => {
             mapRef.current.addLayer(groundwaterRefs[2].current)
             mapRef.current.addLayer(groundwaterRefs[currentStep].current)
             mapRef.current.addLayer(assetsLayerRefs[0].current)
-            mapRef.current.addLayer(assetsLayerRefs[2].current)
             mapRef.current.addLayer(groundwaterRefs[3].current)
+            assetsLayerRefs[2].current.setStyle(function (feature) {
+                if (shouldShowWaterStructure(feature.get('wbs_type'), 'Groundwater')) {
+                    return getWaterStructureStyle(feature);
+                }
+                return null;
+            });
+            mapRef.current.addLayer(assetsLayerRefs[2].current)
 
             LayersStore.setAdminBoundary(true)
             LayersStore.setWellDepth(true)
@@ -1098,6 +1283,13 @@ const MapComponent = () => {
                 );
                 groundwaterRefs[1].current = drainageLayer
             }
+
+            assetsLayerRefs[2].current.setStyle(function (feature) {
+                if (shouldShowWaterStructure(feature.get('wbs_type'), 'SurfaceWater')) {
+                    return getWaterStructureStyle(feature);
+                }
+                return null;
+            });
 
             mapRef.current.addLayer(NregaWorkLayerRef.current)
             mapRef.current.addLayer(WaterbodiesLayerRef.current)
@@ -1170,6 +1362,17 @@ const MapComponent = () => {
             mapRef.current.addLayer(AgriLayersRefs[0].current)
             mapRef.current.addLayer(AgriLayersRefs[1].current)
             mapRef.current.addLayer(AgriLayersRefs[2].current)
+            mapRef.current.addLayer(assetsLayerRefs[0].current)
+            mapRef.current.addLayer(assetsLayerRefs[1].current)
+
+            assetsLayerRefs[2].current.setStyle(function (feature) {
+                if (shouldShowWaterStructure(feature.get('wbs_type'), 'Agriculture')) {
+                    return getWaterStructureStyle(feature);
+                }
+                return null;
+            });
+
+            mapRef.current.addLayer(assetsLayerRefs[2].current)
 
             LayersStore.setAdminBoundary(true)
             LayersStore.setLULCLayer(true)
@@ -1187,6 +1390,7 @@ const MapComponent = () => {
             });
 
             mapRef.current.addLayer(assetsLayerRefs[0].current)
+            mapRef.current.addLayer(LivelihoodRefs[0].current)
         }
     }
     
@@ -1545,6 +1749,8 @@ export default MapComponent;
 // import well_mrker from "../assets/well_proposed.svg"
 // import Man_icon from "../assets/Man_icon.png"
 // import livelihoodIcons from "../assets/livelihood_proposed.svg"
+// import fisheriesIcon from "../assets/Fisheries.svg"
+// import plantationsIcon from "../assets/Plantation.svg"
 // import IrrigationIcon from "../assets/irrigation_icon.svg"
 
 // import settlementOffline from "../assets/settlement_icon_offline.svg"
@@ -1553,6 +1759,103 @@ export default MapComponent;
 // import rechargeIconOffline from "../assets/recharge_icon_offline.svg"
 // import irrigationIconOffline from "../assets/irrigation_icon_offline.svg"
 // import livelihoodIconOffline from "../assets/livelihood_icon_offline.svg"
+
+// const WATER_STRUCTURE_MAPPING = {
+//     GROUNDWATER: [
+//       'check dam',
+//       'percolation tank', 
+//       'earthern gully plugs',
+//       'drainage/soakage channels',
+//       'recharge pits',
+//       'sokage pits', // should be "soakage pits"
+//       'trench cum bund network',
+//       'continuous contour trenches (cct)',
+//       'staggered contour trenches(sct)',
+//       'water absorption trenches(wat)',
+//       'rock fill dam',
+//       'loose boulder structure',
+//       'stone bunding',
+//       'diversion drains',
+//       'contour bunds/graded bunds',
+//       'bunding:contour bunds/ graded bunds',
+//       '5% model structure',
+//       '30-40 model structure'
+//     ],
+  
+//     SURFACE_WATERBODIES: [
+//       'farm pond',
+//       'canal',
+//       'check dam',
+//       'percolation tank',
+//       'large water bodies',
+//       'large water body',
+//       'irrigation channel',
+//       'rock fill dam',
+//       'loose boulder structure', 
+//       'community pond'
+//     ],
+  
+//     AGRICULTURE: [
+//       'farm pond',
+//       'canal', 
+//       'farm bund',
+//       'community pond',
+//       'well'
+//     ]
+//   };
+  
+//   function getWaterStructureStyle(feature) {
+//     const status = feature.values_;
+//     const wbsType = status.wbs_type?.toLowerCase() || '';
+    
+//     if (status.need_maint === "Yes") {
+//       try {
+//         if (wbsType === "trench cum bund network") {
+//           return new Style({
+//             image: new Icon({ 
+//               src: iconsDetails.WB_Icons_Maintenance[status.wbs_type], 
+//               scale: 0.6 
+//             }),
+//           });
+//         } else {
+//           return new Style({
+//             image: new Icon({ 
+//               src: iconsDetails.WB_Icons_Maintenance[status.wbs_type] 
+//             }),
+//           });
+//         }
+//       } catch(err) {
+//         console.log('Maintenance icon not found for:', status.wbs_type);
+//       }
+//     }
+    
+//     if (status.wbs_type in iconsDetails.WB_Icons) {
+//       return new Style({
+//         image: new Icon({ 
+//           src: iconsDetails.WB_Icons[status.wbs_type] 
+//         }),
+//       });
+//     }
+    
+//     return new Style({
+//       image: new Icon({ src: LargeWaterBody }),
+//     });
+//   }
+  
+//   function shouldShowWaterStructure(wbsType, screen) {
+//     const normalizedType = wbsType?.toLowerCase() || '';
+    
+//     switch(screen) {
+//       case 'Groundwater':
+//         return WATER_STRUCTURE_MAPPING.GROUNDWATER.includes(normalizedType);
+//       case 'SurfaceWater':
+//         return WATER_STRUCTURE_MAPPING.SURFACE_WATERBODIES.includes(normalizedType);
+//       case 'Agriculture':
+//         return WATER_STRUCTURE_MAPPING.AGRICULTURE.includes(normalizedType);
+//       default:
+//         return true; // Show all on homepage/default
+//     }
+//   }
 
 // const MapComponent = () => {
 //     const mapElement = useRef(null);
@@ -1612,16 +1915,6 @@ export default MapComponent;
 //     let LivelihoodRefs = [useRef(null)]
 
 //     //? Helper Function
-//     function zoomToFeature(feature) {
-//         const geom   = feature.getGeometry();
-//         const extent = geom.getExtent();
-//         mapRef.current.getView().fit(extent, {
-//           size:    mapRef.current.getSize(),
-//           padding: [50,50,50,50],
-//           duration: 1000,
-//           maxZoom: 18
-//         });
-//     }
 
 //     const initializeMap = async () => {
 //         const baseLayer = new TileLayer({
@@ -1966,11 +2259,21 @@ export default MapComponent;
 
 //         wellLayer.setStyle(function (feature) {
 //             const status = feature.values_;
+//             const m = status.Well_condi.match(/'select_one_maintenance'\s*:\s*'([^']*)'/i);
+//             const wellMaintenance = m ? m[1].toLowerCase() === 'yes' : null;
+
 //             if(status.status_re in iconsDetails.socialMapping_icons.well){
 //                 return new Style({
 //                     image: new Icon({ src: iconsDetails.socialMapping_icons.well[status.status_re] }),
 //                 })
 //             }
+
+//             else if(wellMaintenance){
+//                 return new Style({
+//                     image: new Icon({ src: iconsDetails.socialMapping_icons.well["maintenance"], scale : 0.5 }),
+//                 })
+//             }
+
 //             else{
 //                 return new Style({
 //                     image: new Icon({ src: iconsDetails.socialMapping_icons.well["proposed"] }),
@@ -1980,9 +2283,25 @@ export default MapComponent;
 
 //         waterStructureLayer.setStyle(function (feature) {
 //             const status = feature.values_;
-//             if(status.status_re in iconsDetails.WB_Icons){
+
+//             if (status.need_maint === "Yes"){
+//                 try{
+//                     if(status.wbs_type === "Trench cum bund network" || status.wbs_type === "Water absorption trenches(WAT)" || status.wbs_type === "Staggered Contour trenches(SCT)"){
+//                         return new Style({
+//                             image: new Icon({ src: iconsDetails.WB_Icons_Maintenance[status.wbs_type], scale: 0.6}),
+//                         })
+//                     }else{
+//                         return new Style({
+//                             image: new Icon({ src: iconsDetails.WB_Icons_Maintenance[status.wbs_type]}),
+//                         })
+//                     }
+//                 }catch(err){
+//                     console.log(status.wbs_type)
+//                 }
+//             }
+//             else if (status.wbs_type in iconsDetails.WB_Icons) {
 //                 return new Style({
-//                     image: new Icon({ src: iconsDetails.WB_Icons[status.wbs_type] }),
+//                     image: new Icon({ src: iconsDetails.WB_Icons[status.wbs_type]}),
 //                 })
 //             }
 //             else{
@@ -2027,11 +2346,23 @@ export default MapComponent;
 //             //}
 //         });
 
-//         livelihoodLayer.setStyle(
-//             new Style({
-//               image: new Icon({ src: livelihoodIcons}),
-//             })
-//         );
+//         livelihoodLayer.setStyle(function (feature) {
+//             if(feature.values_.select_o_5 === "Yes"){
+//                 return new Style({
+//                     image: new Icon({ src: livelihoodIcons}),
+//                 })
+//             }
+//             else if(feature.values_.select_o_6 === "Yes"){
+//                 return new Style({
+//                     image: new Icon({ src: fisheriesIcon}),
+//                 })
+//             }
+//             else {
+//                 return new Style({
+//                     image: new Icon({ src: plantationsIcon}),
+//                 })
+//             }
+//         });
 
 //         if(assetsLayerRefs[0].current !== null){mapRef.current.removeLayer(assetsLayerRefs[0].current)}
 //         if(assetsLayerRefs[1].current !== null){mapRef.current.removeLayer(assetsLayerRefs[1].current)}
@@ -2199,7 +2530,6 @@ export default MapComponent;
 //             setMarkerPlaced(true)
 //             setMarkerCoords(e.coordinate)
 //             MainStore.setIsResource(false)
-//             //MainStore.setSettlementName(null)
 
 //             markerFeature.setGeometry(new Point(e.coordinate))
 //             MapMarkerRef.current.setVisible(true);
@@ -2248,10 +2578,23 @@ export default MapComponent;
 //                 MainStore.setIsResource(true)
 //               }
 //               else if(layer === groundwaterRefs[3].current){
+//                 MainStore.setResourceType("Recharge")
 //                 mapRef.current.removeInteraction(selectSettleIcon)
-//                 //setSelectedResource(feature.values_)
-//                 // setFeatureStat(true)
+//                 tempSettlementLayer.current.setVisible(false)
+//                 setSelectedResource(feature.values_)
+//                 setFeatureStat(true)
 //                 MainStore.setIsResource(true)
+//               }
+//               else if(layer === AgriLayersRefs[2].current){
+//                 setFeatureStat(true)
+//                 setSelectedResource(feature.values_)
+//                 MainStore.setResourceType("Irrigation")
+//                 mapRef.current.removeInteraction(selectSettleIcon)
+//                 MainStore.setIsResource(true)
+//                 tempSettlementLayer.current.setVisible(false)
+//               }
+//               if(feature.geometryChangeKey_.target.flatCoordinates[0] === GeolocationRef.current.position_[0] && feature.geometryChangeKey_.target.flatCoordinates[1] === GeolocationRef.current.position_[1]){
+//                 mapRef.current.removeInteraction(selectSettleIcon)
 //               }
 //             })
 //         });
@@ -2397,43 +2740,51 @@ export default MapComponent;
 //                     layerCollection.remove(layer);
 //                 }
 //             });
+            
+//             //? Code has been changed here from previous ones, the previous was working fine, check previous commit and match the changes, the offline has the code in the commit before this
+//             // Step 0
+//             if(currentStep === 0){
 
-//             if(currentStep === 1 && !layerCollection.getArray().some(layer => layer === ClartLayerRef.current)){
-//                 mapRef.current.addLayer(ClartLayerRef.current)
+//                 if(groundwaterRefs[2].current !== null){
+//                     mapRef.current.addLayer(groundwaterRefs[2].current) // Fortnight layer
+//                 }
+//                 if(groundwaterRefs[0].current !== null){
+//                     mapRef.current.addLayer(groundwaterRefs[0].current) // Well depth layer
+//                 }
+
+//                 mapRef.current.addLayer(assetsLayerRefs[0].current) // Settlement layer
+//                 mapRef.current.addLayer(assetsLayerRefs[2].current)
+//                 mapRef.current.addLayer(groundwaterRefs[3].current) // Works layer
+
+//                 LayersStore.setSettlementLayer(true)
+//                 LayersStore.setWellDepth(true)
+//                 LayersStore.setDrainageLayer(false)
+//                 LayersStore.setCLARTLayer(false)
+//                 LayersStore.setWaterStructure(false)
+//                 LayersStore.setWorkGroundwater(true)
 //             }
             
-//             mapRef.current.addLayer(groundwaterRefs[1].current)
-//             mapRef.current.removeLayer(assetsLayerRefs[0].current)
-//             mapRef.current.addLayer(assetsLayerRefs[2].current)
-//             mapRef.current.addLayer(groundwaterRefs[3].current) 
-//             tempSettlementLayer.current.setVisible(true)
-
-//             if(!LayersStore["CLARTLayer"] && layerCollection.getArray().some(layer => layer === ClartLayerRef.current)){
-//                 LayersStore.setCLARTLayer(true)
-//             }
-//             else{
-//                 LayersStore.setCLARTLayer(false)
-//             }
-
-//             if(!LayersStore["DrainageLayer"] && layerCollection.getArray().some(layer => layer === groundwaterRefs[1].current)){
-//                 LayersStore.setDrainageLayer(true)
-//             }
-//             else{
-//                 LayersStore.setDrainageLayer(false)
-//             }
-
-//             if(!LayersStore["SettlementLayer"] && layerCollection.getArray().some(layer => layer === assetsLayerRefs[0].current)){
+//             // Step 1: In the planning step
+//             // TODO: Should I show works layer in both the steps?
+//             if(currentStep === 1){
+//                 if(ClartLayerRef.current !== null){
+//                     ClartLayerRef.current.setOpacity(0.4)
+//                     mapRef.current.addLayer(ClartLayerRef.current) // CLART layer
+//                 }
+//                 if(groundwaterRefs[1].current !== null){
+//                     mapRef.current.addLayer(groundwaterRefs[1].current) // Drainage layer
+//                 }
+//                 if(groundwaterRefs[3].current !== null){
+//                     mapRef.current.addLayer(groundwaterRefs[3].current) // Works layer
+//                 }
+//                 mapRef.current.addLayer(assetsLayerRefs[2].current)
+                
 //                 LayersStore.setSettlementLayer(true)
-//             }
-//             else{
-//                 LayersStore.setSettlementLayer(false)
-//             }
-
-//             if(!LayersStore["WaterStructure"] && layerCollection.getArray().some(layer => layer === assetsLayerRefs[2].current)){
-//                 LayersStore.setWaterStructure(true)
-//             }
-//             else{
+//                 LayersStore.setWellDepth(false)
+//                 LayersStore.setDrainageLayer(true)
+//                 LayersStore.setCLARTLayer(true)
 //                 LayersStore.setWaterStructure(false)
+//                 LayersStore.setWorkGroundwater(true)
 //             }
 //         }
         
@@ -2444,22 +2795,35 @@ export default MapComponent;
 //                 }
 //             });
 
-//             if(!layerCollection.getArray().some(layer => layer === ClartLayerRef.current)){
-//                 mapRef.current.addLayer(ClartLayerRef.current)
-//                 LayersStore.setCLARTLayer(true)
+//             if(currentStep === 0){
+//                 mapRef.current.addLayer(LulcLayerRefs[0].current)
+//                 mapRef.current.addLayer(AgriLayersRefs[0].current)
+//                 mapRef.current.addLayer(AgriLayersRefs[1].current)
+//                 mapRef.current.addLayer(AgriLayersRefs[2].current)
+//                 mapRef.current.addLayer(assetsLayerRefs[0].current)
+//                 mapRef.current.addLayer(assetsLayerRefs[1].current)
+//                 mapRef.current.addLayer(assetsLayerRefs[2].current)
 //             }
-//             else{
-//                 LayersStore.setCLARTLayer(false)
+//             if(currentStep === 1){
+//                 if(!layerCollection.getArray().some(layer => layer === ClartLayerRef.current)){
+//                     mapRef.current.addLayer(ClartLayerRef.current)
+//                     LayersStore.setCLARTLayer(true)
+//                 }
+//                 else{
+//                     LayersStore.setCLARTLayer(false)
+//                 }
+    
+//                 if(!layerCollection.getArray().some(layer => layer === groundwaterRefs[1].current)){
+//                     mapRef.current.addLayer(groundwaterRefs[1].current)
+//                     LayersStore.setDrainageLayer(true)
+//                 }
+//                 else{
+//                     LayersStore.setDrainageLayer(false)
+//                 }
+//                 //mapRef.current.addLayer(assetsLayerRefs[1].current)
+//                 mapRef.current.addLayer(assetsLayerRefs[2].current)
+//                 mapRef.current.addLayer(AgriLayersRefs[2].current)
 //             }
-
-//             if(!layerCollection.getArray().some(layer => layer === groundwaterRefs[1].current)){
-//                 mapRef.current.addLayer(groundwaterRefs[1].current)
-//                 LayersStore.setDrainageLayer(true)
-//             }
-//             else{
-//                 LayersStore.setDrainageLayer(false)
-//             }
-//             mapRef.current.addLayer(AgriLayersRefs[2].current)
 //         }
         
 //         else if(currentScreen === "Livelihood"){
@@ -2499,6 +2863,7 @@ export default MapComponent;
 //             if(assetsLayerRefs[0].current !== null){
 //                 mapRef.current.addLayer(assetsLayerRefs[0].current)
 //                 mapRef.current.addLayer(assetsLayerRefs[1].current)
+//                 assetsLayerRefs[2].current.setStyle(getWaterStructureStyle);
 //                 mapRef.current.addLayer(assetsLayerRefs[2].current)
 //             }
 //             if(MapMarkerRef.current !== null){
@@ -2562,7 +2927,7 @@ export default MapComponent;
 //                     true,
 //                     ""
 //                 )
-//                 ClartLayer.setOpacity(0.6)
+//                 ClartLayer.setOpacity(0.4)
 //                 ClartLayerRef.current = ClartLayer
 //             }
 
@@ -2588,8 +2953,14 @@ export default MapComponent;
 //             mapRef.current.addLayer(groundwaterRefs[2].current)
 //             mapRef.current.addLayer(groundwaterRefs[currentStep].current)
 //             mapRef.current.addLayer(assetsLayerRefs[0].current)
-//             mapRef.current.addLayer(assetsLayerRefs[2].current)
 //             mapRef.current.addLayer(groundwaterRefs[3].current)
+//             assetsLayerRefs[2].current.setStyle(function (feature) {
+//                 if (shouldShowWaterStructure(feature.get('wbs_type'), 'Groundwater')) {
+//                     return getWaterStructureStyle(feature);
+//                 }
+//                 return null;
+//             });
+//             mapRef.current.addLayer(assetsLayerRefs[2].current)
 
 //             LayersStore.setAdminBoundary(true)
 //             LayersStore.setWellDepth(true)
@@ -2623,6 +2994,13 @@ export default MapComponent;
 //                 );
 //                 groundwaterRefs[1].current = drainageLayer
 //             }
+
+//             assetsLayerRefs[2].current.setStyle(function (feature) {
+//                 if (shouldShowWaterStructure(feature.get('wbs_type'), 'SurfaceWater')) {
+//                     return getWaterStructureStyle(feature);
+//                 }
+//                 return null;
+//             });
 
 //             mapRef.current.addLayer(NregaWorkLayerRef.current)
 //             mapRef.current.addLayer(WaterbodiesLayerRef.current)
@@ -2693,6 +3071,17 @@ export default MapComponent;
 //             mapRef.current.addLayer(AgriLayersRefs[0].current)
 //             mapRef.current.addLayer(AgriLayersRefs[1].current)
 //             mapRef.current.addLayer(AgriLayersRefs[2].current)
+//             mapRef.current.addLayer(assetsLayerRefs[0].current)
+//             mapRef.current.addLayer(assetsLayerRefs[1].current)
+
+//             assetsLayerRefs[2].current.setStyle(function (feature) {
+//                 if (shouldShowWaterStructure(feature.get('wbs_type'), 'Agriculture')) {
+//                     return getWaterStructureStyle(feature);
+//                 }
+//                 return null;
+//             });
+
+//             mapRef.current.addLayer(assetsLayerRefs[2].current)
 
 //             LayersStore.setAdminBoundary(true)
 //             LayersStore.setLULCLayer(true)
@@ -2711,6 +3100,7 @@ export default MapComponent;
 //             });
 
 //             mapRef.current.addLayer(assetsLayerRefs[0].current)
+//             mapRef.current.addLayer(LivelihoodRefs[0].current)
 //         }
 //     }
     

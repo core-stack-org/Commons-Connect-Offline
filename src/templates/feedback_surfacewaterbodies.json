@@ -1,0 +1,196 @@
+{
+  "title": "Water Structure Analysis",
+  "logoFit": "none",
+  "logoPosition": "right",
+  "completedHtml": "<h3>Water Structure Analysis Form Submitted Successfully!</h3>",
+  "loadingHtml": "<h3>Loading Water Structure Analysis Form...</h3>",
+  "pages": [
+    {
+      "name": "water_structure_analysis_page",
+      "elements": [
+        {
+          "type": "radiogroup",
+          "name": "Is_this_actually_water_structure",
+          "title": "Is this actually a water structure",
+          "description": "क्या यह वास्तव में जल स्रोत है ?",
+          "choices": [
+            {
+              "value": "Yes, year-round/",
+              "text": "Yes, year-round / हाँ,साल भर"
+            },
+            {
+              "value": "Yes, seasonal",
+              "text": "Yes, seasonal / हाँ,मौसमी"
+            },
+            {
+              "value": "No",
+              "text": "No / नहीं"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "name": "water_structure_present",
+          "title": "Depth of the water in this water structure at present (Approx. in feet)?",
+          "description": "अभी इस जल स्रोत में पानी की गहराई लगभग कितनी है ?(फ़ीट में )",
+          "inputType": "number",
+          "placeholder": "Enter depth in feet"
+        },
+        {
+          "type": "radiogroup",
+          "name": "select_one_year_dried",
+          "title": "Has the water structure completely dried up in recent years? If yes, during which years?",
+          "description": "हाल के दिनों में क्या पूरी तरह से जल स्रोत सूख चूका है ?अगर हाँ ,तो किस साल में ?",
+          "choices": [
+            "2017",
+            "2018",
+            "2019",
+            "2020",
+            "2021",
+            "2022",
+            "2023",
+            {
+              "value": "Never dried",
+              "text": "Never dried / कभी नहीं सूखा"
+            }
+          ]
+        },
+        {
+          "type": "panel",
+          "name": "water_level_panel",
+          "title": "What is the usual depth to water in this water structure during the (in feet)",
+          "description": "सामान्य तौर पर इस जल स्रोत में पानी की गहराई कितनी होती है (फ़ीट में )",
+          "elements": [
+            {
+              "type": "text",
+              "name": "water_level_monsoon",
+              "title": "Monsoon",
+              "description": "मानसून",
+              "inputType": "number",
+              "placeholder": "Depth in feet during monsoon"
+            },
+            {
+              "type": "text",
+              "name": "water_level_post_monsoon",
+              "title": "Post-monsoon",
+              "description": "मानसून के बाद होने वाली बारिश",
+              "inputType": "number",
+              "placeholder": "Depth in feet post-monsoon"
+            },
+            {
+              "type": "text",
+              "name": "water_level_summer",
+              "title": "Summer seasons",
+              "description": "गर्मी का मौसम",
+              "inputType": "number",
+              "placeholder": "Depth in feet during summer"
+            }
+          ]
+        },
+        {
+          "type": "panel",
+          "name": "drought_impact_panel",
+          "title": "Drought Impact Analysis",
+          "elements": [
+            {
+              "type": "radiogroup",
+              "name": "select_one_drought_instances",
+              "title": "Have there been instances of drought in the last five years that impacted the water structure?",
+              "description": "क्या पिछले पांच सालों में सुखा पड़ा है ,जिसका जल स्रोत पर असर पड़ा है ?",
+              "choices": [
+                {
+                  "value": "Yes",
+                  "text": "Yes / हाँ"
+                },
+                {
+                  "value": "No",
+                  "text": "No / नहीं"
+                }
+              ]
+            },
+            {
+              "type": "radiogroup",
+              "name": "select_one_way_impacted",
+              "visibleIf": "{select_one_drought_instances} = 'Yes'",
+              "title": "If yes, in which way was the water structure impacted?",
+              "description": "अगर हाँ ,तो जल स्रोत पर क्या प्रभाव पड़ा ?",
+              "choices": [
+                {
+                  "value": "Damage to water supply infrastructure (e.g., pipelines, pumps, dams)",
+                  "text": "Damage to water supply infrastructure (e.g., pipelines, pumps, dams) / जल आपूर्ति के बुनियादी ढांचे को नुकसान (जैसे, पाइपलाइन, पंप, बांध)"
+                },
+                {
+                  "value": "Increased sedimentation in water bodies",
+                  "text": "Increased sedimentation in water bodies / जल स्रोतों में जमे गाद की वृद्धि"
+                },
+                {
+                  "value": "Contamination of water sources",
+                  "text": "Contamination of water sources / जल स्रोतों का प्रदूषण"
+                },
+                {
+                  "value": "Erosion",
+                  "text": "Erosion / कटाव"
+                },
+                {
+                  "value": "Disruption of water distribution systems",
+                  "text": "Disruption of water distribution systems / जल वितरण प्रणाली में आने वाली रुकावटें"
+                },
+                {
+                  "value": "other",
+                  "text": "Other"
+                }
+              ],
+              "showOtherItem": true,
+              "otherText": "Specify other"
+            },
+            {
+              "type": "radiogroup",
+              "name": "select_one_year_flood_impact",
+              "visibleIf": "{select_one_drought_instances} = 'Yes'",
+              "title": "During which years did the flood impact the water structure?",
+              "description": "किस वर्ष बाढ़ ने जल स्रोत को प्रभावित किया ?",
+              "choices": [
+                "2017",
+                "2018",
+                "2019",
+                "2020",
+                "2021",
+                "2022",
+                "2023",
+                {
+                  "value": "No flood impact",
+                  "text": "No flood impact / कोई बाढ़ का प्रभाव नहीं"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "radiogroup",
+          "name": "select_one_connected_stream_river",
+          "title": "Is this water structure connected to a stream or river? (Select the most appropriate option)",
+          "description": "क्या यह जल स्रोत जलधारा या नदी से जुड़ा है ?(सही विकल्प चुनें )",
+          "choices": [
+            {
+              "value": "Yes, part of a large river",
+              "text": "Yes, part of a large river / हाँ , एक बड़ी नदी का हिस्सा"
+            },
+            {
+              "value": "Yes, part of a small stream",
+              "text": "Yes, part of a small stream / हाँ,एक छोटी जलधारा का हिस्सा"
+            },
+            {
+              "value": "Yes, part of a small drainage channel",
+              "text": "Yes, part of a small drainage channel / हाँ , एक छोटा नाला का हिस्सा"
+            },
+            {
+              "value": "No, it is not connected to any stream or river",
+              "text": "No, it is not connected to any stream or river / नहीं,यह कोई जलधारा या नदी से जुड़ा हुआ नहीं है"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "widthMode": "responsive"
+}

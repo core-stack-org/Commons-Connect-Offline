@@ -25,8 +25,12 @@ import rechargeStructure from "../templates/recharge_structure.json"
 import livelihoodForm from "../templates/livelihood.json"
 import irrigationForm from "../templates/irrigation_work.json"
 import maintainenceSWB from "../templates/maintenance_rs_swb.json"
+import maintainenceWB from "../templates/maintenance_water_structures.json"
 import maintainenceGW from "../templates/maintenance_recharge_st.json"
 import maintainenceAG from "../templates/maintenance_irr.json"
+import feedbackAgri from "../templates/feedback_Agri.json"
+import feedbackGW from "../templates/feedback_Groundwater.json"
+import feedbackSWB from "../templates/feedback_surfacewaterbodies.json"
 
 const Bottomsheet = () => {
 
@@ -35,7 +39,6 @@ const Bottomsheet = () => {
     const LayerStore = useLayersStore((state) => state)
     const [sheetBody, setSheetBody] = useState(<>Nothing Here</>);
     const [editBody, setEditBody] = useState(<>Nothing Here</>);
-    let flg = false
 
     useEffect(() => {
         if (!(MainStore.isForm && MainStore.formUrl)) return;
@@ -52,7 +55,11 @@ const Bottomsheet = () => {
         else if(MainStore.formUrl === "recharge"){ schema = rechargeStructure }
         else if(MainStore.formUrl === "livelihood"){ schema = livelihoodForm }
         else if(MainStore.formUrl === "irrigation"){ schema = irrigationForm }
+        else if(MainStore.formUrl === "feedbackAgri"){ schema = feedbackAgri }
+        else if(MainStore.formUrl === "feedbackGW"){ schema = feedbackGW }
+        else if(MainStore.formUrl === "feedbackSWB"){ schema = feedbackSWB }
         else if(MainStore.formUrl === "maintainSWB"){ schema = maintainenceSWB }
+        else if(MainStore.formUrl === "maintainWB"){ schema = maintainenceWB }
         else if(MainStore.formUrl === "maintainGW"){ schema = maintainenceGW }
         else{ schema = maintainenceAG }
 
@@ -63,7 +70,7 @@ const Bottomsheet = () => {
               Settlements_id:  crypto.randomUUID().slice(0, 15),
               well_id:         crypto.randomUUID().slice(0, 15),
               waterbodies_id:  crypto.randomUUID().slice(0, 15),
-              Corresponding_Work_ID:  crypto.randomUUID().slice(0, 15),
+              corresponding_work_id : MainStore.selectedResource?.work_id || MainStore.selectedResource?.wb_id || MainStore.selectedResource?.UID || "",
               work_id : crypto.randomUUID().slice(0, 15),
               plan_id:         MainStore.currentPlan.plan_id,
               plan_name:       MainStore.currentPlan.plan,
@@ -109,6 +116,14 @@ const Bottomsheet = () => {
         else if(MainStore.formEditType === "recharge"){ schema = rechargeStructure }
         else if(MainStore.formEditType === "irrigation"){ schema = irrigationForm }
         else if(MainStore.formEditType === "livelihood"){ schema = livelihoodForm }
+        else if(MainStore.formEditType === "irrigation"){ schema = irrigationForm }
+        else if(MainStore.formEditType === "feedbackAgri"){ schema = feedbackAgri }
+        else if(MainStore.formEditType === "feedbackGW"){ schema = feedbackGW }
+        else if(MainStore.formEditType === "feedbackSWB"){ schema = feedbackSWB }
+        else if(MainStore.formEditType === "maintainSWB"){ schema = maintainenceSWB }
+        else if(MainStore.formEditType === "maintainWB"){ schema = maintainenceWB }
+        else if(MainStore.formEditType === "maintainGW"){ schema = maintainenceGW }
+        else{ schema = maintainenceAG }
 
         try{
             const survey = new Model(schema);
@@ -158,10 +173,15 @@ const Bottomsheet = () => {
         "marginal_farmers" : "Farmer Census : Marginal Farmers",
         "medium_farmers" : "Farmer Census : Medium Farmers",
         "small_farmers" : "Farmer Census : Small Farmers",
+        "NREGA_applied" : "Households that have applied for NREGA Job cards",
+        "NREGA_have_job_card" : "Households that have NREGA job cards",
+
+        
         "select_one_Functional_Non_functional" : "Functional or not ?",
         "select_one_well_used" : "Used for Irrigation or Drinking ?",
         "select_one_well_used_other" : "Other usage",
         "select_one_change_water_quality" : "Water Quality",
+        "select_one_water_structure_near_you" : "Any rainwater harvesting or groundwater recharge structures near your wells ?",
         "select_one_maintenance" : "Requires Maintainence", 
         "select_one_repairs_well" : "Type of Repair (if Maintainence required)",
         "select_one_repairs_well_other" : "Other type of Repair"
@@ -346,88 +366,155 @@ const Bottomsheet = () => {
 
     const metaDataBody = (
         <>
-            <div className="sticky top-0 z-20 bg-white text-center pt-8 text-xl font-bold text-gray-800 border-b border-gray-300 shadow-md pb-2 mb-6">
+            <div className="sticky top-12 z-10 bg-white text-center pt-8 text-xl font-bold text-gray-800 border-b border-gray-300 shadow-md pb-2 mb-6">
             {t("Asset Info")}
             </div>
 
-            <div className="w-full max-w-4xl mx-auto p-6 bg-white rounded-2xl shadow-lg ring-1 ring-gray-200">
-                <table className="w-full table-auto border-separate border-spacing-y-3">
-                    <tbody>
-                    {MainStore.isMetadata && MainStore.metadata !== null && Object.keys(nregaDetails.NameDisplayMapping).map((key) => {
-                        const rawValue = MainStore.metadata[key];
-                        const formattedValue =
-                        key === 'Material' || key === 'Total_Expe'
-                            ? `₹${rawValue}`
-                            : rawValue;
+            <div className="pt-8 px-4 pb-6">
+                <div className="w-full max-w-4xl mx-auto">
+                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                        {MainStore.isMetadata && MainStore.metadata !== null && Object.keys(nregaDetails.NameDisplayMapping).map((key, index) => {
+                            const rawValue = MainStore.metadata[key];
+                            const formattedValue =
+                            key === 'Material' || key === 'Total_Expe'
+                                ? `₹${rawValue}`
+                                : rawValue;
 
-                        return (
-                        <tr
-                            key={key}
-                            className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow"
-                        >
-                            <td className="px-6 py-4 font-bold text-gray-900 break-words text-md">
-                            {nregaDetails.NameDisplayMapping[key]}
-                            </td>
-                            <td className="px-6 py-4 text-gray-600 break-words text-md">
-                            {formattedValue}
-                            </td>
-                        </tr>
-                        );
-                    })}
-                    </tbody>
-                </table>
+                            return (
+                            <div
+                                key={key}
+                                className={`flex items-center min-h-[3rem] ${
+                                    index % 2 === 0 ? 'bg-gray-50' : 'bg-white'
+                                } hover:bg-blue-50 transition-colors duration-200 border-b border-gray-100 last:border-b-0`}
+                            >
+                                <div className="flex-1 px-4 py-3 bg-gray-100 border-r border-gray-200">
+                                    <span className="text-sm font-semibold text-gray-700 tracking-wide">
+                                        {nregaDetails.NameDisplayMapping[key]}
+                                    </span>
+                                </div>
+                                <div className="flex-1 px-4 py-3">
+                                    <span className="text-sm text-gray-800 font-medium">
+                                        {formattedValue}
+                                    </span>
+                                </div>
+                            </div>
+                            );
+                        })}
+                    </div>
+                </div>
             </div>
         </>
     )
 
     const resourceBody = (
         <>
-        <div className="sticky top-0 z-20 bg-white text-center pt-8 text-xl font-bold text-gray-800 border-b border-gray-300 shadow-md pb-2 mb-6">
+        <div className="sticky top-12 z-10 bg-white text-center pt-8 text-xl font-bold text-gray-800 border-b border-gray-300 shadow-md pb-2 mb-6">
             {t("Resource Info")}
         </div>
 
-        <div className="w-full max-w-4xl mx-auto p-6 bg-white rounded-2xl shadow-lg ring-1 ring-gray-200">
-        <tbody>
-            {MainStore.isResource && MainStore.selectedResource !== null &&
-                Object.keys(resourceDetails[MainStore.resourceType]).flatMap(key => {
-                let rawValue = MainStore.selectedResource[key];
+        <div className="pt-8 px-4 pb-6">
+            <div className="w-full max-w-4xl mx-auto">
+                <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                    {MainStore.isResource && MainStore.selectedResource !== null &&
+                        Object.keys(resourceDetails[MainStore.resourceType]).flatMap((key, index) => {
+                        let rawValue = MainStore.selectedResource[key];
+                        
+                        if (rawValue && (key === "Livestock_" || key === "farmer_fam" || key === "Well_condi")) {
+                            const jsonReady = rawValue.replace(/'/g, '"').replace(/\bNone\b/g, 'null');
+                            const data = (new Function(`return (${jsonReady})`))();
 
-                if (rawValue && (key === "Livestock_" || key === "farmer_fam" || key === "Well_condi")) {
-                    const jsonReady = rawValue.replace(/'/g, '"').replace(/\bNone\b/g, 'null');
-                    const data = (new Function(`return (${jsonReady})`))();
+                            return Object.keys(data).map((innerKey, innerIndex) => (
+                            <div
+                                key={innerKey}
+                                className={`flex items-center min-h-[3rem] ${
+                                    (index + innerIndex) % 2 === 0 ? 'bg-gray-50' : 'bg-white'
+                                } hover:bg-blue-50 transition-colors duration-200 border-b border-gray-100 last:border-b-0`}
+                            >
+                                <div className="flex-1 px-4 py-3 bg-gray-100 border-r border-gray-200">
+                                    <span className="text-sm font-semibold text-gray-700 tracking-wide">
+                                        {ResourceMetaKeys[innerKey]}
+                                    </span>
+                                </div>
+                                <div className="flex-1 px-4 py-3">
+                                    <span className="text-sm text-gray-800 font-medium">
+                                        {data[innerKey] ?? "—"}
+                                    </span>
+                                </div>
+                            </div>
+                            ));
+                        }
+                        else if(rawValue && (key === "MNREGA_INF" || key === "Well_usage")){
 
-                    return Object.keys(data).map(innerKey => (
-                    <tr
-                        key={innerKey}
-                        className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow"
-                    >
-                        {/* ⬇️ add grey background to the leftmost cell */}
-                        <td className="px-6 py-4 font-bold text-gray-900 break-words text-md bg-gray-50 rounded-l-lg">
-                        {ResourceMetaKeys[innerKey]}
-                        </td>
-                        <td className="px-6 py-4 text-gray-600 break-words text-md">
-                        {data[innerKey] ?? "—"}
-                        </td>
-                    </tr>
-                    ));
-                }
+                            const keys = ["NREGA_applied", "NREGA_have_job_card", "select_one_Functional_Non_functional", "select_one_well_used", 
+                                "select_one_change_water_quality", "select_one_water_structure_near_you"];
+                            const extracted = {};
 
-                return (
-                    <tr
-                    key={key}
-                    className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow"
-                    >
-                    {/* ⬇️ same tweak here */}
-                    <td className="px-6 py-4 font-bold text-gray-900 break-words text-md bg-gray-50 rounded-l-lg">
-                        {resourceDetails[MainStore.resourceType][key]}
-                    </td>
-                    <td className="px-6 py-4 text-gray-600 break-words text-md">
-                        {rawValue ?? "—"}
-                    </td>
-                    </tr>
-                );
-                })}
-            </tbody>
+                            for (const key of keys) {
+                                //  String.raw lets us write \s, \n, etc. without escaping the \
+                                const pattern = new RegExp(
+                                    String.raw`['"]${key}['"]\s*:\s*([^,}\n\r]+)`,
+                                    "i"
+                                );
+
+                                const match = rawValue.match(pattern);
+                                if (!match) continue;
+
+                                let value = match[1].trim();
+                                if (value === "None") {
+                                    value = null;
+                                } else if (/^['"]/.test(value)) {
+                                    value = value.replace(/^['"]|['"]$/g, "");
+                                } else if (/^\d+(\.\d+)?$/.test(value)) {
+                                    value = Number(value);
+                                }
+                                extracted[key] = value;
+                            }
+
+                            // --- 2.  display them --------------------------------------------------------
+                            return Object.keys(extracted).map((item, idx) => {
+                                <div
+                                    key={item}
+                                    className={`flex items-center min-h-[3rem] ${
+                                    idx % 2 === 0 ? "bg-gray-50" : "bg-white"
+                                    } hover:bg-blue-50 transition-colors duration-200 border-b border-gray-100 last:border-b-0`}
+                                >
+                                    <div className="flex-1 px-4 py-3 bg-gray-100 border-r border-gray-200">
+                                        <span className="text-sm font-semibold text-gray-700 tracking-wide">
+                                            {ResourceMetaKeys[item]}
+                                        </span>
+                                    </div>
+                                    <div className="flex-1 px-4 py-3">
+                                        <span className="text-sm text-gray-800 font-medium">
+                                            {extracted[item] ?? "—"}
+                                        </span>
+                                    </div>
+                                </div>
+                            });
+                        }
+                        if(rawValue !== null){
+                            return (
+                                <div
+                                    key={key}
+                                    className={`flex items-center min-h-[3rem] ${
+                                        index % 2 === 0 ? 'bg-gray-50' : 'bg-white'
+                                    } hover:bg-blue-50 transition-colors duration-200 border-b border-gray-100 last:border-b-0`}
+                                >
+                                    <div className="flex-1 px-4 py-3 bg-gray-100 border-r border-gray-200">
+                                        <span className="text-sm font-semibold text-gray-700 tracking-wide">
+                                            {resourceDetails[MainStore.resourceType][key]}
+                                        </span>
+                                    </div>
+                                    <div className="flex-1 px-4 py-3">
+                                        <span className="text-sm text-gray-800 font-medium">
+                                        {rawValue || "—"}
+                                        </span>
+                                    </div>
+                                </div>
+                                );
+                            }
+                        })}
+                </div>
+            </div>
         </div>
         </>
 
@@ -504,7 +591,7 @@ const Bottomsheet = () => {
         if(MainStore.isForm){
             const formData = sender.data;
 
-            if(formData.Settlements_name !== null && formData.Settlements_name !== ""){
+            if(MainStore.formUrl === "settlement" && formData.Settlements_name !== null && formData.Settlements_name !== ""){
                 MainStore.setSettlementName(formData.Settlements_name)
             }
 

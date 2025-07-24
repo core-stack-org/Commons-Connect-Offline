@@ -1,10 +1,13 @@
 import useMainStore from "../store/MainStore.jsx";
-import getImportString from "../action/getSurveyForm.js";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import Floater from "../components/Floater.jsx";
 
 const Livelihood = () => {
 
     const MainStore = useMainStore((state) => state);
+    const navigate = useNavigate();
+    const { t } = useTranslation();
 
     const getPlanLabel = () => {
         const plan = MainStore.currentPlan?.plan ?? "Select Plan";
@@ -22,17 +25,6 @@ const Livelihood = () => {
         }
         return capitalizeWords(plan);
       };
-
-    const withLoading = async (action) => {
-        MainStore.setIsLoading(true);
-        try {
-          await action();
-        } catch (error) {
-          console.error('Error during action:', error);
-        } finally {
-          MainStore.setIsLoading(false);
-        }
-    };
 
     const toggleFormsUrl = (type) =>{
       if(MainStore.markerCoords){
@@ -125,51 +117,70 @@ const Livelihood = () => {
             {/* Bottom Controls */}
             <div className="absolute bottom-13 left-0 w-full px-4 z-10 pointer-events-auto">
                 {MainStore.currentStep === 0 && (
-                <div className="flex gap-4 w-full">
-                    <button
-                        className="flex-1 px-4 py-3 rounded-xl shadow-sm text-sm"
-                        onClick={() => withLoading(() =>{
-                            MainStore.setCurrentStep(1)
-                        })}
-                        disabled={!MainStore.isFeatureClicked}
-                        style={{
-                            backgroundColor: !MainStore.isFeatureClicked ? '#696969' : '#D6D5C9',
-                            color: !MainStore.isFeatureClicked ? '#A8A8A8' : '#592941',
-                            border: 'none',
-                        }}
-                    >
-                    Select Settlement
-                    </button>
-                </div>
-                )}
+                    <div className="flex flex-col items-center justify-center w-full gap-3">
+                        {/* Asset Info Button - Top pill */}
+                        <div className="flex items-center justify-center w-full">
+                            <button
+                                className="px-6 py-3 text-sm font-medium flex items-center justify-center"
+                                onClick={handleAnalyze}
+                                disabled={!MainStore.isFeatureClicked}
+                                style={{
+                                    backgroundColor: !MainStore.isFeatureClicked ? '#696969' : '#D6D5C9',
+                                    color: !MainStore.isFeatureClicked ? '#A8A8A8' : '#592941',
+                                    border: 'none',
+                                    borderRadius: '22px',
+                                    height: '44px',
+                                    width: '350px',
+                                    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
+                                    cursor: !MainStore.isFeatureClicked ? 'not-allowed' : 'pointer',
+                                    transition: 'all 300ms cubic-bezier(0.4, 0, 0.2, 1)'
+                                }}
+                            >
+                                {t("Asset Info")}
+                            </button>
+                        </div>
 
-                {MainStore.currentStep === 1 && (
-                <div className="flex gap-4 w-full">
-                    <button
-                        className="flex-1 px-4 py-3 rounded-xl shadow-sm text-sm"
-                        onClick={() => toggleFormsUrl("livelihood")}
-                        style={{ 
-                            backgroundColor: MainStore.isFeatureClicked ? '#696969' : '#D6D5C9',
-                            color: MainStore.isFeatureClicked ? '#A8A8A8' : '#592941',
-                            border: 'none', 
-                        }}
-                        disabled={MainStore.isFeatureClicked}
-                    >
-                    Mark Livelihood
-                    </button>
-                    <button
-                        className="flex-1 px-4 py-3 rounded-xl shadow-sm text-sm"
-                        style={{ 
-                            backgroundColor: !MainStore.isFeatureClicked ? '#696969' : '#D6D5C9',
-                            color: !MainStore.isFeatureClicked ? '#A8A8A8' : '#592941',
-                            border: 'none', 
-                        }}
-                        onClick={handleAnalyze}
-                        disabled={!MainStore.isFeatureClicked}
-                    >
-                    Livelihood Info
-                    </button>
-                </div>
+                        {/* Separate Back and Mark Livelihood Buttons - Bottom section */}
+                        <div className="flex items-center justify-center w-full gap-3">
+                            {/* Separate Back Button */}
+                            <button
+                                className="px-4 py-3 text-sm font-medium flex items-center justify-center"
+                                onClick={() => navigate('/maps')}
+                                style={{
+                                    backgroundColor: '#D6D5C9',
+                                    color: '#592941',
+                                    border: 'none',
+                                    borderRadius: '22px',
+                                    height: '44px',
+                                    cursor: 'pointer',
+                                    transition: 'all 300ms cubic-bezier(0.4, 0, 0.2, 1)',
+                                    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)'
+                                }}
+                            >
+                                {t("Back")}
+                            </button>
+                            
+                            {/* Mark Livelihood Button */}
+                            <button
+                                className="px-6 py-3 text-sm font-medium flex items-center justify-center"
+                                onClick={() => toggleFormsUrl("livelihood")}
+                                disabled={!MainStore.isMarkerPlaced}
+                                style={{
+                                    backgroundColor: !MainStore.isMarkerPlaced ? '#696969' : '#D6D5C9',
+                                    color: !MainStore.isMarkerPlaced ? '#A8A8A8' : '#592941',
+                                    border: 'none',
+                                    borderRadius: '22px',
+                                    height: '44px',
+                                    width: '270px',
+                                    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
+                                    cursor: !MainStore.isMarkerPlaced ? 'not-allowed' : 'pointer',
+                                    transition: 'all 300ms cubic-bezier(0.4, 0, 0.2, 1)'
+                                }}
+                            >
+                                {t("Mark Livelihood")}
+                            </button>
+                        </div>
+                    </div>
                 )}
             </div>
         </>

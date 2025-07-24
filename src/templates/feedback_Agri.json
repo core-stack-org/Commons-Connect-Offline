@@ -1,0 +1,425 @@
+{
+  "title": "Agri Analysis Feedback Form",
+  "logoFit": "none",
+  "logoPosition": "right",
+  "completedHtml": "<h3>Agricultural Analysis Form Submitted Successfully!</h3>",
+  "loadingHtml": "<h3>Loading Agricultural Analysis Form...</h3>",
+  "pages": [
+    {
+      "name": "agri_analysis_page",
+      "elements": [
+        {
+          "type": "html",
+          "name": "form_description",
+          "html": "<p><strong>Please fill out the feedback form as per your past experiences and observations for this farmland</strong></p><p><span style=\"color: #666;\">कृपया इस कृषि भूमि के लिए अपने पिछले अनुभवों और ऑब्जर्वेशन के आधार पर फीडबैक फॉर्म भरें</span></p>"
+        },
+        {
+          "type": "radiogroup",
+          "name": "select_one_crop_pixel",
+          "title": "Is this a crop pixel?",
+          "description": "क्या यह एक क्रॉप पिक्सेल है?",
+          "choices": [
+            {
+              "value": "Yes",
+              "text": "Yes / हाँ"
+            },
+            {
+              "value": "No",
+              "text": "No / नहीं"
+            }
+          ]
+        },
+        {
+          "type": "radiogroup",
+          "name": "select_one_land_pixel",
+          "visibleIf": "{select_one_crop_pixel} = 'No'",
+          "title": "What is the Land use on this pixel",
+          "description": "इस पिक्सेल पर भूमि का उपयोग क्या है",
+          "choices": [
+            {
+              "value": "Forest Land",
+              "text": "Forest Land / वन भूमि"
+            },
+            {
+              "value": "Barren Land",
+              "text": "Barren Land / बंजर भूमि"
+            },
+            {
+              "value": "Grassland/Pasture",
+              "text": "Grassland/Pasture / घास का मैदान/चरागाह"
+            },
+            {
+              "value": "Wetland",
+              "text": "Wetland / नमीयुक्त भूमि / आर्द्रभूमि"
+            },
+            {
+              "value": "Protected Area (National Park/Reserve)",
+              "text": "Protected Area (National Park/Reserve) / संरक्षित क्षेत्र (राष्ट्रीय उद्यान/रिजर्व)"
+            },
+            {
+              "value": "Mining Area",
+              "text": "Mining Area / खनन क्षेत्र"
+            },
+            {
+              "value": "Commercial Land",
+              "text": "Commercial Land / व्यावसायिक भूमि"
+            },
+            {
+              "value": "Floodplain",
+              "text": "Floodplain / बाढ़ का मैदान"
+            },
+            {
+              "value": "Scrubland",
+              "text": "Scrubland / झाड़ीदार भूमि"
+            },
+            {
+              "value": "Coastal/Marine Area",
+              "text": "Coastal/Marine Area / तटीय/समुद्री क्षेत्र"
+            },
+            {
+              "value": "other",
+              "text": "Other"
+            }
+          ],
+          "showOtherItem": true,
+          "otherText": "Specify other"
+        },
+        {
+          "type": "panel",
+          "name": "crop_analysis_panel",
+          "visibleIf": "{select_one_crop_pixel} = 'Yes'",
+          "title": "Crop Analysis",
+          "elements": [
+            {
+              "type": "checkbox",
+              "name": "select_multiple_kharif_crop",
+              "title": "What are the different cropping patterns typically practiced as main crops on such lands during the Kharif season in this grid",
+              "description": "इस ग्रिड में, ऐसी भूमि पर खरीफ सीजन के दौरान मुख्य फसलों के रूप में आमतौर पर लगाए जाने वाले फसल पैटर्न क्या है?",
+              "isRequired": true,
+              "choices": [
+                {
+                  "value": "Paddy",
+                  "text": "Paddy / धान"
+                },
+                {
+                  "value": "Millets",
+                  "text": "Millets / मोटे अनाज / श्री अन्न"
+                },
+                {
+                  "value": "Pulses",
+                  "text": "Pulses / दालें"
+                },
+                {
+                  "value": "Vegetables",
+                  "text": "Vegetables / सब्ज़ियाँ"
+                },
+                {
+                  "value": "Fruits",
+                  "text": "Fruits / फल"
+                },
+                {
+                  "value": "Oil_seeds",
+                  "text": "Oil seeds / तिलहन"
+                },
+                {
+                  "value": "Fodder_crop",
+                  "text": "Fodder crop / चारा फसल"
+                },
+                {
+                  "value": "Fallow",
+                  "text": "Fallow / परती"
+                },
+                {
+                  "value": "other",
+                  "text": "Other"
+                }
+              ],
+              "showOtherItem": true,
+              "otherText": "Specify other"
+            },
+            {
+              "type": "checkbox",
+              "name": "select_multiple_rabi_crop",
+              "title": "What are the different cropping patterns typically practiced as main crops on such lands during the Rabi season in this grid",
+              "description": "इस ग्रिड में, ऐसी भूमि पर रबी मौसम के दौरान मुख्य फसल के रूप में आमतौर पर प्रचलित फसल पैटर्न क्या है?",
+              "isRequired": true,
+              "choices": [
+                {
+                  "value": "Paddy",
+                  "text": "Paddy / धान"
+                },
+                {
+                  "value": "Millets",
+                  "text": "Millets / मोटे अनाज / श्री अन्न"
+                },
+                {
+                  "value": "Pulses",
+                  "text": "Pulses / दालें"
+                },
+                {
+                  "value": "Vegetables",
+                  "text": "Vegetables / सब्ज़ियाँ"
+                },
+                {
+                  "value": "Fruits",
+                  "text": "Fruits / फल"
+                },
+                {
+                  "value": "Oil_seeds",
+                  "text": "Oil seeds / तिलहन"
+                },
+                {
+                  "value": "Fodder_crop",
+                  "text": "Fodder crop / चारा फसल"
+                },
+                {
+                  "value": "Fallow",
+                  "text": "Fallow / परती"
+                },
+                {
+                  "value": "other",
+                  "text": "Other"
+                }
+              ],
+              "showOtherItem": true,
+              "otherText": "Specify other"
+            },
+            {
+              "type": "checkbox",
+              "name": "select_multiple_zaid_crop",
+              "title": "What are the different cropping patterns typically practiced as main crops on such lands during the Zaid season in this grid",
+              "description": "इस ग्रिड में,ऐसी भूमि पर जायद मौसम के दौरान मुख्य फसल के रूप में आमतौर पर प्रचलित फसल पैटर्न क्या है?",
+              "choices": [
+                {
+                  "value": "Paddy",
+                  "text": "Paddy / धान"
+                },
+                {
+                  "value": "Millets",
+                  "text": "Millets / मोटे अनाज / श्री अन्न"
+                },
+                {
+                  "value": "Pulses",
+                  "text": "Pulses / दालें"
+                },
+                {
+                  "value": "Vegetables",
+                  "text": "Vegetables / सब्ज़ियाँ"
+                },
+                {
+                  "value": "Fruits",
+                  "text": "Fruits / फल"
+                },
+                {
+                  "value": "Oil_seeds",
+                  "text": "Oil seeds / तिलहन"
+                },
+                {
+                  "value": "Fodder_crop",
+                  "text": "Fodder crop / चारा फसल"
+                },
+                {
+                  "value": "Fallow",
+                  "text": "Fallow / परती"
+                },
+                {
+                  "value": "other",
+                  "text": "Other"
+                }
+              ],
+              "showOtherItem": true,
+              "otherText": "Specify other"
+            }
+          ]
+        },
+        {
+          "type": "panel",
+          "name": "farming_practices_panel",
+          "title": "Farming Practices",
+          "elements": [
+            {
+              "type": "radiogroup",
+              "name": "select_one_cropping_cycles",
+              "title": "How many cropping cycles are followed in a year on this farm land",
+              "description": "इस कृषि भूमि पर एक वर्ष में कितने फसल चक्र अपनाए जाते हैं",
+              "choices": [
+                {
+                  "value": "Single",
+                  "text": "Single / एक"
+                },
+                {
+                  "value": "Double",
+                  "text": "Double / दो"
+                },
+                {
+                  "value": "Triple",
+                  "text": "Triple / तीन"
+                }
+              ]
+            },
+            {
+              "type": "radiogroup",
+              "name": "select_one_farm_land_primarily",
+              "title": "Is this farm land primarily",
+              "description": "क्या यह मुख्य रूप से कृषि भूमि है",
+              "choices": [
+                {
+                  "value": "Rainfed",
+                  "text": "Rainfed / वर्षा आधारित"
+                },
+                {
+                  "value": "Irrigated",
+                  "text": "Irrigated / सिंचाई आधारित"
+                }
+              ]
+            },
+            {
+              "type": "radiogroup",
+              "name": "select_one_fertilizer",
+              "title": "What types of fertilizers are used on this farmland?",
+              "description": "इस कृषि भूमि पर किस प्रकार के उर्वरकों का उपयोग किया जाता है?",
+              "choices": [
+                {
+                  "value": "Organic",
+                  "text": "Organic / जैविक"
+                },
+                {
+                  "value": "Chemical",
+                  "text": "Chemical / रासायनिक"
+                },
+                {
+                  "value": "Both",
+                  "text": "Both / दोनों"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "panel",
+          "name": "yield_and_changes_panel",
+          "title": "Yield and Pattern Changes",
+          "elements": [
+            {
+              "type": "radiogroup",
+              "name": "select_one_yield_changes",
+              "title": "Has the crop yield (in quintals per hectare) changed over the past five years?",
+              "description": "क्या पिछले पांच वर्षों में फसल की पैदावार (प्रति हेक्टेयर क्विंटल में) में कोई बदलाव आया है?",
+              "choices": [
+                {
+                  "value": "Yield has increased",
+                  "text": "Yield has increased / उपज बढ़ गई है"
+                },
+                {
+                  "value": "Yield has decreased",
+                  "text": "Yield has decreased / उपज कम हो गई है"
+                },
+                {
+                  "value": "No change",
+                  "text": "No change / कोई बदलाव नहीं"
+                }
+              ]
+            },
+            {
+              "type": "radiogroup",
+              "name": "select_one_cropping_patterns_changes",
+              "title": "Have there been any notable changes in cropping patterns in the grid over the past five years?",
+              "description": "क्या पिछले पांच वर्षों में, ग्रिड में उपजाए गए फसल पैटर्न में कोई खास बदलाव हुआ है?",
+              "choices": [
+                {
+                  "value": "Yes, switched to drought-resistant crops",
+                  "text": "Yes, switched to drought-resistant crops / हां, सूखा प्रतिरोधी फसलों की ओर रुख किया गया है।"
+                },
+                {
+                  "value": "Yes, switched to high-yield crops",
+                  "text": "Yes, switched to high-yield crops / हाँ, अधिक उपज वाली फसलों की ओर रुख किया"
+                },
+                {
+                  "value": "Yes, switched to cash crops",
+                  "text": "Yes, switched to cash crops / हां, नकदी फसलों की ओर रुख किया"
+                },
+                {
+                  "value": "Yes, diversified crops (growing a wider variety)",
+                  "text": "Yes, diversified crops (growing a wider variety) / हाँ, विविध फसलें (कई तरह के फसलें उगाना)"
+                },
+                {
+                  "value": "No, cropping patterns have remained the same",
+                  "text": "No, cropping patterns have remained the same / नहीं, फसल पैटर्न वही बना हुआ है"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "panel",
+          "name": "rainfall_and_drought_panel",
+          "title": "Rainfall and Drought Analysis",
+          "elements": [
+            {
+              "type": "checkbox",
+              "name": "poor_rainfall_years",
+              "title": "Which of these years were poor rainfall years",
+              "description": "इनमें से कौन से सालों में कम वर्षा हुआ था",
+              "choices": [
+                "2017",
+                "2018",
+                "2019",
+                "2020",
+                "2021",
+                "2022",
+                "2023"
+              ]
+            },
+            {
+              "type": "radiogroup",
+              "name": "select_one_week_drought",
+              "title": "How many weeks did the most recent drought last in your area?",
+              "description": "आपके क्षेत्र में हाल में पड़ा सूखा, कितने सप्ताह तक रहा ?",
+              "choices": [
+                {
+                  "value": "Less than 2 weeks",
+                  "text": "Less than 2 weeks / 2 सप्ताह से कम"
+                },
+                {
+                  "value": "2-4 weeks",
+                  "text": "2-4 weeks / 2-4 सप्ताह"
+                },
+                {
+                  "value": "4-6 weeks",
+                  "text": "4-6 weeks / 4-6 सप्ताह"
+                },
+                {
+                  "value": "6-8 weeks",
+                  "text": "6-8 weeks / 6-8 सप्ताह"
+                },
+                {
+                  "value": "More than 8 weeks",
+                  "text": "More than 8 weeks / 8 सप्ताह से अधिक"
+                }
+              ]
+            },
+            {
+              "type": "radiogroup",
+              "name": "select_one_crop_production_failed",
+              "title": "What percentage of the community's overall crop production failed during the most recent drought?",
+              "description": "हाल ही में पड़े सूखे के दौरान समुदाय के कुल फसल उत्पादन का कितना प्रतिशत ख़राब हो गया?",
+              "choices": [
+                {
+                  "value": "Less than 10%",
+                  "text": "Less than 10% / 10% से कम"
+                },
+                "10-30%",
+                "30-50%",
+                {
+                  "value": "More than 50%",
+                  "text": "More than 50% / 50 से अधिक%"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "widthMode": "responsive"
+}

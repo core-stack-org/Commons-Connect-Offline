@@ -40,6 +40,7 @@ const GroundwaterAnalyze = () => {
   const fortnightData = useMainStore((state) => state.fortnightData)
   const yearlyData = useMainStore((state) => state.selectedResource)
   const { t } = useTranslation();
+  const MainStore = useMainStore((s) => s);
 
   /* slider index */
   const [idx, setIdx] = useState(YEAR_LABELS.length - 1);
@@ -136,6 +137,12 @@ const GroundwaterAnalyze = () => {
       },
     ],
   };
+
+  const toggleFormsUrl = () => {
+    MainStore.setIsForm(true)
+    MainStore.setFormUrl("feedbackGW")
+  }
+
 
   /* 5.  UI ------------------------------------------------------ */
   return (
@@ -304,6 +311,23 @@ const GroundwaterAnalyze = () => {
             </p>
         </div>
         </section>
+
+        {/* Provide Feedback */}
+        <div className="flex justify-center mt-6">
+          <button
+            className="flex-1 px-4 py-3 rounded-xl shadow-sm text-md"
+            onClick={toggleFormsUrl}
+            style={{ 
+                backgroundColor: '#D6D5C9',
+                color: '#592941',
+                border: 'none', 
+            }}
+            disabled={MainStore.isFeatureClicked && !MainStore.isMarkerPlaced}
+          >
+          {t("Provide Feedback")}
+          </button>
+        </div>
+
       </div>
     </>
   );
