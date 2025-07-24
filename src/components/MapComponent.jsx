@@ -1176,7 +1176,7 @@ const MapComponent = () => {
             });
 
             if(groundwaterRefs[0].current === null && currentStep === 0){
-                const deltaGWellDepth = await getVectorLayers(
+                const deltaGWellDepth = await getWebglVectorLayers(
                     "mws_layers",
                     "deltaG_well_depth_" + `${districtName.toLowerCase().replace(/\s+/g, "_")}_${blockName.toLowerCase().replace(/\s+/g, "_")}`,
                     true,
@@ -1187,7 +1187,7 @@ const MapComponent = () => {
             }
 
             if(groundwaterRefs[2].current === null && currentStep === 0){
-                const deltaGWellDepthFortnight = await getVectorLayers(
+                const deltaGWellDepthFortnight = await getWebglVectorLayers(
                     "mws_layers",
                     "deltaG_fortnight_" + `${districtName.toLowerCase().replace(/\s+/g, "_")}_${blockName.toLowerCase().replace(/\s+/g, "_")}`,
                     true,
