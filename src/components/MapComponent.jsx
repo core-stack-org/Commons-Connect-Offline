@@ -213,11 +213,6 @@ const MapComponent = () => {
                 ? [Number(zoomLong), Number(zoomLat)]     // [lon, lat]
                 : getExtentCenter(offlineBaseLayer.extent);
 
-                console.log("Reached here")
-                console.log("long = ",zoomLong)
-                console.log("Lat = ",zoomLat)
-                console.log("type = ",typeof(zoomLong))
-
             const view = new View({
                 center: tempCenter,
                 zoom: 17,
@@ -308,64 +303,65 @@ const MapComponent = () => {
 
             const vectorSource = boundaryLayer.getSource();
 
-            await new Promise((resolve, reject) => {
-                const checkFeatures = () => {
-                    if (vectorSource.getFeatures().length > 0) {
-                        resolve();
-                    } else {
-                        vectorSource.once('featuresloadend', () => {
-                            vectorSource.getFeatures().length > 0 ? resolve() : reject(new Error('No features loaded'));
-                        });
-                        setTimeout(() => {
-                            vectorSource.getFeatures().length > 0 ? resolve() : reject(new Error('Timeout loading features'));
-                        }, 2000);
-                    }
-                };
-                checkFeatures();
-            });
+            // await new Promise((resolve, reject) => {
+            //     const checkFeatures = () => {
+            //         if (vectorSource.getFeatures().length > 0) {
+            //             resolve();
+            //         } else {
+            //             vectorSource.once('featuresloadend', () => {
+            //                 vectorSource.getFeatures().length > 0 ? resolve() : reject(new Error('No features loaded'));
+            //             });
+            //             setTimeout(() => {
+            //                 vectorSource.getFeatures().length > 0 ? resolve() : reject(new Error('Timeout loading features'));
+            //             }, 2000);
+            //         }
+            //     };
+            //     checkFeatures();
+            // });
 
             const extent = vectorSource.getExtent();
             const view = mapRef.current.getView();
 
-            const lat = MainStore.zoomLat;
-            const long = MainStore.zoomLong;
-
-            // if (lat != null && long != null) {
-            //     view.setCenter([long, lat]);
-            //     view.setZoom(15);
-            //     setIsLoading(false);
-            // }
-
             view.cancelAnimations();
-            view.animate({
-                zoom: Math.max(view.getZoom() - 0.5, 5),
-                duration: 750,
-            }, () => {
-                view.fit(extent, {
-                    padding: [50, 50, 50, 50],
-                    duration: 1000,
-                    maxZoom: 15,
-                    easing: (t) => t === 1 ? 1 : 1 - Math.pow(2, -10 * t),
-                    callback: () => {
-                        let opacity = 0;
-                        const interval = setInterval(() => {
-                            opacity += 0.1;
-                            boundaryLayer.setOpacity(opacity);
-                            nregaWorksLayer.setOpacity(opacity);
-                            if (opacity >= 1) {
-                                clearInterval(interval);
-                                setIsLoading(false);
-                            }
-                        }, 50);
-                        view.animate({
-                            zoom: 15, 
-                            duration: 600,
-                            easing: easeOut,
-                        });
-                    }
-                });
-            });
-
+            // view.animate({
+            //     zoom: Math.max(view.getZoom() - 0.5, 5),
+            //     duration: 750,
+            // }, () => {
+            //     view.fit(extent, {
+            //         padding: [50, 50, 50, 50],
+            //         duration: 1000,
+            //         maxZoom: 15,
+            //         easing: (t) => t === 1 ? 1 : 1 - Math.pow(2, -10 * t),
+            //         callback: () => {
+            //             let opacity = 0;
+            //             const interval = setInterval(() => {
+            //                 opacity += 0.1;
+            //                 boundaryLayer.setOpacity(opacity);
+            //                 nregaWorksLayer.setOpacity(opacity);
+            //                 if (opacity >= 1) {
+            //                     clearInterval(interval);
+            //                     setIsLoading(false);
+            //                 }
+            //             }, 50);
+            //             view.animate({
+            //                 zoom: 15, 
+            //                 duration: 600,
+            //                 easing: easeOut,
+            //             });
+            //         }
+            //     });
+            // });
+            // const { zoomLat, zoomLong } = MainStore;
+            // console.log("=========================================Reached here Mapcomponent ================================================================")
+            // if(zoomLat !== null && zoomLong !== null){
+            //     console.log("Inside the Zoom lat long")
+            //     console.log(zoomLat)
+            //     console.log(zoomLong)
+            //     view.setCenter([Number(zoomLong), Number(zoomLat)])
+            // }
+            nregaWorksLayer.setOpacity(1);
+            boundaryLayer.setOpacity(1);
+            setIsLoading(false);
             mapRef.current.on("click", async(e) => {
                 MainStore.setIsMetadata(false)
                 MainStore.setIsWaterBody(false)
