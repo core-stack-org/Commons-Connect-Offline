@@ -197,18 +197,6 @@ const MapComponent = () => {
 
     let LivelihoodRefs = [useRef(null)]
 
-    //? Helper Function
-    function zoomToFeature(feature) {
-        const geom   = feature.getGeometry();
-        const extent = geom.getExtent();
-        mapRef.current.getView().fit(extent, {
-          size:    mapRef.current.getSize(),
-          padding: [50,50,50,50],
-          duration: 1000,
-          maxZoom: 18
-        });
-    }
-
     const initializeMap = async () => {
         if(MainStore.containerName !== null){
             console.log(MainStore.containerName)
@@ -218,8 +206,20 @@ const MapComponent = () => {
 
             baseLayerRef.current = baseLayer
 
+            const { zoomLat, zoomLong } = MainStore;
+
+            const tempCenter =
+            zoomLat != null && zoomLong != null
+                ? [Number(zoomLong), Number(zoomLat)]     // [lon, lat]
+                : getExtentCenter(offlineBaseLayer.extent);
+
+                console.log("Reached here")
+                console.log("long = ",zoomLong)
+                console.log("Lat = ",zoomLat)
+                console.log("type = ",typeof(zoomLong))
+
             const view = new View({
-                center: getExtentCenter(offlineBaseLayer.extent),
+                center: tempCenter,
                 zoom: 17,
                 minZoom: 13,
                 maxZoom: 17,
@@ -326,6 +326,15 @@ const MapComponent = () => {
 
             const extent = vectorSource.getExtent();
             const view = mapRef.current.getView();
+
+            const lat = MainStore.zoomLat;
+            const long = MainStore.zoomLong;
+
+            // if (lat != null && long != null) {
+            //     view.setCenter([long, lat]);
+            //     view.setZoom(15);
+            //     setIsLoading(false);
+            // }
 
             view.cancelAnimations();
             view.animate({
@@ -1176,9 +1185,9 @@ const MapComponent = () => {
             });
 
             if(groundwaterRefs[0].current === null && currentStep === 0){
-                const deltaGWellDepth = await getWebglVectorLayers(
+                const deltaGWellDepth = await getVectorLayers(
                     "mws_layers",
-                    "deltaG_well_depth_" + `${districtName.toLowerCase().replace(/\s+/g, "_")}_${blockName.toLowerCase().replace(/\s+/g, "_")}`,
+                    "well_depth_yearly",
                     true,
                     true,
                     MainStore.containerName
@@ -1187,9 +1196,9 @@ const MapComponent = () => {
             }
 
             if(groundwaterRefs[2].current === null && currentStep === 0){
-                const deltaGWellDepthFortnight = await getWebglVectorLayers(
+                const deltaGWellDepthFortnight = await getVectorLayers(
                     "mws_layers",
-                    "deltaG_fortnight_" + `${districtName.toLowerCase().replace(/\s+/g, "_")}_${blockName.toLowerCase().replace(/\s+/g, "_")}`,
+                    "well_depth_fortnightly",
                     true,
                     true,
                     MainStore.containerName

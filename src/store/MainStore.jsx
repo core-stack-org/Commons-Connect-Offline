@@ -16,6 +16,8 @@ const useMainStore = create((set) => ({
     gpsLocation : null,
     layerClicked : null,
     containerName : null,
+    zoomLat : null,
+    zoomLong : null,
 
     setContainerName : (name) => set({containerName : name}),
     setDistrictName : (name) => set({districtName : name}),
@@ -24,6 +26,8 @@ const useMainStore = create((set) => ({
     setIsGPSClick : (stat) => set({isGPSClick : stat}),
     setGpsLocation : (stat) => set({gpsLocation : stat}),
     setLayerClicked : (stat) => set({layerClicked : stat}),
+    setZoomLat : (stat) => set({zoomLat : stat}),
+    setZoomLong : (stat) => set({zoomLong : stat}),
 
     // MARK:- Offline Plans Store
     currentPlan : null,

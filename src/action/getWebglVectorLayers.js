@@ -4,7 +4,7 @@ import GeoJSON from 'ol/format/GeoJSON';
 
 import WebGLVectorLayer from 'ol/layer/WebGLVector.js';
 
-function getOfflineFilePath(layer_store) {
+function getOfflineFilePath(layer_store, resource_type="") {
   const basePath = 'vector_layers';
 
   switch (layer_store) {

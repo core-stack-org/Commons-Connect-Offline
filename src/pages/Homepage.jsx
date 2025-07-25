@@ -23,6 +23,8 @@ const Homepage = () => {
         MainStore.setBlockName(searchParams.get('block_name'));
         MainStore.setBlockId?.(searchParams.get('block_id'));
         MainStore.fetchPlans(searchParams.get('plans'))
+        MainStore.setZoomLat(searchParams.get('latitude'))
+        MainStore.setZoomLat(searchParams.get('longitude'))
         //MainStore.fetchPlans(`${import.meta.env.VITE_API_URL}get_plans/?block_id=${searchParams.get('block_id')}`)
         MainStore.setContainerName(searchParams.get('container_name'))
       }
