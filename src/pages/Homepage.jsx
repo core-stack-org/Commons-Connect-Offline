@@ -22,10 +22,10 @@ const Homepage = () => {
         MainStore.setDistrictName(searchParams.get('dist_name'));
         MainStore.setBlockName(searchParams.get('block_name'));
         MainStore.setBlockId?.(searchParams.get('block_id'));
-        MainStore.fetchPlans(searchParams.get('plans'))
         MainStore.setZoomLat(searchParams.get('latitude'))
         MainStore.setZoomLong(searchParams.get('longitude'))
-        //MainStore.fetchPlans(`${import.meta.env.VITE_API_URL}get_plans/?block_id=${searchParams.get('block_id')}`)
+        //MainStore.fetchPlans(searchParams.get('plans'))
+        MainStore.fetchPlans(`${import.meta.env.VITE_API_URL}get_plans/?block_id=${searchParams.get('block_id')}`)
         MainStore.setContainerName(searchParams.get('container_name'))
       }
       MainStore.setIsResourceOpen(false)
@@ -196,7 +196,7 @@ const Homepage = () => {
                 {isPlanOpen && (
                 <div
                     className="absolute mt-2 left-0 w-58 bg-white rounded-xl shadow-lg
-                            overflow-y-auto max-h-48"
+                            overflow-y-auto max-h-48 z-11"
                 >
                     {/* Replace this static list with your dynamic plans array if you have one */}
                     {MainStore.plans !== null && MainStore.plans.map(plan => (

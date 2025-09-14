@@ -36,37 +36,35 @@ const useMainStore = create((set) => ({
     isEditForm : false,
     formEditData : null,
     formEditType : null,
-    fetchPlans : async(plansData) => {
-        console.log("In offline mode - loading plans from localStorage");
-        try {
-            const parsedData = JSON.parse(decodeURIComponent(plansData));
-            if (parsedData && parsedData.plans) {
-                set({ plans: parsedData.plans });
-                console.log('Successfully loaded plans from localStorage');
-            }
-        }catch(err){
-            console.error('Error loading plans from localStorage:', err);
-        }
-    },
-    // fetchPlans : async(url) => {
-    //     try{
-    //         let response = await fetch(url, {
-    //                 method: "GET",
-    //                 headers: {
-    //                     "ngrok-skip-browser-warning": "1",
-    //                     "Content-Type": "application/json",
-    //                 }
-    //             }
-    //         )
-    //         response = await response.json()
-
-    //         //console.log(response)
-    //         set({plans : response.plans})
-    //     }
-    //     catch(e){
-    //         console.log("Not able to Fetch Plans !")
+    // fetchPlans : async(plansData) => {
+    //     console.log("In offline mode - loading plans from localStorage");
+    //     try {
+    //         const parsedData = JSON.parse(decodeURIComponent(plansData));
+    //         if (parsedData && parsedData.plans) {
+    //             set({ plans: parsedData.plans });
+    //             console.log('Successfully loaded plans from localStorage');
+    //         }
+    //     }catch(err){
+    //         console.error('Error loading plans from localStorage:', err);
     //     }
     // },
+    fetchPlans: async (url) => {
+        try {
+            let response = await fetch(url, {
+                method: "GET",
+                headers: {
+                    "ngrok-skip-browser-warning": "1",
+                    "Content-Type": "application/json",
+                },
+            });
+            response = await response.json();
+
+            //console.log(response)
+            set({ plans: response.plans });
+        } catch (e) {
+            console.log("Not able to Fetch Plans !");
+        }
+    },
     setCurrentPlan : (id) => set((state) => ({currentPlan : id})),
     setFormData : (data) => set((state) => ({formData : data})),
     setIsEditForm : (data) => set((state) => ({isEditForm : data})),

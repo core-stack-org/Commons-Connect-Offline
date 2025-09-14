@@ -20,19 +20,58 @@
           ]
         },
         {
+          "type": "radiogroup",
+          "name": "demand_type_irrigation",
+          "title": "Type of demand",
+          "choices": [
+            {
+              "value": "Community_demand",
+              "text": "Community Demand"
+            },
+            {
+              "value": "Individual_demand",
+              "text": "Individual Demand"
+            }
+          ]
+        },
+        {
           "type": "text",
           "name": "Beneficiary_Name",
+          "visibleIf": "{demand_type_irrigation} = 'Individual_demand'",
           "title": "Beneficiary's Name"
+        },
+        {
+          "type": "radiogroup",
+          "name": "gender",
+          "visibleIf": "{demand_type_irrigation} = 'Individual_demand'",
+          "title": "Gender",
+          "choices": [
+            {
+              "value": "Item 1",
+              "text": "Male"
+            },
+            {
+              "value": "Item 2",
+              "text": "Female"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "name": "ben_father",
+          "visibleIf": "{demand_type_irrigation} = 'Individual_demand'",
+          "title": "Beneficiary's father's name"
         },
         {
           "type": "text",
           "name": "Beneficiary_Contact_Number",
+          "visibleIf": "{demand_type_irrigation} = 'Individual_demand'",
           "title": "Beneficiary's Contact Number",
           "validators": [
             {
               "type": "regex",
-              "regex": "^(?:(?:\\+?91[-\\s]?)|0)?[6-9]\\d{9}$",
-              "text": "Enter a phone number (format: 9876543210)"
+              "text": "Enter a phone number (format: 9876543210)",
+              "regex": "^(?:(?:\\+?91[-\\s]?)|0)?[6-9]\\d{9}$"
             }
           ],
           "inputType": "number"
@@ -67,139 +106,107 @@
           "title": "Specify other."
         },
         {
-          "type": "panel",
+          "type": "text",
+          "name": "khasra",
+          "visibleIf": "{TYPE_OF_WORK_ID} = 'other'",
+          "title": "Provide khasra number"
+        },
+        {
+          "type": "multipletext",
           "name": "Farm_pond",
           "visibleIf": "{TYPE_OF_WORK_ID} = 'Farm pond'",
-          "title": "Provide dimensions for Farm pond",
-          "elements": [
+          "title": "Provide dimensions for Farm pond ( Length, Width and Depth is in feet )",
+          "items": [
             {
-              "type": "text",
               "name": "Length_1",
               "title": "Provide dimensions - Length"
             },
             {
-              "type": "text",
               "name": "Width_1",
               "title": "Provide dimensions - Width"
             },
             {
-              "type": "text",
               "name": "Depth_1",
               "title": "Provide dimensions - Depth"
-            },
-            {
-              "type": "html",
-              "name": "note_dimensions_feet_1",
-              "html": "<span>Length, Width and Height is in feet</span>"
             }
           ]
         },
         {
-          "type": "panel",
+          "type": "multipletext",
           "name": "Well",
           "visibleIf": "{TYPE_OF_WORK_ID} = 'Well'",
-          "title": "Provide dimensions for well",
-          "elements": [
+          "title": "Provide dimensions for well ( Diameter and Depth is in feet )\n",
+          "items": [
             {
-              "type": "text",
               "name": "Diameter_2",
               "title": "Provide dimensions - Diameter"
             },
             {
-              "type": "text",
               "name": "Depth_2",
               "title": "Provide dimensions - Depth"
-            },
-            {
-              "type": "html",
-              "name": "note_dimensions_feet_2",
-              "html": "<span>Diameter and Depth is in feet</span>"
             }
           ]
         },
         {
-          "type": "panel",
+          "type": "multipletext",
           "name": "Canal",
           "visibleIf": "{TYPE_OF_WORK_ID} = 'Canal'",
-          "title": "Provide dimensions Canal",
-          "elements": [
+          "title": "Provide dimensions Canal ( Width and Depth is in feet )",
+          "items": [
             {
-              "type": "text",
               "name": "Width_3",
               "title": "Provide dimensions - Width"
             },
             {
-              "type": "text",
               "name": "Depth_3",
               "title": "Provide dimensions - Depth"
-            },
-            {
-              "type": "html",
-              "name": "note_dimensions_feet_3",
-              "html": "<span>Width and Depth is in feet</span>"
             }
           ]
         },
         {
-          "type": "panel",
+          "type": "multipletext",
           "name": "Community_pond",
           "visibleIf": "{TYPE_OF_WORK_ID} = 'Community Pond'",
-          "title": "Provide dimensions of community pond",
-          "elements": [
+          "title": "Provide dimensions of community pond ( Length, Width and Height is in feet )",
+          "items": [
             {
-              "type": "text",
               "name": "Length_4",
               "title": "Provide dimensions - Length"
             },
             {
-              "type": "text",
               "name": "Width_4",
               "title": "Provide dimensions - Width"
             },
             {
-              "type": "text",
               "name": "Height_4",
               "title": "Provide dimensions - Height"
-            },
-            {
-              "type": "html",
-              "name": "note_dimensions_feet_4",
-              "html": "<span>Length, Width and Height is in feet</span>"
             }
           ]
         },
         {
-          "type": "panel",
+          "type": "multipletext",
           "name": "Farm_bund",
           "visibleIf": "{TYPE_OF_WORK_ID} = 'Farm bund'",
-          "title": "Provide dimensions farm bund",
-          "elements": [
+          "title": "Provide dimensions farm bund ( Length, Width and Height is in feet )",
+          "items": [
             {
-              "type": "text",
               "name": "Length_5",
               "title": "Provide dimensions - Length"
             },
             {
-              "type": "text",
               "name": "Width_5",
               "title": "Provide dimensions - Width"
             },
             {
-              "type": "text",
               "name": "Height_5",
               "title": "Provide dimensions - Height"
-            },
-            {
-              "type": "html",
-              "name": "note_dimensions_feet_5",
-              "html": "<span>Length, Width and Height is in feet</span>"
             }
           ]
         },
         {
           "type": "checkbox",
           "name": "select_multiple_cropping_kharif",
-          "title": "What type of crops are grown in Kharif?",
+          "title": "What type of crops are grown in Kharif ?",
           "choices": [
             "Paddy",
             "Millets",
@@ -233,8 +240,7 @@
           "choices": [
             "Mono cropping",
             "Inter cropping",
-            "Mixed cropping",
-            "Crop rotation"
+            "Mixed cropping"
           ]
         },
         {

@@ -16,282 +16,191 @@
         },
         {
           "type": "text",
-          "name": "Beneficiary_Name",
-          "title": "Beneficiary's Name",
-          "isRequired": true
-        },
-        {
-          "type": "text",
-          "name": "Beneficiary_Contact_Number",
-          "title": "Beneficiary's Contact Number",
-          "inputType": "tel",
-          "validators": [
-            {
-              "type": "regex",
-              "regex": "^(?:(?:\\+?91[-\\s]?)|0)?[6-9]\\d{9}$",
-              "text": "Enter a phone number (format: 9876543210)"
-            }
-          ]
-        },
-        {
-          "type": "text",
-          "name": "ben_father",
-          "title": "Beneficiary's father's name",
-          "isRequired": true
-        },
-        {
-          "type": "text",
           "name": "work_id",
           "title": "Work ID",
           "readOnly": true
         },
         {
           "type": "radiogroup",
+          "name": "demand_type",
+          "title": "Type of demand",
+          "isRequired": true,
+          "choices": [
+            {
+              "value": "Community_demand",
+              "text": "Community Demand"
+            },
+            {
+              "value": "Individual_demand",
+              "text": "Individual Demand"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "name": "Beneficiary_Name",
+          "visibleIf": "{demand_type} = 'Individual_demand'",
+          "title": "Beneficiary's Name",
+          "isRequired": true
+        },
+        {
+          "type": "text",
+          "name": "ben_father",
+          "visibleIf": "{demand_type} = 'Individual_demand'",
+          "title": "Beneficiary's father's name",
+          "isRequired": true
+        },
+        {
+          "type": "text",
+          "name": "Beneficiary_Contact_Number",
+          "visibleIf": "{demand_type} = 'Individual_demand'",
+          "title": "Beneficiary's Contact Number",
+          "validators": [
+            {
+              "type": "regex",
+              "text": "Enter a phone number (format: 9876543210)",
+              "regex": "^(?:(?:\\+?91[-\\s]?)|0)?[6-9]\\d{9}$"
+            }
+          ],
+          "inputType": "tel"
+        },
+        {
+          "type": "radiogroup",
           "name": "select_one_irrigation_structure",
           "title": "Select type of irrigation structure",
           "choices": [
-            {
-              "value": "Farm pond",
-              "text": "Farm pond"
-            },
-            {
-              "value": "Community Pond",
-              "text": "Community Pond"
-            },
-            {
-              "value": "Well",
-              "text": "Well"
-            },
-            {
-              "value": "Canal",
-              "text": "Canal"
-            },
-            {
-              "value": "Farm bund",
-              "text": "Farm bund"
-            }
+            "Farm pond",
+            "Community Pond",
+            "Well",
+            "Canal",
+            "Farm bund"
           ]
         },
         {
           "type": "radiogroup",
-          "name": "select_one_activities",
-          "title": "Have there been any previous repairs or maintenance activities on the Irrigation structures?",
+          "name": "select_one_farm_pond",
+          "visibleIf": "({select_one_irrigation_structure} == 'Farm pond')",
+          "title": "Repair of farm pond",
           "choices": [
+            "Removal of accumulated sediments",
+            "Repairing cracks or damage in embankments",
+            "Controlling seepage or leaks in the pond bed",
+            "Erosion control on embankments",
+            "Addressing excessive aquatic vegetation growth",
             {
-              "value": "yes",
-              "text": "Yes"
-            },
-            {
-              "value": "no",
-              "text": "No"
+              "value": "other",
+              "text": "Other"
             }
           ]
         },
         {
-          "type": "panel",
-          "name": "repair_options_section",
-          "title": "Maintenance and Repair Options",
-          "elements": [
+          "type": "text",
+          "name": "select_one_farm_pond_other",
+          "visibleIf": "{select_one_farm_pond} = 'other'",
+          "title": "Specify other farm pond repair",
+          "isRequired": true
+        },
+        {
+          "type": "radiogroup",
+          "name": "select_one_community_pond",
+          "visibleIf": "({select_one_irrigation_structure} == 'Community Pond')",
+          "title": "Repair of community pond",
+          "choices": [
+            "Removal of accumulated sediments",
+            "Shoreline erosion control",
+            "Repairing cracks or damage in embankments",
+            "Controlling excessive aquatic vegetation growth",
+            "Repair or cleaning of inlet/outlet structures",
             {
-              "type": "radiogroup",
-              "name": "select_one_farm_pond",
-              "visibleIf": "{select_one_irrigation_structure} = 'Farm pond' and {select_one_activities} = 'yes'",
-              "title": "Repair of farm pond",
-              "choices": [
-                {
-                  "value": "Removal of accumulated sediments",
-                  "text": "Removal of accumulated sediments"
-                },
-                {
-                  "value": "Repairing cracks or damage in embankments",
-                  "text": "Repairing cracks or damage in embankments"
-                },
-                {
-                  "value": "Controlling seepage or leaks in the pond bed",
-                  "text": "Controlling seepage or leaks in the pond bed"
-                },
-                {
-                  "value": "Erosion control on embankments",
-                  "text": "Erosion control on embankments"
-                },
-                {
-                  "value": "Addressing excessive aquatic vegetation growth",
-                  "text": "Addressing excessive aquatic vegetation growth"
-                },
-                {
-                  "value": "other",
-                  "text": "Other"
-                }
-              ]
-            },
-            {
-              "type": "text",
-              "name": "select_one_farm_pond_other",
-              "visibleIf": "{select_one_farm_pond} = 'other'",
-              "title": "Specify other farm pond repair",
-              "isRequired": true
-            },
-            {
-              "type": "radiogroup",
-              "name": "select_one_community_pond",
-              "visibleIf": "{select_one_irrigation_structure} = 'Community Pond' and {select_one_activities} = 'yes'",
-              "title": "Repair of community pond",
-              "choices": [
-                {
-                  "value": "Removal of accumulated sediments",
-                  "text": "Removal of accumulated sediments"
-                },
-                {
-                  "value": "Shoreline erosion control",
-                  "text": "Shoreline erosion control"
-                },
-                {
-                  "value": "Repairing cracks or damage in embankments",
-                  "text": "Repairing cracks or damage in embankments"
-                },
-                {
-                  "value": "Controlling excessive aquatic vegetation growth",
-                  "text": "Controlling excessive aquatic vegetation growth"
-                },
-                {
-                  "value": "Repair or cleaning of inlet/outlet structures",
-                  "text": "Repair or cleaning of inlet/outlet structures"
-                },
-                {
-                  "value": "other",
-                  "text": "Other"
-                }
-              ]
-            },
-            {
-              "type": "text",
-              "name": "select_one_community_pond_other",
-              "visibleIf": "{select_one_community_pond} = 'other'",
-              "title": "Specify other community pond repair",
-              "isRequired": true
-            },
-            {
-              "type": "radiogroup",
-              "name": "select_one_well",
-              "visibleIf": "{select_one_irrigation_structure} = 'Well' and {select_one_activities} = 'yes'",
-              "title": "Repair of well",
-              "choices": [
-                {
-                  "value": "Cleaning and removal of silt or debris",
-                  "text": "Cleaning and removal of silt or debris"
-                },
-                {
-                  "value": "Repairing cracks or damage to well walls",
-                  "text": "Repairing cracks or damage to well walls"
-                },
-                {
-                  "value": "Deepening the well to enhance water availability",
-                  "text": "Deepening the well to enhance water availability"
-                },
-                {
-                  "value": "Repair or replacement of well cover or structure",
-                  "text": "Repair or replacement of well cover or structure"
-                },
-                {
-                  "value": "Installing or repairing pumping mechanisms",
-                  "text": "Installing or repairing pumping mechanisms"
-                },
-                {
-                  "value": "other",
-                  "text": "Other"
-                }
-              ]
-            },
-            {
-              "type": "text",
-              "name": "select_one_well_other",
-              "visibleIf": "{select_one_well} = 'other'",
-              "title": "Specify other well repair",
-              "isRequired": true
-            },
-            {
-              "type": "radiogroup",
-              "name": "select_one_canal",
-              "visibleIf": "{select_one_irrigation_structure} = 'Canal' and {select_one_activities} = 'yes'",
-              "title": "Repair of canal",
-              "choices": [
-                {
-                  "value": "Stabilizing canal banks to prevent erosion",
-                  "text": "Stabilizing canal banks to prevent erosion"
-                },
-                {
-                  "value": "Lining Repairs",
-                  "text": "Lining Repairs"
-                },
-                {
-                  "value": "Desiliting",
-                  "text": "Desilting"
-                },
-                {
-                  "value": "Structural repairs",
-                  "text": "Structural repairs"
-                },
-                {
-                  "value": "other",
-                  "text": "Other"
-                }
-              ]
-            },
-            {
-              "type": "text",
-              "name": "select_one_canal_other",
-              "visibleIf": "{select_one_canal} = 'other'",
-              "title": "Specify other canal repair",
-              "isRequired": true
-            },
-            {
-              "type": "radiogroup",
-              "name": "select_one_farm_bund",
-              "visibleIf": "{select_one_irrigation_structure} = 'Farm bund' and {select_one_activities} = 'yes'",
-              "title": "Repair of farm bund",
-              "choices": [
-                {
-                  "value": "Repairing cracks or breaches in the bund",
-                  "text": "Repairing cracks or breaches in the bund"
-                },
-                {
-                  "value": "Strengthening bund structure with additional soil or materials",
-                  "text": "Strengthening bund structure with additional soil or materials"
-                },
-                {
-                  "value": "Leveling and reshaping the bund for better water retention",
-                  "text": "Leveling and reshaping the bund for better water retention"
-                },
-                {
-                  "value": "Vegetative stabilization to prevent erosion",
-                  "text": "Vegetative stabilization to prevent erosion"
-                },
-                {
-                  "value": "other",
-                  "text": "Other"
-                }
-              ]
-            },
-            {
-              "type": "text",
-              "name": "select_one_farm_bund_other",
-              "visibleIf": "{select_one_farm_bund} = 'other'",
-              "title": "Specify other farm bund repair",
-              "isRequired": true
+              "value": "other",
+              "text": "Other"
             }
           ]
         },
         {
-          "type": "panel",
-          "name": "documentation_section",
-          "title": "Documentation and Justification",
-          "elements": [
+          "type": "text",
+          "name": "select_one_community_pond_other",
+          "visibleIf": "{select_one_community_pond} = 'other'",
+          "title": "Specify other community pond repair",
+          "isRequired": true
+        },
+        {
+          "type": "radiogroup",
+          "name": "select_one_well",
+          "visibleIf": "({select_one_irrigation_structure} == 'Well')",
+          "title": "Repair of well",
+          "choices": [
+            "Cleaning and removal of silt or debris",
+            "Repairing cracks or damage to well walls",
+            "Deepening the well to enhance water availability",
+            "Repair or replacement of well cover or structure",
+            "Installing or repairing pumping mechanisms",
             {
-              "type": "comment",
-              "name": "text_record",
-              "title": "Write down the justification for the need of maintenance of recharge structure at this location"
+              "value": "other",
+              "text": "Other"
             }
           ]
+        },
+        {
+          "type": "text",
+          "name": "select_one_well_other",
+          "visibleIf": "{select_one_well} = 'other'",
+          "title": "Specify other well repair",
+          "isRequired": true
+        },
+        {
+          "type": "radiogroup",
+          "name": "select_one_canal",
+          "visibleIf": "({select_one_irrigation_structure} == 'Canal')",
+          "title": "Repair of canal",
+          "choices": [
+            "Stabilizing canal banks to prevent erosion",
+            "Lining Repairs",
+            {
+              "value": "Desiliting",
+              "text": "Desilting"
+            },
+            "Structural repairs",
+            {
+              "value": "other",
+              "text": "Other"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "name": "select_one_canal_other",
+          "visibleIf": "{select_one_canal} = 'other'",
+          "title": "Specify other canal repair",
+          "isRequired": true
+        },
+        {
+          "type": "radiogroup",
+          "name": "select_one_farm_bund",
+          "visibleIf": "({select_one_irrigation_structure} == 'Farm bund')",
+          "title": "Repair of farm bund",
+          "choices": [
+            "Repairing cracks or breaches in the bund",
+            "Strengthening bund structure with additional soil or materials",
+            "Leveling and reshaping the bund for better water retention",
+            "Vegetative stabilization to prevent erosion",
+            {
+              "value": "other",
+              "text": "Other"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "name": "select_one_farm_bund_other",
+          "visibleIf": "{select_one_farm_bund} = 'other'",
+          "title": "Specify other farm bund repair",
+          "isRequired": true
+        },
+        {
+          "type": "comment",
+          "name": "text_record",
+          "title": "Write down the justification for the need of maintenance of recharge structure at this location"
         },
         {
           "type": "html",

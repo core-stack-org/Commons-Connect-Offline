@@ -9,52 +9,79 @@
       "name": "water_structure_maintenance_page",
       "elements": [
         {
-          "type": "panel",
-          "name": "beneficiary_information_panel",
-          "title": "Beneficiary Information",
-          "elements": [
+          "type": "text",
+          "name": "beneficiary_settlement",
+          "title": "Name of Beneficiary's Settlement"
+        },
+        {
+          "type": "text",
+          "name": "work_id",
+          "title": "Work ID",
+          "defaultValue": "AUTO-GENERATED",
+          "readOnly": true
+        },
+        {
+          "type": "radiogroup",
+          "name": "demand_type",
+          "title": "Type of demand",
+          "isRequired": true,
+          "choices": [
             {
-              "type": "text",
-              "name": "beneficiary_settlement",
-              "title": "Name of Beneficiary's Settlement",
-              "description": "लाभ मिलने वाला टोला का नाम"
+              "value": "Individual_demand",
+              "text": "Individual Demand"
             },
             {
-              "type": "text",
-              "name": "Beneficiary_Name",
-              "title": "Beneficiary's Name",
-              "description": "लाभार्थी का नाम"
-            },
-            {
-              "type": "text",
-              "name": "Beneficiary_Contact_Number",
-              "title": "Beneficiary's Contact Number",
-              "description": "लाभार्थी का फोन नंबर",
-              "validators": [
-                {
-                  "type": "regex",
-                  "regex": "^(?:(?:\\+?91[-\\s]?)|0)?[6-9]\\d{9}$",
-                  "text": "Enter a phone number (format: 9876543210)"
-                }
-              ],
-              "inputType": "tel",
-              "placeholder": "9876543210"
-            },
-            {
-              "type": "text",
-              "name": "work_id",
-              "title": "Work ID",
-              "description": "कार्य आईडी",
-              "defaultValue": "AUTO-GENERATED",
-              "readOnly": true
+              "value": "Community_demand",
+              "text": "Community Demand"
             }
           ]
+        },
+        {
+          "type": "text",
+          "name": "Beneficiary_Name",
+          "visibleIf": "{demand_type} = 'Individual_demand'",
+          "title": "Beneficiary's Name"
+        },
+        {
+          "type": "radiogroup",
+          "name": "select_gender",
+          "visibleIf": "{demand_type} = 'Individual_demand'",
+          "title": "Gender",
+          "choices": [
+            {
+              "value": "female",
+              "text": "Female"
+            },
+            {
+              "value": "male",
+              "text": "Male"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "name": "ben_father",
+          "visibleIf": "{demand_type} = 'Individual_demand'",
+          "title": "Beneficiary's father's name"
+        },
+        {
+          "type": "text",
+          "name": "Beneficiary_Contact_Number",
+          "title": "Beneficiary's Contact Number",
+          "validators": [
+            {
+              "type": "regex",
+              "text": "Enter a phone number (format: 9876543210)",
+              "regex": "^(?:(?:\\+?91[-\\s]?)|0)?[6-9]\\d{9}$"
+            }
+          ],
+          "inputType": "tel",
+          "placeholder": "9876543210"
         },
         {
           "type": "radiogroup",
           "name": "TYPE_OF_WORK",
           "title": "Select the type of surface water structure repair work",
-          "description": "कार्य का प्रकार चुनें",
           "isRequired": true,
           "choices": [
             {
@@ -104,7 +131,6 @@
           "name": "select_one_farm_pond",
           "visibleIf": "{TYPE_OF_WORK} = 'Farm pond'",
           "title": "Repair of farm pond",
-          "description": "खेत में बनाये गए तालाबों/डोभा की मरम्मत",
           "choices": [
             {
               "value": "Removal of accumulated sediments",
@@ -133,7 +159,6 @@
           "name": "select_one_community_pond",
           "visibleIf": "{TYPE_OF_WORK} = 'Community Pond'",
           "title": "Repair of community Pond",
-          "description": "सामुदायिक तालाब की मरम्मत",
           "choices": [
             {
               "value": "Removal of accumulated sediments",
@@ -162,7 +187,6 @@
           "name": "select_one_repair_large_water_body",
           "visibleIf": "{TYPE_OF_WORK} = 'Large water body'",
           "title": "Repair of large water body",
-          "description": "बड़े जल स्रोत की मरम्मत",
           "choices": [
             {
               "value": "Removal of accumulated sediments",
@@ -342,17 +366,9 @@
           ]
         },
         {
-          "type": "panel",
-          "name": "documentation_panel",
-          "title": "Documentation and Justification",
-          "elements": [
-            {
-              "type": "comment",
-              "name": "text_record",
-              "title": "Write down the justification for the need of maintenance of water structure at this location",
-              "description": "इस स्थान पर जल संरचना के रखरखाव की आवश्यकता का औचित्य लिखें।"
-            }
-          ]
+          "type": "comment",
+          "name": "text_record",
+          "title": "Write down the justification for the need of maintenance of water structure at this location"
         },
         {
           "type": "html",
@@ -362,69 +378,66 @@
         {
           "type": "panel",
           "name": "system_fields_panel",
-          "title": "System Information (Auto-filled)",
-          "elements": [
+          "title": "System Information (Auto-filled)"
+        },
+        {
+          "type": "multipletext",
+          "name": "GPS_point",
+          "title": "GPS point of the marked area",
+          "isRequired": true,
+          "readOnly": true,
+          "items": [
             {
-              "type": "multipletext",
-              "name": "GPS_point",
-              "title": "Lat/Lon",
-              "description": "अक्षांश/देशांतर",
-              "isRequired": true,
-              "readOnly": true,
-              "items": [
-                {
-                  "name": "latitude",
-                  "title": "Latitude (x.y °)"
-                },
-                {
-                  "name": "longitude",
-                  "title": "Longitude (x.y °)"
-                }
-              ]
+              "name": "latitude",
+              "title": "Latitude (x.y °)"
             },
             {
-              "type": "text",
-              "name": "block_name",
-              "title": "Block name",
-              "description": "ब्लॉक का नाम",
-              "readOnly": true
-            },
-            {
-              "type": "text",
-              "name": "plan_id",
-              "title": "Plan ID",
-              "description": "योजना का आईडी",
-              "readOnly": true
-            },
-            {
-              "type": "text",
-              "name": "plan_name",
-              "title": "Plan name",
-              "description": "योजना का नाम",
-              "readOnly": true
-            },
-            {
-              "type": "text",
-              "name": "corresponding_work_id",
-              "title": "Corresponding Work ID",
-              "description": "सम्बंधित कार्य का आईडी",
-              "readOnly": true
-            },
-            {
-              "type": "text",
-              "name": "user_latlon",
-              "title": "Current location of the user",
-              "description": "उपयोगकर्ता का वर्तमान स्थान",
-              "readOnly": true
-            },
-            {
-              "type": "text",
-              "name": "username",
-              "title": "Username",
-              "description": "उपयोगकर्ता नाम",
-              "readOnly": true
+              "name": "longitude",
+              "title": "Longitude (x.y °)"
             }
           ]
+        },
+        {
+          "type": "text",
+          "name": "block_name",
+          "title": "Block name",
+          "description": "ब्लॉक का नाम",
+          "readOnly": true
+        },
+        {
+          "type": "text",
+          "name": "plan_id",
+          "title": "Plan ID",
+          "description": "योजना का आईडी",
+          "readOnly": true
+        },
+        {
+          "type": "text",
+          "name": "plan_name",
+          "title": "Plan name",
+          "description": "योजना का नाम",
+          "readOnly": true
+        },
+        {
+          "type": "text",
+          "name": "corresponding_work_id",
+          "title": "Corresponding Work ID",
+          "description": "सम्बंधित कार्य का आईडी",
+          "readOnly": true
+        },
+        {
+          "type": "text",
+          "name": "user_latlon",
+          "title": "Current location of the user",
+          "description": "उपयोगकर्ता का वर्तमान स्थान",
+          "readOnly": true
+        },
+        {
+          "type": "text",
+          "name": "username",
+          "title": "Username",
+          "description": "उपयोगकर्ता नाम",
+          "readOnly": true
         }
       ]
     }

@@ -132,7 +132,7 @@ const InfoBox = () => {
   };
 
   const handleSyncData = () => {
-    let tempFormData = formData
+    let tempFormData = {}
     let tempSyncItems = selectedItems
     selectedItems.forEach((item) =>{
       if(item === "settlement"){
@@ -148,45 +148,70 @@ const InfoBox = () => {
           let xmlDoc = xmlroot.documentElement;
 
           let itemKeys = Object.keys(item)
-          
+
+          // Create a parent element for MNREGA_INFORMATION if needed
+          let mnregaParent = xmlroot.createElement("MNREGA_INFORMATION");
+          let hasMNREGAData = false;
+
           itemKeys.forEach((label) => {
-            if(label === "GPS_point"){
-              let newElement = xmlroot.createElement(label)
-              let childElement = xmlroot.createElement("point_mapsappearance")
-              childElement.textContent = `${item[label]["longitude"]} ${item[label]["latitude"]}`
-              newElement.appendChild(childElement)
-              xmlDoc.appendChild(newElement)
-            }
-            else if(item[label] !== null && Array.isArray(item[label])){
-              let newElement = xmlroot.createElement(label)
-              let contentString = "";
-              item[label].forEach((content) => {
-                  if(contentString.length === 0){contentString = content;}
-                  else{contentString = contentString + " " + content;}
-              })
-              newElement.textContent = contentString;
+            if (label === "GPS_point") {
+              let newElement = xmlroot.createElement(label);
+              let childElement = xmlroot.createElement("point_mapsappearance");
+              childElement.textContent = `${item[label]["latitude"]} ${item[label]["longitude"]}`;
+              newElement.appendChild(childElement);
               xmlDoc.appendChild(newElement);
             }
-            else if (item[label] !== null && typeof (item[label]) === "object"){
-              const tempKeys = Object.keys(item[label])
-              if(tempKeys !== null || tempKeys.length !== 0){
-                  let newElement = xmlroot.createElement(item)
-                  tempKeys.map((tempItem) => {
-                  let childElement = xmlroot.createElement(tempItem)
-                      childElement.textContent = `${item[label][tempItem]}`
-                      newElement.appendChild(childElement)
-                  })
-                  xmlDoc.appendChild(newElement)
+            else if (label === "farmer_family" || label === "Livestock_Census") {
+              let newElement = xmlroot.createElement(label);
+              Object.keys(item[label]).forEach((label1) => {
+                let childElement = xmlroot.createElement(label1);
+                childElement.textContent = `${item[label][label1]}`;
+                newElement.appendChild(childElement);
+              });
+              xmlDoc.appendChild(newElement);
+            }
+            else if (label.startsWith("MNREGA_INFORMATION-")) {
+              hasMNREGAData = true;
+              const childName = label.replace("MNREGA_INFORMATION-", "");
+              let childElement = xmlroot.createElement(childName);
+
+              if (Array.isArray(item[label])) {
+                childElement.textContent = item[label].join(" ");
+              } else if (item[label] !== null) {
+                childElement.textContent = `${item[label]}`;
+              }
+              mnregaParent.appendChild(childElement);
+            }
+            else if (item[label] !== null && Array.isArray(item[label])) {
+              let newElement = xmlroot.createElement(label);
+              newElement.textContent = item[label].join(" ");
+              xmlDoc.appendChild(newElement);
+            }
+            else if (item[label] !== null && typeof item[label] === "object") {
+              const tempKeys = Object.keys(item[label]);
+              if (tempKeys && tempKeys.length > 0) {
+                let newElement = xmlroot.createElement(label);
+                tempKeys.forEach((tempItem) => {
+                  let childElement = xmlroot.createElement(tempItem);
+                  childElement.textContent = `${item[label][tempItem]}`;
+                  newElement.appendChild(childElement);
+                });
+                xmlDoc.appendChild(newElement);
               }
             }
             else {
-              if(item[label] !== null){
-                let newElement = xmlroot.createElement(label)
-                newElement.textContent = `${item[label]}`
-                xmlDoc.appendChild(newElement)
+              if (item[label] !== null) {
+                let newElement = xmlroot.createElement(label);
+                newElement.textContent = `${item[label]}`;
+                xmlDoc.appendChild(newElement);
               }
             }
-          })
+          });
+
+          // Append MNREGA_INFORMATION parent only if it had children
+          if (hasMNREGAData) {
+            xmlDoc.appendChild(mnregaParent);
+          }
 
           let tempString = xmlString.serializeToString(xmlDoc);
 
@@ -225,45 +250,62 @@ const InfoBox = () => {
           let xmlDoc = xmlroot.documentElement;
 
           let itemKeys = Object.keys(item)
-          
+
+          // Create a parent element for Well_usage if needed
+          let wellUsageParent = xmlroot.createElement("Well_usage");
+          let hasWellUsageData = false;
+
           itemKeys.forEach((label) => {
-            if(label === "GPS_point"){
-              let newElement = xmlroot.createElement(label)
-              let childElement = xmlroot.createElement("point_mapappearance")
-              childElement.textContent = `${item[label]["longitude"]} ${item[label]["latitude"]}`
-              newElement.appendChild(childElement)
-              xmlDoc.appendChild(newElement)
-            }
-            else if(item[label] !== null && Array.isArray(item[label])){
-              let newElement = xmlroot.createElement(label)
-              let contentString = "";
-              item[label].forEach((content) => {
-                  if(contentString.length === 0){contentString = content;}
-                  else{contentString = contentString + " " + content;}
-              })
-              newElement.textContent = contentString;
+            if (label === "GPS_point") {
+              let newElement = xmlroot.createElement(label);
+              let childElement = xmlroot.createElement("point_mapappearance");
+              childElement.textContent = `${item[label]["latitude"]} ${item[label]["longitude"]}`;
+              newElement.appendChild(childElement);
               xmlDoc.appendChild(newElement);
             }
-            else if (item[label] !== null && typeof (item[label]) === "object"){
-              const tempKeys = Object.keys(item[label])
-              if(tempKeys !== null || tempKeys.length !== 0){
-                  let newElement = xmlroot.createElement(item)
-                  tempKeys.map((tempItem) => {
-                  let childElement = xmlroot.createElement(tempItem)
-                      childElement.textContent = `${item[label][tempItem]}`
-                      newElement.appendChild(childElement)
-                  })
-                  xmlDoc.appendChild(newElement)
+            else if (label.startsWith("Well_usage-")) {
+              hasWellUsageData = true;
+              const childName = label.replace("Well_usage-", "");
+              let childElement = xmlroot.createElement(childName);
+
+              if (Array.isArray(item[label])) {
+                childElement.textContent = item[label].join(" ");
+              } else if (item[label] !== null) {
+                childElement.textContent = `${item[label]}`;
+              }
+
+              wellUsageParent.appendChild(childElement);
+            }
+            else if (item[label] !== null && Array.isArray(item[label])) {
+              let newElement = xmlroot.createElement(label);
+              newElement.textContent = item[label].join(" ");
+              xmlDoc.appendChild(newElement);
+            }
+            else if (item[label] !== null && typeof item[label] === "object") {
+              const tempKeys = Object.keys(item[label]);
+              if (tempKeys && tempKeys.length > 0) {
+                let newElement = xmlroot.createElement(label);
+                tempKeys.forEach((tempItem) => {
+                  let childElement = xmlroot.createElement(tempItem);
+                  childElement.textContent = `${item[label][tempItem]}`;
+                  newElement.appendChild(childElement);
+                });
+                xmlDoc.appendChild(newElement);
               }
             }
             else {
-              if(item[label] !== null){
-                let newElement = xmlroot.createElement(label)
-                newElement.textContent = `${item[label]}`
-                xmlDoc.appendChild(newElement)
+              if (item[label] !== null) {
+                let newElement = xmlroot.createElement(label);
+                newElement.textContent = `${item[label]}`;
+                xmlDoc.appendChild(newElement);
               }
             }
-          })
+          });
+
+          // Append Well_usage parent only if it had children
+          if (hasWellUsageData) {
+            xmlDoc.appendChild(wellUsageParent);
+          }
           let tempString = xmlString.serializeToString(xmlDoc);
 
           const response = await fetch(`${import.meta.env.VITE_API_URL}/sync_offline_data/resource/well/`, {
@@ -301,12 +343,14 @@ const InfoBox = () => {
           let xmlDoc = xmlroot.documentElement;
 
           let itemKeys = Object.keys(item)
+
+          console.log(item)
           
           itemKeys.forEach((label) => {
             if(label === "GPS_point"){
               let newElement = xmlroot.createElement(label)
               let childElement = xmlroot.createElement("point_mapappearance")
-              childElement.textContent = `${item[label]["longitude"]} ${item[label]["latitude"]}`
+              childElement.textContent = `${item[label]["latitude"]} ${item[label]["longitude"]}`;
               newElement.appendChild(childElement)
               xmlDoc.appendChild(newElement)
             }
@@ -340,6 +384,8 @@ const InfoBox = () => {
               }
             }
           })
+
+          console.log(xmlDoc)
           let tempString = xmlString.serializeToString(xmlDoc);
 
           const response = await fetch(`${import.meta.env.VITE_API_URL}/sync_offline_data/resource/water_structures/`, {
@@ -382,7 +428,7 @@ const InfoBox = () => {
             if(label === "GPS_point"){
               let newElement = xmlroot.createElement(label)
               let childElement = xmlroot.createElement("point_mapappearance")
-              childElement.textContent = `${item[label]["longitude"]} ${item[label]["latitude"]}`
+              childElement.textContent = `${item[label]["latitude"]} ${item[label]["longitude"]}`;
               newElement.appendChild(childElement)
               xmlDoc.appendChild(newElement)
             }
@@ -453,46 +499,79 @@ const InfoBox = () => {
           let xmlDoc = xmlroot.documentElement;
 
           let itemKeys = Object.keys(item)
-          
+          console.log(item)
+        
+          const structureKeys = new Set([
+            "Check_dam",
+            "Percolation_tank",
+            "Earthen_gully_plug",
+            "Drainage_channels",
+            "Recharge_pits",
+            "Soakage_pits",
+            "Trench_cum_bund_network",
+            "Continuous_contour_trenches",
+            "Staggered_contour_trenches",
+            "Water_absorption_trenches",
+            "Loose_boulder_structure",
+            "Rock_fill_dam",
+            "Model_structure1",
+            "Model_structure2",
+            "Stone_bunding",
+            "Diversion_drains",
+            "Bunding"
+          ]);
+
           itemKeys.forEach((label) => {
-            if(label === "GPS_point"){
-              let newElement = xmlroot.createElement(label)
-              let childElement = xmlroot.createElement("point_mapappearance")
-              childElement.textContent = `${item[label]["longitude"]} ${item[label]["latitude"]}`
-              newElement.appendChild(childElement)
-              xmlDoc.appendChild(newElement)
+            const value = item[label];
+            if (value == null) return;
+            if (label === "GPS_point" && typeof value === "object" && !Array.isArray(value)) {
+              const newElement = xmlroot.createElement(label);
+              const childElement = xmlroot.createElement("point_mapsappearance");
+              childElement.textContent = `${value.latitude} ${value.longitude}`;
+              newElement.appendChild(childElement);
+              xmlDoc.appendChild(newElement);
+              return;
             }
-            else if(item[label] !== null && Array.isArray(item[label])){
-              let newElement = xmlroot.createElement(label)
-              let contentString = "";
-              item[label].forEach((content) => {
-                  if(contentString.length === 0){contentString = content;}
-                  else{contentString = contentString + " " + content;}
-              })
+            if (structureKeys.has(label) && typeof value === "object" && !Array.isArray(value)) {
+              const tempKeys = Object.keys(value);
+              if (tempKeys.length > 0) {
+                const parentEl = xmlroot.createElement(label);
+                tempKeys.forEach((k) => {
+                  const childEl = xmlroot.createElement(k);
+                  childEl.textContent = `${value[k] ?? ""}`;
+                  parentEl.appendChild(childEl);
+                });
+                xmlDoc.appendChild(parentEl);
+              }
+              return;
+            }
+            if (Array.isArray(value)) {
+              const newElement = xmlroot.createElement(label);
+              const contentString = value.filter(v => v != null).join(" ");
               newElement.textContent = contentString;
               xmlDoc.appendChild(newElement);
+              return;
             }
-            else if (item[label] !== null && typeof (item[label]) === "object"){
-              const tempKeys = Object.keys(item[label])
-              if(tempKeys !== null || tempKeys.length !== 0){
-                  let newElement = xmlroot.createElement(item)
-                  tempKeys.map((tempItem) => {
-                  let childElement = xmlroot.createElement(tempItem)
-                      childElement.textContent = `${item[label][tempItem]}`
-                      newElement.appendChild(childElement)
-                  })
-                  xmlDoc.appendChild(newElement)
+            if (typeof value === "object") {
+              const tempKeys = Object.keys(value);
+              if (tempKeys.length > 0) {
+                const parentEl = xmlroot.createElement(label);
+                tempKeys.forEach((k) => {
+                  const childEl = xmlroot.createElement(k);
+                  childEl.textContent = `${value[k] ?? ""}`;
+                  parentEl.appendChild(childEl);
+                });
+                xmlDoc.appendChild(parentEl);
               }
+              return;
             }
-            else {
-              if(item[label] !== null){
-                let newElement = xmlroot.createElement(label)
-                newElement.textContent = `${item[label]}`
-                xmlDoc.appendChild(newElement)
-              }
-            }
-          })
+            const newElement = xmlroot.createElement(label);
+            newElement.textContent = `${value}`;
+            xmlDoc.appendChild(newElement);
+          });
           let tempString = xmlString.serializeToString(xmlDoc);
+
+          console.log(xmlDoc)
 
           const response = await fetch(`${import.meta.env.VITE_API_URL}sync_offline_data/work/recharge_st/`, {
             method : "POST",
@@ -529,45 +608,56 @@ const InfoBox = () => {
           let xmlDoc = xmlroot.documentElement;
 
           let itemKeys = Object.keys(item)
+          const groupedParentKeys = new Set(["Farm_pond", "Well", "Canal", "Community_pond", "Farm_bund"]);
           
           itemKeys.forEach((label) => {
-            if(label === "GPS_point"){
-              let newElement = xmlroot.createElement(label)
-              let childElement = xmlroot.createElement("point_mapappearance")
-              childElement.textContent = `${item[label]["longitude"]} ${item[label]["latitude"]}`
-              newElement.appendChild(childElement)
-              xmlDoc.appendChild(newElement)
+            if (
+              groupedParentKeys.has(label) &&
+              item[label] !== null &&
+              typeof item[label] === "object" &&
+              !Array.isArray(item[label])
+            ) {
+              const parentEl = xmlroot.createElement(label);
+              Object.entries(item[label]).forEach(([childKey, childVal]) => {
+                const childEl = xmlroot.createElement(childKey);
+                childEl.textContent = `${childVal}`;
+                parentEl.appendChild(childEl);
+              });
+              xmlDoc.appendChild(parentEl);
+              return; // prevent falling through to other branches
             }
-            else if(item[label] !== null && Array.isArray(item[label])){
-              let newElement = xmlroot.createElement(label)
-              let contentString = "";
-              item[label].forEach((content) => {
-                  if(contentString.length === 0){contentString = content;}
-                  else{contentString = contentString + " " + content;}
-              })
-              newElement.textContent = contentString;
+            if (label === "GPS_point") {
+              const newElement = xmlroot.createElement(label);
+              const childElement = xmlroot.createElement("point_mapsappearance");
+              childElement.textContent = `${item[label]["latitude"]} ${item[label]["longitude"]}`;
+              newElement.appendChild(childElement);
               xmlDoc.appendChild(newElement);
             }
-            else if (item[label] !== null && typeof (item[label]) === "object"){
-              const tempKeys = Object.keys(item[label])
-              if(tempKeys !== null || tempKeys.length !== 0){
-                  let newElement = xmlroot.createElement(item)
-                  tempKeys.map((tempItem) => {
-                  let childElement = xmlroot.createElement(tempItem)
-                      childElement.textContent = `${item[label][tempItem]}`
-                      newElement.appendChild(childElement)
-                  })
-                  xmlDoc.appendChild(newElement)
+            else if (item[label] !== null && Array.isArray(item[label])) {
+              const newElement = xmlroot.createElement(label);
+              newElement.textContent = item[label].join(" ");
+              xmlDoc.appendChild(newElement);
+            }
+            else if (item[label] !== null && typeof item[label] === "object") {
+              const tempKeys = Object.keys(item[label]);
+              if (tempKeys && tempKeys.length > 0) {
+                const newElement = xmlroot.createElement(label);
+                tempKeys.forEach((tempItem) => {
+                  const childElement = xmlroot.createElement(tempItem);
+                  childElement.textContent = `${item[label][tempItem]}`;
+                  newElement.appendChild(childElement);
+                });
+                xmlDoc.appendChild(newElement);
               }
             }
             else {
-              if(item[label] !== null){
-                let newElement = xmlroot.createElement(label)
-                newElement.textContent = `${item[label]}`
-                xmlDoc.appendChild(newElement)
+              if (item[label] !== null && item[label] !== undefined) {
+                const newElement = xmlroot.createElement(label);
+                newElement.textContent = `${item[label]}`;
+                xmlDoc.appendChild(newElement);
               }
             }
-          })
+          });
           let tempString = xmlString.serializeToString(xmlDoc);
 
           const response = await fetch(`${import.meta.env.VITE_API_URL}sync_offline_data/work/irrigation_st/`, {
@@ -606,44 +696,74 @@ const InfoBox = () => {
 
           let itemKeys = Object.keys(item)
           
+          console.log(item)
+
+          const dashedParentsRegex = /^(Livestock|fisheries|plantations|kitchen_gardens)-(.*)$/;
+          const dashedParentCache = Object.create(null);
+
           itemKeys.forEach((label) => {
-            if(label === "GPS_point"){
-              let newElement = xmlroot.createElement(label)
-              let childElement = xmlroot.createElement("point_mapappearance")
-              childElement.textContent = `${item[label]["longitude"]} ${item[label]["latitude"]}`
-              newElement.appendChild(childElement)
-              xmlDoc.appendChild(newElement)
+            const match = label.match(dashedParentsRegex);
+            if (match && item[label] !== null && item[label] !== undefined) {
+              const parentName = match[1];
+              const childName  = match[2];
+
+              let parentEl = dashedParentCache[parentName];
+              if (!parentEl) {
+                parentEl = xmlroot.createElement(parentName);
+                dashedParentCache[parentName] = parentEl;
+                xmlDoc.appendChild(parentEl);
+              }
+
+              const childEl = xmlroot.createElement(childName);
+              const val = item[label];
+              if (Array.isArray(val)) {
+                childEl.textContent = val.join(" ");
+              } else if (val !== null && typeof val === "object") {
+                Object.entries(val).forEach(([k, v]) => {
+                  const grand = xmlroot.createElement(k);
+                  grand.textContent = `${v}`;
+                  childEl.appendChild(grand);
+                });
+              } else {
+                childEl.textContent = `${val}`;
+              }
+              parentEl.appendChild(childEl);
+              return;
             }
-            else if(item[label] !== null && Array.isArray(item[label])){
-              let newElement = xmlroot.createElement(label)
-              let contentString = "";
-              item[label].forEach((content) => {
-                  if(contentString.length === 0){contentString = content;}
-                  else{contentString = contentString + " " + content;}
-              })
-              newElement.textContent = contentString;
+
+            if (label === "GPS_point") {
+              let newElement = xmlroot.createElement(label);
+              let childElement = xmlroot.createElement("point_mapappearance");
+              childElement.textContent = `${item[label]["latitude"]} ${item[label]["longitude"]}`;
+              newElement.appendChild(childElement);
               xmlDoc.appendChild(newElement);
             }
-            else if (item[label] !== null && typeof (item[label]) === "object"){
-              const tempKeys = Object.keys(item[label])
-              if(tempKeys !== null || tempKeys.length !== 0){
-                  let newElement = xmlroot.createElement(item)
-                  tempKeys.map((tempItem) => {
-                  let childElement = xmlroot.createElement(tempItem)
-                      childElement.textContent = `${item[label][tempItem]}`
-                      newElement.appendChild(childElement)
-                  })
-                  xmlDoc.appendChild(newElement)
+            else if (item[label] !== null && Array.isArray(item[label])) {
+              let newElement = xmlroot.createElement(label);
+              newElement.textContent = item[label].join(" ");
+              xmlDoc.appendChild(newElement);
+            }
+            else if (item[label] !== null && typeof item[label] === "object") {
+              const tempKeys = Object.keys(item[label]);
+              if (tempKeys && tempKeys.length > 0) {
+                let newElement = xmlroot.createElement(label);
+                tempKeys.forEach((tempItem) => {
+                  let childElement = xmlroot.createElement(tempItem);
+                  childElement.textContent = `${item[label][tempItem]}`;
+                  newElement.appendChild(childElement);
+                });
+                xmlDoc.appendChild(newElement);
               }
             }
             else {
-              if(item[label] !== null){
-                let newElement = xmlroot.createElement(label)
-                newElement.textContent = `${item[label]}`
-                xmlDoc.appendChild(newElement)
+              if (item[label] !== null && item[label] !== undefined) {
+                let newElement = xmlroot.createElement(label);
+                newElement.textContent = `${item[label]}`;
+                xmlDoc.appendChild(newElement);
               }
             }
-          })
+          });
+          console.log(xmlDoc)
           let tempString = xmlString.serializeToString(xmlDoc);
 
           const response = await fetch(`${import.meta.env.VITE_API_URL}sync_offline_data/work/livelihood/`, {
@@ -685,8 +805,8 @@ const InfoBox = () => {
           itemKeys.forEach((label) => {
             if(label === "GPS_point"){
               let newElement = xmlroot.createElement(label)
-              let childElement = xmlroot.createElement("point_mapappearance")
-              childElement.textContent = `${item[label]["longitude"]} ${item[label]["latitude"]}`
+              let childElement = xmlroot.createElement("point_mapsappearance")
+              childElement.textContent = `${item[label]["latitude"]} ${item[label]["longitude"]}`;
               newElement.appendChild(childElement)
               xmlDoc.appendChild(newElement)
             }
@@ -761,8 +881,8 @@ const InfoBox = () => {
           itemKeys.forEach((label) => {
             if(label === "GPS_point"){
               let newElement = xmlroot.createElement(label)
-              let childElement = xmlroot.createElement("point_mapappearance")
-              childElement.textContent = `${item[label]["longitude"]} ${item[label]["latitude"]}`
+              let childElement = xmlroot.createElement("point_mapsappearance")
+              childElement.textContent = `${item[label]["latitude"]} ${item[label]["longitude"]}`;
               newElement.appendChild(childElement)
               xmlDoc.appendChild(newElement)
             }
@@ -833,12 +953,12 @@ const InfoBox = () => {
           let xmlDoc = xmlroot.documentElement;
 
           let itemKeys = Object.keys(item)
-          
+          console.log(item)
           itemKeys.forEach((label) => {
             if(label === "GPS_point"){
               let newElement = xmlroot.createElement(label)
-              let childElement = xmlroot.createElement("point_mapappearance")
-              childElement.textContent = `${item[label]["longitude"]} ${item[label]["latitude"]}`
+              let childElement = xmlroot.createElement("point_mapsappearance")
+              childElement.textContent = `${item[label]["latitude"]} ${item[label]["longitude"]}`;
               newElement.appendChild(childElement)
               xmlDoc.appendChild(newElement)
             }
@@ -872,6 +992,7 @@ const InfoBox = () => {
               }
             }
           })
+          console.log(xmlDoc)
           let tempString = xmlString.serializeToString(xmlDoc);
 
           const response = await fetch(`${import.meta.env.VITE_API_URL}sync_offline_data/work/propose_maintenance_ws_swb/`, {
@@ -913,8 +1034,8 @@ const InfoBox = () => {
           itemKeys.forEach((label) => {
             if(label === "GPS_point"){
               let newElement = xmlroot.createElement(label)
-              let childElement = xmlroot.createElement("point_mapappearance")
-              childElement.textContent = `${item[label]["longitude"]} ${item[label]["latitude"]}`
+              let childElement = xmlroot.createElement("point_mapsappearance")
+              childElement.textContent = `${item[label]["latitude"]} ${item[label]["longitude"]}`;
               newElement.appendChild(childElement)
               xmlDoc.appendChild(newElement)
             }
@@ -990,7 +1111,7 @@ const InfoBox = () => {
             if(label === "GPS_point"){
               let newElement = xmlroot.createElement(label)
               let childElement = xmlroot.createElement("point_mapappearance")
-              childElement.textContent = `${item[label]["longitude"]} ${item[label]["latitude"]}`
+              childElement.textContent = `${item[label]["latitude"]} ${item[label]["longitude"]}`;
             }
             else if(item[label] !== null && Array.isArray(item[label])){
               let newElement = xmlroot.createElement(label)
@@ -1064,7 +1185,7 @@ const InfoBox = () => {
             if(label === "GPS_point"){
               let newElement = xmlroot.createElement(label)
               let childElement = xmlroot.createElement("point_mapappearance")
-              childElement.textContent = `${item[label]["longitude"]} ${item[label]["latitude"]}`
+              childElement.textContent = `${item[label]["latitude"]} ${item[label]["longitude"]}`;
             }
             else if(item[label] !== null && Array.isArray(item[label])){
               let newElement = xmlroot.createElement(label)
@@ -1138,7 +1259,7 @@ const InfoBox = () => {
             if(label === "GPS_point"){
               let newElement = xmlroot.createElement(label)
               let childElement = xmlroot.createElement("point_mapappearance")
-              childElement.textContent = `${item[label]["longitude"]} ${item[label]["latitude"]}`
+              childElement.textContent = `${item[label]["latitude"]} ${item[label]["longitude"]}`;
             }
             else if(item[label] !== null && Array.isArray(item[label])){
               let newElement = xmlroot.createElement(label)

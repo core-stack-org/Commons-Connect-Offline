@@ -16,34 +16,52 @@
         },
         {
           "type": "text",
+          "name": "work_id",
+          "title": "Work ID",
+          "readOnly": true
+        },
+        {
+          "type": "radiogroup",
+          "name": "demand_type",
+          "title": "Type of demand",
+          "isRequired": true,
+          "choices": [
+            {
+              "value": "Community_demand",
+              "text": "Community Demand"
+            },
+            {
+              "value": "Individual_demand",
+              "text": "Individual Demand"
+            }
+          ]
+        },
+        {
+          "type": "text",
           "name": "Beneficiary_Name",
+          "visibleIf": "{demand_type} = 'Individual_demand'",
           "title": "Beneficiary's Name",
           "isRequired": true
         },
         {
           "type": "text",
           "name": "ben_father",
-          "title": "Beneficiary's father's name",
-          "isRequired": true
+          "visibleIf": "{demand_type} = 'Individual_demand'",
+          "title": "Beneficiary's father's name"
         },
         {
           "type": "text",
           "name": "Beneficiary_Contact_Number",
+          "visibleIf": "{demand_type} = 'Individual_demand'",
           "title": "Beneficiary Contact Number",
-          "inputType": "tel",
           "validators": [
             {
               "type": "regex",
-              "regex": "^(?:(?:\\+?91[-\\s]?)|0)?[6-9]\\d{9}$",
-              "text": "Enter a phone number (format: 9876543210)"
+              "text": "Enter a phone number (format: 9876543210)",
+              "regex": "^(?:(?:\\+?91[-\\s]?)|0)?[6-9]\\d{9}$"
             }
-          ]
-        },
-        {
-          "type": "text",
-          "name": "work_id",
-          "title": "Work ID",
-          "readOnly": true
+          ],
+          "inputType": "tel"
         },
         {
           "type": "radiogroup",
@@ -51,46 +69,16 @@
           "title": "Select the type of surface water structure repair work",
           "isRequired": true,
           "choices": [
-            {
-              "value": "Farm pond",
-              "text": "Farm pond"
-            },
-            {
-              "value": "Community Pond",
-              "text": "Community Pond"
-            },
-            {
-              "value": "Large water body",
-              "text": "Large water body"
-            },
-            {
-              "value": "Canal",
-              "text": "Canal"
-            },
-            {
-              "value": "Check dam",
-              "text": "Check dam"
-            },
-            {
-              "value": "Percolation tank",
-              "text": "Percolation tank"
-            },
-            {
-              "value": "Rock fill dam",
-              "text": "Rock fill dam"
-            },
-            {
-              "value": "Loose boulder structure",
-              "text": "Loose boulder structure"
-            },
-            {
-              "value": "5% Model structure",
-              "text": "5% Model structure"
-            },
-            {
-              "value": "30-40 Model structure",
-              "text": "30-40 Model structure"
-            }
+            "Farm pond",
+            "Community Pond",
+            "Large water body",
+            "Canal",
+            "Check dam",
+            "Percolation tank",
+            "Rock fill dam",
+            "Loose boulder structure",
+            "5% Model structure",
+            "30-40 Model structure"
           ]
         },
         {
@@ -99,26 +87,11 @@
           "visibleIf": "{TYPE_OF_WORK} = 'Farm pond'",
           "title": "Repair of farm pond",
           "choices": [
-            {
-              "value": "Removal of accumulated sediments",
-              "text": "Removal of accumulated sediments"
-            },
-            {
-              "value": "Repairing cracks or damage in embankments",
-              "text": "Repairing cracks or damage in embankments"
-            },
-            {
-              "value": "Controlling seepage or leaks in the pond bed",
-              "text": "Controlling seepage or leaks in the pond bed"
-            },
-            {
-              "value": "Erosion control on embankments",
-              "text": "Erosion control on embankments"
-            },
-            {
-              "value": "Addressing excessive aquatic vegetation growth",
-              "text": "Addressing excessive aquatic vegetation growth"
-            }
+            "Removal of accumulated sediments",
+            "Repairing cracks or damage in embankments",
+            "Controlling seepage or leaks in the pond bed",
+            "Erosion control on embankments",
+            "Addressing excessive aquatic vegetation growth"
           ]
         },
         {
@@ -127,26 +100,11 @@
           "visibleIf": "{TYPE_OF_WORK} = 'Community Pond'",
           "title": "Repair of community Pond",
           "choices": [
-            {
-              "value": "Removal of accumulated sediments",
-              "text": "Removal of accumulated sediments"
-            },
-            {
-              "value": "Shoreline erosion control",
-              "text": "Shoreline erosion control"
-            },
-            {
-              "value": "Repairing cracks or damage in embankments",
-              "text": "Repairing cracks or damage in embankments"
-            },
-            {
-              "value": "Controlling excessive aquatic vegetation growth",
-              "text": "Controlling excessive aquatic vegetation growth"
-            },
-            {
-              "value": "Repair or cleaning of inlet/outlet structures",
-              "text": "Repair or cleaning of inlet/outlet structures"
-            }
+            "Removal of accumulated sediments",
+            "Shoreline erosion control",
+            "Repairing cracks or damage in embankments",
+            "Controlling excessive aquatic vegetation growth",
+            "Repair or cleaning of inlet/outlet structures"
           ]
         },
         {
@@ -155,22 +113,13 @@
           "visibleIf": "{TYPE_OF_WORK} = 'Large water body'",
           "title": "Repair of large water body",
           "choices": [
-            {
-              "value": "Removal of accumulated sediments",
-              "text": "Removal of accumulated sediments"
-            },
+            "Removal of accumulated sediments",
             {
               "value": "Shoreline Erosion Control",
               "text": "Shoreline erosion control"
             },
-            {
-              "value": "Dam Repairs",
-              "text": "Dam Repairs"
-            },
-            {
-              "value": "Controlling excessive growth of aquatic vegetation",
-              "text": "Controlling excessive growth of aquatic vegetation"
-            }
+            "Dam Repairs",
+            "Controlling excessive growth of aquatic vegetation"
           ]
         },
         {
@@ -179,22 +128,10 @@
           "visibleIf": "{TYPE_OF_WORK} = 'Canal'",
           "title": "Repair of canal",
           "choices": [
-            {
-              "value": "Stabilizing canal banks to prevent erosion",
-              "text": "Stabilizing canal banks to prevent erosion"
-            },
-            {
-              "value": "Lining Repairs",
-              "text": "Lining Repairs"
-            },
-            {
-              "value": "Desilting",
-              "text": "Desilting"
-            },
-            {
-              "value": "Structural repairs",
-              "text": "Structural repairs"
-            }
+            "Stabilizing canal banks to prevent erosion",
+            "Lining Repairs",
+            "Desilting",
+            "Structural repairs"
           ]
         },
         {
@@ -203,18 +140,9 @@
           "visibleIf": "{TYPE_OF_WORK} = 'Check dam'",
           "title": "Repair of check dam",
           "choices": [
-            {
-              "value": "Erosion on the check dam",
-              "text": "Erosion on the check dam"
-            },
-            {
-              "value": "Sediment accumulated in the check dam",
-              "text": "Sediment accumulated in the check dam"
-            },
-            {
-              "value": "Structural damage on the check dam",
-              "text": "Structural damage on the check dam"
-            }
+            "Erosion on the check dam",
+            "Sediment accumulated in the check dam",
+            "Structural damage on the check dam"
           ]
         },
         {
@@ -223,26 +151,11 @@
           "visibleIf": "{TYPE_OF_WORK} = 'Percolation tank'",
           "title": "Repair of Percolation tank",
           "choices": [
-            {
-              "value": "Sediment accumulation reducing infiltration capacity",
-              "text": "Sediment accumulation reducing infiltration capacity"
-            },
-            {
-              "value": "Breach in embankments",
-              "text": "Breach in embankments"
-            },
-            {
-              "value": "Erosion on tank bund or inlet/outlet",
-              "text": "Erosion on tank bund or inlet/outlet"
-            },
-            {
-              "value": "Vegetation growth blocking water entry",
-              "text": "Vegetation growth blocking water entry"
-            },
-            {
-              "value": "Damage to spillway or outlet structure",
-              "text": "Damage to spillway or outlet structure"
-            }
+            "Sediment accumulation reducing infiltration capacity",
+            "Breach in embankments",
+            "Erosion on tank bund or inlet/outlet",
+            "Vegetation growth blocking water entry",
+            "Damage to spillway or outlet structure"
           ]
         },
         {
@@ -251,18 +164,9 @@
           "visibleIf": "{TYPE_OF_WORK} = 'Rock fill dam'",
           "title": "Repair of rock fill dam",
           "choices": [
-            {
-              "value": "Sediment accumulation reducing water storage",
-              "text": "Sediment accumulation reducing water storage"
-            },
-            {
-              "value": "Dislodged or loose rocks",
-              "text": "Dislodged or loose rocks"
-            },
-            {
-              "value": "Erosion around or under the dam structure",
-              "text": "Erosion around or under the dam structure"
-            }
+            "Sediment accumulation reducing water storage",
+            "Dislodged or loose rocks",
+            "Erosion around or under the dam structure"
           ]
         },
         {
@@ -271,18 +175,9 @@
           "visibleIf": "{TYPE_OF_WORK} = 'Loose boulder structure'",
           "title": "Repair of loose boulder structure",
           "choices": [
-            {
-              "value": "Dislodged boulders",
-              "text": "Dislodged boulders"
-            },
-            {
-              "value": "Grouting",
-              "text": "Grouting"
-            },
-            {
-              "value": "Erosion around boulder structure",
-              "text": "Erosion around boulder structure"
-            }
+            "Dislodged boulders",
+            "Grouting",
+            "Erosion around boulder structure"
           ]
         },
         {
@@ -291,18 +186,9 @@
           "visibleIf": "{TYPE_OF_WORK} = '5% Model structure'",
           "title": "Repair of 5% Model structure",
           "choices": [
-            {
-              "value": "Sediment accumulation reducing capacity",
-              "text": "Sediment accumulation reducing capacity"
-            },
-            {
-              "value": "Breaches or leaks in the embankment",
-              "text": "Breaches or leaks in the embankment"
-            },
-            {
-              "value": "Erosion on sides or base",
-              "text": "Erosion on sides or base"
-            }
+            "Sediment accumulation reducing capacity",
+            "Breaches or leaks in the embankment",
+            "Erosion on sides or base"
           ]
         },
         {
@@ -311,31 +197,15 @@
           "visibleIf": "{TYPE_OF_WORK} = '30-40 Model structure'",
           "title": "Repair of 30-40 Model structure",
           "choices": [
-            {
-              "value": "Sediment accumulation",
-              "text": "Sediment accumulation"
-            },
-            {
-              "value": "Breaches in bunding or structure walls",
-              "text": "Breaches in bunding or structure walls"
-            },
-            {
-              "value": "Erosion along trenches or bunds",
-              "text": "Erosion along trenches or bunds"
-            }
+            "Sediment accumulation",
+            "Breaches in bunding or structure walls",
+            "Erosion along trenches or bunds"
           ]
         },
         {
-          "type": "panel",
-          "name": "documentation_section",
-          "title": "Documentation and Justification",
-          "elements": [
-            {
-              "type": "comment",
-              "name": "text_record",
-              "title": "Write down the justification for the need of maintenance of recharge structure at this location"
-            }
-          ]
+          "type": "comment",
+          "name": "text_record",
+          "title": "Write down the justification for the need of maintenance of recharge structure at this location"
         },
         {
           "type": "html",
