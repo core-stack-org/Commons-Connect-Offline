@@ -134,7 +134,8 @@ const InfoBox = () => {
   const handleSyncData = () => {
     let tempFormData = {}
     let tempSyncItems = selectedItems
-    selectedItems.forEach((item) =>{
+
+    tempSyncItems.forEach((item) =>{
       if(item === "settlement"){
 
         let xmlString = new XMLSerializer();
@@ -238,6 +239,8 @@ const InfoBox = () => {
             localStorage.setItem(currentPlan.plan_id, arrayString);
           }
         })
+
+        setSelectedItems(prev => prev.filter(item => item !== "settlement"));
       }
       else if(item === "well"){
         let xmlString = new XMLSerializer();
@@ -331,6 +334,8 @@ const InfoBox = () => {
             localStorage.setItem(currentPlan.plan_id, arrayString);
           }
         })
+
+        setSelectedItems(prev => prev.filter(item => item !== "well"));
       }
       else if(item === "waterstructure"){
         let xmlString = new XMLSerializer();
@@ -411,6 +416,8 @@ const InfoBox = () => {
             localStorage.setItem(currentPlan.plan_id, arrayString);
           }
         })
+
+        setSelectedItems(prev => prev.filter(item => item !== "waterstructure"));
       }
       else if(item === "cropping"){
         let xmlString = new XMLSerializer();
@@ -487,6 +494,8 @@ const InfoBox = () => {
             localStorage.setItem(currentPlan.plan_id, arrayString);
           }
         })
+
+        setSelectedItems(prev => prev.filter(item => item !== "cropping"));
       }
       else if(item === "recharge"){
         let xmlString = new XMLSerializer();
@@ -596,6 +605,8 @@ const InfoBox = () => {
             localStorage.setItem(currentPlan.plan_id, arrayString);
           }
         })
+
+        setSelectedItems(prev => prev.filter(item => item !== "recharge"));
       }
       else if(item === "irrigation"){
         let xmlString = new XMLSerializer();
@@ -683,6 +694,8 @@ const InfoBox = () => {
             localStorage.setItem(currentPlan.plan_id, arrayString);
           }
         })
+
+        setSelectedItems(prev => prev.filter(item => item !== "irrigation"));
       }
       else if(item === "livelihood"){
         let xmlString = new XMLSerializer();
@@ -789,6 +802,8 @@ const InfoBox = () => {
             localStorage.setItem(currentPlan.plan_id, arrayString);
           }
         })
+
+        setSelectedItems(prev => prev.filter(item => item !== "livelihood"));
       }
       else if(item === "maintainSWB"){
         let xmlString = new XMLSerializer();
@@ -865,6 +880,8 @@ const InfoBox = () => {
             localStorage.setItem(currentPlan.plan_id, arrayString);
           }
         })
+
+        setSelectedItems(prev => prev.filter(item => item !== "maintainSWB"));
       }
       else if(item === "maintainGW"){
         let xmlString = new XMLSerializer();
@@ -941,6 +958,8 @@ const InfoBox = () => {
             localStorage.setItem(currentPlan.plan_id, arrayString);
           }
         })
+
+        setSelectedItems(prev => prev.filter(item => item !== "maintainGW"));
       }
       else if(item === "maintainWB"){
         let xmlString = new XMLSerializer();
@@ -1018,6 +1037,8 @@ const InfoBox = () => {
             localStorage.setItem(currentPlan.plan_id, arrayString);
           }
         })
+
+        setSelectedItems(prev => prev.filter(item => item !== "maintainWB"));
       }
       else if(item === "Maintain"){
         let xmlString = new XMLSerializer();
@@ -1094,6 +1115,8 @@ const InfoBox = () => {
             localStorage.setItem(currentPlan.plan_id, arrayString);
           }
         })
+
+        setSelectedItems(prev => prev.filter(item => item !== "Maintain"));
       }
       else if(item === "feedbackSWB"){
         let xmlString = new XMLSerializer();
@@ -1168,6 +1191,8 @@ const InfoBox = () => {
             localStorage.setItem(currentPlan.plan_id, arrayString);
           }
         })
+
+        setSelectedItems(prev => prev.filter(item => item !== "feedbackSWB"));
       }
       else if(item === "feedbackGW"){
         let xmlString = new XMLSerializer();
@@ -1242,6 +1267,8 @@ const InfoBox = () => {
             localStorage.setItem(currentPlan.plan_id, arrayString);
           }
         })
+
+        setSelectedItems(prev => prev.filter(item => item !== "feedbackGW"));
       }
       else if(item === "feedbackAgri"){
         let xmlString = new XMLSerializer();
@@ -1316,6 +1343,8 @@ const InfoBox = () => {
             localStorage.setItem(currentPlan.plan_id, arrayString);
           }
         })
+
+        setSelectedItems(prev => prev.filter(item => item !== "feedbackAgri"));
       }
     })
 

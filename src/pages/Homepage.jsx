@@ -24,8 +24,8 @@ const Homepage = () => {
         MainStore.setBlockId?.(searchParams.get('block_id'));
         MainStore.setZoomLat(searchParams.get('latitude'))
         MainStore.setZoomLong(searchParams.get('longitude'))
-        //MainStore.fetchPlans(searchParams.get('plans'))
-        MainStore.fetchPlans(`${import.meta.env.VITE_API_URL}get_plans/?block_id=${searchParams.get('block_id')}`)
+        MainStore.fetchPlans(searchParams.get('plans'))
+        //MainStore.fetchPlans(`${import.meta.env.VITE_API_URL}get_plans/?block_id=${searchParams.get('block_id')}`)
         MainStore.setContainerName(searchParams.get('container_name'))
       }
       MainStore.setIsResourceOpen(false)

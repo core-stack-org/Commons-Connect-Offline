@@ -200,7 +200,7 @@
             },
             {
               "type": "radiogroup",
-              "name": "Well_usage-select_one_maintenance",
+              "name": "Well_usage-is_maintenance_required",
               "title": "Does the well require maintenance?",
               "isRequired": true,
               "choices": [
@@ -211,7 +211,7 @@
             {
               "type": "checkbox",
               "name": "Well_usage-select_one_repairs_well",
-              "visibleIf": "{Well_usage-select_one_maintenance} = 'Yes'",
+              "visibleIf": "{Well_usage-is_maintenance_required} = 'Yes'",
               "title": "Type of repairs in well",
               "isRequired": true,
               "choices": [

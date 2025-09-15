@@ -93,7 +93,7 @@
           "elements": [
             {
               "type": "radiogroup",
-              "name": "Livestock-select_one_demand_promoting_livestock",
+              "name": "Livestock-is_demand_livestock",
               "title": "Are there demands for promoting livestock in the settlement?",
               "isRequired": true,
               "choices": [
@@ -104,7 +104,7 @@
             {
               "type": "radiogroup",
               "name": "Livestock-livestock_demand",
-              "visibleIf": "{Livestock-select_one_demand_promoting_livestock} = 'Yes'",
+              "visibleIf": "{Livestock-is_demand_livestock} = 'Yes'",
               "title": "Type of demand",
               "isRequired": true,
               "choices": [
@@ -148,7 +148,7 @@
             },
             {
               "type": "radiogroup",
-              "name": "Livestock-select_one_promoting_livestock",
+              "name": "Livestock-demands_promoting_livestock",
               "title": "Select all the demands for promoting livestock development",
               "isRequired": true,
               "choices": [
@@ -181,7 +181,7 @@
             {
               "type": "text",
               "name": "Livestock-select_one_promoting_livestock_other",
-              "visibleIf": "{Livestock-select_one_promoting_livestock} = 'other'",
+              "visibleIf": "{Livestock-demands_promoting_livestock} = 'other'",
               "title": "Specify other."
             }
           ]
@@ -260,7 +260,7 @@
           "elements": [
             {
               "type": "radiogroup",
-              "name": "fisheries-select_one_demand_promoting_fisheries",
+              "name": "fisheries-is_demand_fisheries",
               "title": "Are there demands for promoting fisheries in the settlement?",
               "isRequired": true,
               "choices": [
@@ -271,7 +271,7 @@
             {
               "type": "radiogroup",
               "name": "fisheries-demand_type_fisheries",
-              "visibleIf": "{fisheries-select_one_demand_promoting_fisheries} = 'Yes'",
+              "visibleIf": "{fisheries-is_demand_fisheries} = 'Yes'",
               "title": "Type of demand",
               "isRequired": true,
               "choices": [
@@ -315,7 +315,7 @@
             },
             {
               "type": "radiogroup",
-              "name": "fisheries-select_one_promoting_fisheries",
+              "name": "fisheries-demands_promoting_fisheries",
               "title": "Select all that demands for promoting fisheries in the settlement",
               "isRequired": true,
               "choices": [
@@ -336,7 +336,7 @@
             {
               "type": "text",
               "name": "fisheries-select_one_promoting_fisheries_other",
-              "visibleIf": "{fisheries-select_one_promoting_fisheries} = 'other'",
+              "visibleIf": "{fisheries-demands_promoting_fisheries} = 'other'",
               "title": "Specify other."
             }
           ]
