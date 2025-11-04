@@ -16,21 +16,6 @@ import AgricultureAnalyze from './analyze/AgricultureAnalyze.jsx';
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from 'react';
 
-//? Forms Imports
-import settlementForm from "../templates/add_settlements.json"
-import wellForm from "../templates/add_well.json"
-import WaterStructureForm from "../templates/water_structure.json"
-import croppingForm from "../templates/cropping_pattern.json"
-import rechargeStructure from "../templates/recharge_structure.json"
-import livelihoodForm from "../templates/livelihood.json"
-import irrigationForm from "../templates/irrigation_work.json"
-import maintainenceSWB from "../templates/maintenance_rs_swb.json"
-import maintainenceWB from "../templates/maintenance_water_structures.json"
-import maintainenceGW from "../templates/maintenance_recharge_st.json"
-import maintainenceAG from "../templates/maintenance_irr.json"
-import feedbackAgri from "../templates/feedback_Agri.json"
-import feedbackGW from "../templates/feedback_Groundwater.json"
-import feedbackSWB from "../templates/feedback_surfacewaterbodies.json"
 
 const Bottomsheet = () => {
 
@@ -40,125 +25,147 @@ const Bottomsheet = () => {
     const [sheetBody, setSheetBody] = useState(<>Nothing Here</>);
     const [editBody, setEditBody] = useState(<>Nothing Here</>);
 
+    const FORM_NAME_MAPPING = {
+        settlement: 'add_settlements',
+        well: 'add_well',
+        waterstructure: 'water_structure',
+        cropping: 'cropping_pattern',
+        recharge: 'recharge_structure',
+        livelihood: 'livelihood',
+        irrigation: 'irrigation_work',
+        feedbackAgri: 'feedback_Agri',
+        feedbackGW: 'feedback_Groundwater',
+        feedbackSWB: 'feedback_surfacewaterbodies',
+        maintainSWB: 'maintenance_rs_swb',
+        maintainWB: 'maintenance_water_structures',
+        maintainGW: 'maintenance_recharge_st',
+        maintainAG: 'maintenance_irr'
+    };
+
+    const fetchFormSchema = async (formType) => {
+        const formName = FORM_NAME_MAPPING[formType];
+        
+        if (!formName) {
+            throw new Error(`Unknown form type: ${formType}`);
+        }
+
+        try {
+            const response = await fetch(`http://localhost:3000/containers/${MainStore.containerName}/s3_data/${formName}.json`)
+            if (!response.ok) {
+                throw new Error(`Failed to fetch form: ${response.status} ${response.statusText}`);
+            }
+
+            const schema = await response.json();
+            return schema;
+        } catch (error) {
+            console.error(`Error fetching form ${formName}:`, error);
+            throw error;
+        }
+    };
+
     useEffect(() => {
         if (!(MainStore.isForm && MainStore.formUrl)) return;
     
         let cancelled = false;
         setSheetBody(<span>Loading form…</span>);
 
-        let schema = null
-        
-        if(MainStore.formUrl === "settlement"){ schema = settlementForm}
-        else if(MainStore.formUrl === "well"){ schema = wellForm }
-        else if(MainStore.formUrl === "waterstructure"){ schema = WaterStructureForm}
-        else if(MainStore.formUrl === "cropping"){ schema = croppingForm }
-        else if(MainStore.formUrl === "recharge"){ schema = rechargeStructure }
-        else if(MainStore.formUrl === "livelihood"){ schema = livelihoodForm }
-        else if(MainStore.formUrl === "irrigation"){ schema = irrigationForm }
-        else if(MainStore.formUrl === "feedbackAgri"){ schema = feedbackAgri }
-        else if(MainStore.formUrl === "feedbackGW"){ schema = feedbackGW }
-        else if(MainStore.formUrl === "feedbackSWB"){ schema = feedbackSWB }
-        else if(MainStore.formUrl === "maintainSWB"){ schema = maintainenceSWB }
-        else if(MainStore.formUrl === "maintainWB"){ schema = maintainenceWB }
-        else if(MainStore.formUrl === "maintainGW"){ schema = maintainenceGW }
-        else{ schema = maintainenceAG }
+        // Fetch form schema from server
+        const loadForm = async () => {
+            try {
+                const schema = await fetchFormSchema(MainStore.formUrl);
+                
+                if (cancelled) return; // Don't proceed if component unmounted
 
-        try{
-            const survey = new Model(schema);
+                const survey = new Model(schema);
 
-            survey.data = {
-              Settlements_id:  crypto.randomUUID().slice(0, 15),
-              well_id:         crypto.randomUUID().slice(0, 15),
-              waterbodies_id:  crypto.randomUUID().slice(0, 15),
-              corresponding_work_id : MainStore.selectedResource?.work_id || MainStore.selectedResource?.wb_id || MainStore.selectedResource?.UID || "",
-              work_id : crypto.randomUUID().slice(0, 15),
-              plan_id:         MainStore.currentPlan.plan_id,
-              plan_name:       MainStore.currentPlan.plan,
-              GPS_point: {
-                latitude:  MainStore.markerCoords[1],
-                longitude: MainStore.markerCoords[0],
-              },
-              block_name:             MainStore.blockName,
-              beneficiary_settlement: MainStore.settlementName,
-              crop_Grid_id : MainStore.selectedResource?.id
-            };
+                survey.data = {
+                    Settlements_id: crypto.randomUUID().slice(0, 15),
+                    well_id: crypto.randomUUID().slice(0, 15),
+                    waterbodies_id: crypto.randomUUID().slice(0, 15),
+                    corresponding_work_id: MainStore.selectedResource?.work_id || 
+                                          MainStore.selectedResource?.wb_id || 
+                                          MainStore.selectedResource?.UID || "",
+                    work_id: crypto.randomUUID().slice(0, 15),
+                    plan_id: MainStore.currentPlan.id,
+                    plan_name: MainStore.currentPlan.plan,
+                    GPS_point: {
+                        latitude: MainStore.markerCoords[1],
+                        longitude: MainStore.markerCoords[0],
+                    },
+                    block_name: MainStore.blockName,
+                    beneficiary_settlement: MainStore.settlementName,
+                    crop_Grid_id: MainStore.selectedResource?.id
+                };
 
-            survey.onComplete.add(surveyComplete);
-            setSheetBody(<Survey model={survey} />);
+                survey.onComplete.add(surveyComplete);
+                
+                if (!cancelled) {
+                    setSheetBody(<Survey model={survey} />);
+                }
+            } catch (err) {
+                if (cancelled) return;
+                console.error('Error loading form:', err);
+                setSheetBody(
+                    <span style={{ color: "#0047ab", fontWeight: "bold" }}>
+                        Failed to load form: {err.message}
+                    </span>
+                );
+            }
+        };
 
-        }catch(err){
-            if (cancelled) return;
-            console.error(err);
-            setSheetBody(
-              <span style={{ color: "#0047ab", fontWeight: "bold" }}>
-                Failed to load form: {err.message}
-              </span>
-            );
-        }
+        loadForm();
+
         return () => {
-          cancelled = true; // guard against setState after unmount
+            cancelled = true; // guard against setState after unmount
         };
     }, [MainStore.isForm, MainStore.formUrl]);
 
     useEffect(() => {
-
         if (!(MainStore.isEditForm && MainStore.formEditData && MainStore.formEditType)) return;
 
         let cancelled = false;
         setEditBody(<span>Loading form…</span>);
 
-        let schema = null
-        
-        if(MainStore.formEditType === "settlement"){ schema = settlementForm}
-        else if(MainStore.formEditType === "well"){ schema = wellForm }
-        else if(MainStore.formEditType === "waterstructure"){ schema = WaterStructureForm}
-        else if(MainStore.formEditType === "cropping"){ schema = croppingForm }
-        else if(MainStore.formEditType === "recharge"){ schema = rechargeStructure }
-        else if(MainStore.formEditType === "irrigation"){ schema = irrigationForm }
-        else if(MainStore.formEditType === "livelihood"){ schema = livelihoodForm }
-        else if(MainStore.formEditType === "irrigation"){ schema = irrigationForm }
-        else if(MainStore.formEditType === "feedbackAgri"){ schema = feedbackAgri }
-        else if(MainStore.formEditType === "feedbackGW"){ schema = feedbackGW }
-        else if(MainStore.formEditType === "feedbackSWB"){ schema = feedbackSWB }
-        else if(MainStore.formEditType === "maintainSWB"){ schema = maintainenceSWB }
-        else if(MainStore.formEditType === "maintainWB"){ schema = maintainenceWB }
-        else if(MainStore.formEditType === "maintainGW"){ schema = maintainenceGW }
-        else{ schema = maintainenceAG }
+        // Fetch form schema from server
+        const loadEditForm = async () => {
+            try {
+                const schema = await fetchFormSchema(MainStore.formEditType);
+                
+                if (cancelled) return; // Don't proceed if component unmounted
 
-        try{
-            const survey = new Model(schema);
+                const survey = new Model(schema);
 
-            survey.data = MainStore.formEditData;
+                survey.data = MainStore.formEditData;
 
-            survey.onComplete.add(surveyComplete);
-            setEditBody(<Survey model={survey} />);
-
-        }catch(err){
-            if (cancelled) return;
-            console.error(err);
-            setEditBody(
-              <span style={{ color: "#0047ab", fontWeight: "bold" }}>
-                Failed to load form: {err.message}
-              </span>
-            );
-        }
-        return () => {
-          cancelled = true; // guard against setState after unmount
+                survey.onComplete.add(surveyComplete);
+                
+                if (!cancelled) {
+                    setEditBody(<Survey model={survey} />);
+                }
+            } catch (err) {
+                if (cancelled) return;
+                console.error('Error loading edit form:', err);
+                setEditBody(
+                    <span style={{ color: "#0047ab", fontWeight: "bold" }}>
+                        Failed to load form: {err.message}
+                    </span>
+                );
+            }
         };
-    }, [MainStore.isEditForm, MainStore.formEditData, MainStore.formEditType])
+
+        loadEditForm();
+
+        return () => {
+            cancelled = true; // guard against setState after unmount
+        };
+    }, [MainStore.isEditForm, MainStore.formEditData, MainStore.formEditType]);
 
     const LayerStoreKeysGW = [
-        "AdminBoundary", "NregaLayer", "WellDepth", "DrainageLayer",
-        "SettlementLayer", 
-        "WellLayer", "WaterStructure",
-        "WorkGroundwater", "CLARTLayer"
+        "CLARTLayer"
     ]
 
     const LayerStoreKeysAgri = [
-        "AdminBoundary", "NregaLayer", "DrainageLayer",
-        "SettlementLayer", 
-        "WellLayer", "WaterStructure",
-        "WorkAgri", "CLARTLayer", "LULCLayer"
+        "CLARTLayer", "LULCLayer"
     ]
     
     const ResourceMetaKeys = {
@@ -563,7 +570,6 @@ const Bottomsheet = () => {
                 onClick={() => {
                     LayerStore[layerStoreFuncMapping[key]](!LayerStore[key])
                     MainStore.setLayerClicked(key)
-                    console.log("IN BOTTOM SHEET")
                 }}
                 className={`px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 border-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 shadow-sm hover:shadow-md
                 ${LayerStore[key]
@@ -595,7 +601,7 @@ const Bottomsheet = () => {
                 MainStore.setSettlementName(formData.Settlements_name)
             }
 
-            const submissions = JSON.parse(localStorage.getItem(MainStore.currentPlan.plan_id) || '{}');
+            const submissions = JSON.parse(localStorage.getItem(MainStore.currentPlan.id) || '{}');
 
             if(submissions[MainStore.formUrl] === undefined){
                 submissions[MainStore.formUrl] = []
@@ -605,7 +611,7 @@ const Bottomsheet = () => {
 
             const arrayString = JSON.stringify(submissions);
 
-            localStorage.setItem(MainStore.currentPlan.plan_id, arrayString);
+            localStorage.setItem(MainStore.currentPlan.id, arrayString);
 
             MainStore.setFormData(submissions)
 
@@ -615,7 +621,7 @@ const Bottomsheet = () => {
         if(MainStore.isEditForm){
             const formData = sender.data
 
-            const submissions = JSON.parse(localStorage.getItem(MainStore.currentPlan.plan_id));
+            const submissions = JSON.parse(localStorage.getItem(MainStore.currentPlan.id));
 
             let changeIdx = -1
 
@@ -636,7 +642,7 @@ const Bottomsheet = () => {
 
             const arrayString = JSON.stringify(submissions);
 
-            localStorage.setItem(MainStore.currentPlan.plan_id, arrayString);
+            localStorage.setItem(MainStore.currentPlan.id, arrayString);
 
             MainStore.setFormData(submissions)
         }
@@ -725,7 +731,19 @@ const Bottomsheet = () => {
             "
             aria-label="Close"
             >
-            &times;
+            <svg 
+              className="w-3.5 h-3.5" 
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+            >
+              <path 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                strokeWidth={2} 
+                d="M6 18L18 6M6 6l12 12" 
+              />
+            </svg>
             </button>
             <div className="pt-6">
             {renderBody()}

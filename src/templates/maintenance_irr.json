@@ -15,16 +15,9 @@
           "isRequired": true
         },
         {
-          "type": "text",
-          "name": "work_id",
-          "title": "Work ID",
-          "readOnly": true
-        },
-        {
           "type": "radiogroup",
           "name": "demand_type",
           "title": "Type of demand",
-          "isRequired": true,
           "choices": [
             {
               "value": "Community_demand",
@@ -67,7 +60,8 @@
         {
           "type": "radiogroup",
           "name": "select_one_irrigation_structure",
-          "title": "Select type of irrigation structure",
+          "title": "Select the type of repair maintenance required in this irrigation structure ?",
+          "isRequired": true,
           "choices": [
             "Farm pond",
             "Community Pond",
@@ -96,7 +90,7 @@
         {
           "type": "text",
           "name": "select_one_farm_pond_other",
-          "visibleIf": "{select_one_farm_pond} = 'other'",
+          "visibleIf": "{select_one_farm_pond} = 'other' and {select_one_irrigation_structure} = 'Farm pond'",
           "title": "Specify other farm pond repair",
           "isRequired": true
         },
@@ -120,7 +114,7 @@
         {
           "type": "text",
           "name": "select_one_community_pond_other",
-          "visibleIf": "{select_one_community_pond} = 'other'",
+          "visibleIf": "{select_one_community_pond} = 'other' and {select_one_irrigation_structure} = 'Community Pond'",
           "title": "Specify other community pond repair",
           "isRequired": true
         },
@@ -144,7 +138,7 @@
         {
           "type": "text",
           "name": "select_one_well_other",
-          "visibleIf": "{select_one_well} = 'other'",
+          "visibleIf": "{select_one_well} = 'other' and {select_one_irrigation_structure} = 'Well'",
           "title": "Specify other well repair",
           "isRequired": true
         },
@@ -170,7 +164,7 @@
         {
           "type": "text",
           "name": "select_one_canal_other",
-          "visibleIf": "{select_one_canal} = 'other'",
+          "visibleIf": "{select_one_canal} = 'other' and {select_one_irrigation_structure} = 'Canal'",
           "title": "Specify other canal repair",
           "isRequired": true
         },
@@ -193,7 +187,7 @@
         {
           "type": "text",
           "name": "select_one_farm_bund_other",
-          "visibleIf": "{select_one_farm_bund} = 'other'",
+          "visibleIf": "{select_one_farm_bund} = 'other' and {select_one_irrigation_structure} = 'Farm bund'",
           "title": "Specify other farm bund repair",
           "isRequired": true
         },
@@ -244,6 +238,12 @@
         },
         {
           "type": "text",
+          "name": "work_id",
+          "title": "Work ID",
+          "readOnly": true
+        },
+        {
+          "type": "text",
           "name": "corresponding_work_id",
           "title": "Corresponding Work ID",
           "readOnly": true
@@ -252,12 +252,6 @@
           "type": "text",
           "name": "user_latlon",
           "title": "Current location of the user",
-          "readOnly": true
-        },
-        {
-          "type": "text",
-          "name": "username",
-          "title": "Username",
           "readOnly": true
         }
       ]

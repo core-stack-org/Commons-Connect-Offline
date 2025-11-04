@@ -17,8 +17,7 @@
         {
           "type": "text",
           "name": "Settlements_name",
-          "title": "Settlement's name",
-          "isRequired": true
+          "title": "Settlement's name"
         },
         {
           "type": "text",
@@ -34,38 +33,32 @@
           "inputType": "number"
         },
         {
-          "type": "panel",
-          "name": "households_by_caste",
-          "elements": [
-            {
-              "type": "text",
-              "name": "count_sc",
-              "title": "Total Households count under SC Category",
-              "isRequired": true,
-              "inputType": "number"
-            },
-            {
-              "type": "text",
-              "name": "count_st",
-              "title": "Total Households count under ST Category",
-              "isRequired": true,
-              "inputType": "number"
-            },
-            {
-              "type": "text",
-              "name": "count_obc",
-              "title": "Total Households count under OBC Category",
-              "isRequired": true,
-              "inputType": "number"
-            },
-            {
-              "type": "text",
-              "name": "count_general",
-              "title": "Total Households count under General Category",
-              "isRequired": true,
-              "inputType": "number"
-            }
-          ]
+          "type": "text",
+          "name": "count_sc",
+          "title": "Total Households count under SC Category",
+          "isRequired": true,
+          "inputType": "number"
+        },
+        {
+          "type": "text",
+          "name": "count_st",
+          "title": "Total Households count under ST Category",
+          "isRequired": true,
+          "inputType": "number"
+        },
+        {
+          "type": "text",
+          "name": "count_obc",
+          "title": "Total Households count under OBC Category",
+          "isRequired": true,
+          "inputType": "number"
+        },
+        {
+          "type": "text",
+          "name": "count_general",
+          "title": "Total Households count under General Category",
+          "isRequired": true,
+          "inputType": "number"
         },
         {
           "type": "text",
@@ -89,7 +82,8 @@
         {
           "type": "text",
           "name": "distance_settlement_block",
-          "title": "Distance of the settlement from the block headquarters (in kilometers)",
+          "title": "Distance of the settlement from the block headquarters",
+          "description": "In kilometers (kms)",
           "validators": [
             {
               "type": "numeric",
@@ -123,23 +117,23 @@
           "items": [
             {
               "name": "landless_farmers",
-              "title": "Landless farmers"
+              "title": "Number of farmers with no land"
             },
             {
               "name": "marginal_farmers",
-              "title": "Marginal farmers(<2.5 acres)"
+              "title": "Number of farmers with land < 2.5 acres"
             },
             {
               "name": "small_farmers",
-              "title": "Small farmers(2.5 to 5 acres)"
+              "title": "Number of farmers with small land holdings (2.5 to 5 acres)"
             },
             {
               "name": "medium_farmers",
-              "title": "Medium farmers(5 to 10 acres)"
+              "title": "Number of farmers with medium land holding (5 to 10 acres)"
             },
             {
               "name": "big_farmers",
-              "title": "Big farmers(>10 acres)"
+              "title": "Number of farmers with large land holdings (> 10 acres)"
             }
           ]
         },
@@ -166,9 +160,6 @@
             {
               "name": "Bail",
               "title": "Ox"
-            },
-            {
-              "name": "Other"
             }
           ]
         },
@@ -177,6 +168,12 @@
           "name": "MNREGA_INFORMATION",
           "title": "MGNREGA INFORMATION",
           "elements": [
+            {
+              "type": "text",
+              "name": "question1",
+              "title": "Total number of households with BPL / PDS cards in this settlement",
+              "description": "Cannot exceed the total number of households"
+            },
             {
               "type": "text",
               "name": "MNREGA_INFORMATION-NREGA_applied",
@@ -204,7 +201,7 @@
             {
               "type": "text",
               "name": "MNREGA_INFORMATION-NREGA_work_days",
-              "title": "How many days of work did households receive under NREGA in the previous year in this settlement?",
+              "title": "On average, how many work days did a NREGA card holder get in the previous year?",
               "validators": [
                 {
                   "type": "numeric",
@@ -220,28 +217,39 @@
               "html": "<span style=\"color:red\">To calculate the total days of work, add up the workdays provided to all households with job cards as recorded in the MGNREGA database</span>"
             },
             {
-              "type": "radiogroup",
-              "name": "MNREGA_INFORMATION-select_one_demands",
-              "title": "Were the households involved in the demand planning and were demands put up for new NRM works in this settlement?",
-              "isRequired": true,
+              "type": "checkbox",
+              "name": "MNREGA_INFORMATION-reason_low_work",
+              "visibleIf": "{MNREGA_INFORMATION-NREGA_work_days} < 50",
+              "title": "What were the reasons for low work uptake under NREGA?\n",
               "choices": [
                 {
                   "value": "yes, and many demands were fullfilled",
-                  "text": "Yes, and many demands were fulfilled"
+                  "text": "Migration"
                 },
                 {
                   "value": "yes, but most of demands were not met",
-                  "text": "Yes, but most of demands were not met"
+                  "text": "Poor wages"
                 },
-                "No, did not make demands"
+                {
+                  "value": "No, did not make demands",
+                  "text": "Saturation of works"
+                },
+                {
+                  "value": "Item 1",
+                  "text": "Other"
+                }
               ]
+            },
+            {
+              "type": "text",
+              "name": "MNREGA_INFORMATION-reason_low_work_other",
+              "visibleIf": "{MNREGA_INFORMATION-reason_low_work} allof ['Item 1']",
+              "title": "Specify other."
             },
             {
               "type": "checkbox",
               "name": "MNREGA_INFORMATION-work_demands",
-              "visibleIf": "{MNREGA_INFORMATION-select_one_demands} = 'yes, and many demands were fullfilled' or {MNREGA_INFORMATION-select_one_demands} = 'yes, but most of demands were not met'",
               "title": "What kind of work demands did the settlement proposed in the past ?",
-              "isRequired": true,
               "choices": [
                 {
                   "value": "Farm_pond",
@@ -340,6 +348,10 @@
                 {
                   "value": "other",
                   "text": "Other"
+                },
+                {
+                  "value": "No_demands_were_raised",
+                  "text": "No demands were raised"
                 }
               ]
             },
@@ -390,7 +402,7 @@
               "type": "text",
               "name": "MNREGA_INFORMATION-select_multiple_issues_other",
               "visibleIf": "{MNREGA_INFORMATION-select_multiple_issues} anyof ['other']",
-              "title": "Specify other.",
+              "title": "Please specify other issue",
               "isRequired": true
             },
             {
@@ -463,11 +475,6 @@
           "type": "text",
           "name": "user_latlon",
           "title": "Current location of the user"
-        },
-        {
-          "type": "text",
-          "name": "username",
-          "title": "Username"
         }
       ]
     }

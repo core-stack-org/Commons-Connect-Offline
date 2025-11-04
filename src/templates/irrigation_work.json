@@ -12,6 +12,7 @@
           "type": "text",
           "name": "beneficiary_settlement",
           "title": "Name of Beneficiary's Settlement",
+          "isRequired": true,
           "validators": [
             {
               "type": "regex",
@@ -23,6 +24,7 @@
           "type": "radiogroup",
           "name": "demand_type_irrigation",
           "title": "Type of demand",
+          "isRequired": true,
           "choices": [
             {
               "value": "Community_demand",
@@ -47,11 +49,11 @@
           "title": "Gender",
           "choices": [
             {
-              "value": "Item 1",
+              "value": "male",
               "text": "Male"
             },
             {
-              "value": "Item 2",
+              "value": "female",
               "text": "Female"
             }
           ]
@@ -78,9 +80,9 @@
         },
         {
           "type": "text",
-          "name": "work_id",
-          "title": "Work ID",
-          "readOnly": true
+          "name": "khasra",
+          "visibleIf": "{demand_type_irrigation} = 'Individual_demand'",
+          "title": "Provide khasra number"
         },
         {
           "type": "radiogroup",
@@ -104,12 +106,6 @@
           "name": "TYPE_OF_WORK_ID_other",
           "visibleIf": "{TYPE_OF_WORK_ID} = 'other'",
           "title": "Specify other."
-        },
-        {
-          "type": "text",
-          "name": "khasra",
-          "visibleIf": "{TYPE_OF_WORK_ID} = 'other'",
-          "title": "Provide khasra number"
         },
         {
           "type": "multipletext",
@@ -167,7 +163,7 @@
           "type": "multipletext",
           "name": "Community_pond",
           "visibleIf": "{TYPE_OF_WORK_ID} = 'Community Pond'",
-          "title": "Provide dimensions of community pond ( Length, Width and Height is in feet )",
+          "title": "Provide dimensions of community pond ( Length, Width and depth is in feet )",
           "items": [
             {
               "name": "Length_4",
@@ -179,7 +175,7 @@
             },
             {
               "name": "Height_4",
-              "title": "Provide dimensions - Height"
+              "title": "Provide dimensions - depth"
             }
           ]
         },
@@ -273,6 +269,12 @@
         },
         {
           "type": "text",
+          "name": "work_id",
+          "title": "Work ID",
+          "readOnly": true
+        },
+        {
+          "type": "text",
           "name": "block_name",
           "title": "Block name"
         },
@@ -292,11 +294,6 @@
           "type": "text",
           "name": "user_latlon",
           "title": "Current location of the user"
-        },
-        {
-          "type": "text",
-          "name": "username",
-          "title": "Username"
         }
       ]
     }

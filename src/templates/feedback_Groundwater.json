@@ -11,26 +11,23 @@
         {
           "type": "html",
           "name": "form_description",
-          "html": "<p><strong>Please fill out the feedback form as per your past experiences and observations for this micro watershed</strong></p><p><span style=\"color: #666;\">कृपया इस वाटरशेड के लिए अपने पिछले अनुभवों और ऑब्ज़र्वेशन के आधार पर फीडबैक फॉर्म भरें</span></p>"
+          "html": "<p><strong>Please fill out the feedback form as per your past experiences and observations for this micro watershed</strong></p>"
         },
         {
           "type": "panel",
           "name": "water_table_open_wells",
           "title": "Depth to water observed in open wells or dug wells (in feet)",
-          "description": "खुले कुओं या खोदे गए कुओं में देखी गई पानी की गहराई (फीट में)",
           "elements": [
             {
               "type": "text",
               "name": "open_wells_present",
               "title": "Present",
-              "description": "वर्तमान",
               "inputType": "number"
             },
             {
               "type": "text",
               "name": "open_wells_five_years_back",
               "title": "Five years back",
-              "description": "पांच साल पहले",
               "inputType": "number"
             }
           ]
@@ -39,20 +36,17 @@
           "type": "panel",
           "name": "water_table_borewells",
           "title": "Depth to water observed in borewells or tube wells (in Feet)",
-          "description": "बोरवेल या ट्यूबवेल में देखी गई पानी की गहराई (फीट में)",
           "elements": [
             {
               "type": "text",
               "name": "borewells_present",
               "title": "Present",
-              "description": "वर्तमान",
               "inputType": "number"
             },
             {
               "type": "text",
               "name": "borewells_five_years_back",
               "title": "Five years back",
-              "description": "पांच साल पहले",
               "inputType": "number"
             }
           ]
@@ -61,7 +55,6 @@
           "type": "text",
           "name": "village_name",
           "title": "Are certain parts of the village more affected by groundwater depletion? If Yes, specify village name",
-          "description": "क्या गांव के कुछ हिस्से में भूजल की कमी ज्यादा है? यदि हां, तो गांव का नाम बताएं",
           "placeholder": "Enter village name if applicable"
         }
       ]

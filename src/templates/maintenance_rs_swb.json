@@ -15,12 +15,6 @@
           "isRequired": true
         },
         {
-          "type": "text",
-          "name": "work_id",
-          "title": "Work ID",
-          "readOnly": true
-        },
-        {
           "type": "radiogroup",
           "name": "demand_type",
           "title": "Type of demand",
@@ -261,8 +255,8 @@
         },
         {
           "type": "text",
-          "name": "username",
-          "title": "Username",
+          "name": "work_id",
+          "title": "Work ID",
           "readOnly": true
         }
       ]

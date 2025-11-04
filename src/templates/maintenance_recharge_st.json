@@ -11,13 +11,8 @@
         {
           "type": "text",
           "name": "beneficiary_settlement",
-          "title": "Name of Beneficiary's Settlement"
-        },
-        {
-          "type": "text",
-          "name": "work_id",
-          "title": "Work ID",
-          "readOnly": true
+          "title": "Name of Beneficiary's Settlement",
+          "isRequired": true
         },
         {
           "type": "radiogroup",
@@ -39,15 +34,13 @@
           "type": "text",
           "name": "Beneficiary_Name",
           "visibleIf": "{demand_type} = 'Individual_demand'",
-          "title": "Beneficiary's Name",
-          "isRequired": true
+          "title": "Beneficiary's Name"
         },
         {
           "type": "radiogroup",
           "name": "select_gender",
           "visibleIf": "{demand_type} = 'Individual_demand'",
           "title": "Gender",
-          "isRequired": true,
           "choices": [
             {
               "value": "female",
@@ -63,8 +56,7 @@
           "type": "text",
           "name": "ben_father",
           "visibleIf": "{demand_type} = 'Individual_demand'",
-          "title": "Beneficiary's father's name",
-          "isRequired": true
+          "title": "Beneficiary's father's name"
         },
         {
           "type": "text",
@@ -515,7 +507,7 @@
         {
           "type": "html",
           "name": "main_rs_note_1",
-          "html": "<span style=\"font-size: large; font-weight: bold; color:red;\">DO NOT MODIFY ANYTHING BEYOND THIS POINT</span>"
+          "html": "<span style=\"font-size: large; font-weight: bold; color:red;\">DO NOT MODIFY ANYTHING BEYOND THIS POINT AND SUBMIT YOUR FORM DATA</span>"
         },
         {
           "type": "multipletext",
@@ -533,6 +525,12 @@
               "title": "Longitude (x.y °)"
             }
           ]
+        },
+        {
+          "type": "text",
+          "name": "work_id",
+          "title": "Work ID",
+          "readOnly": true
         },
         {
           "type": "text",
@@ -562,12 +560,6 @@
           "type": "text",
           "name": "user_latlon",
           "title": "Current location of the user",
-          "readOnly": true
-        },
-        {
-          "type": "text",
-          "name": "username",
-          "title": "Username",
           "readOnly": true
         }
       ]

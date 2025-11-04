@@ -150,7 +150,6 @@
               "type": "radiogroup",
               "name": "Livestock-demands_promoting_livestock",
               "title": "Select all the demands for promoting livestock development",
-              "isRequired": true,
               "choices": [
                 {
                   "value": "poultry_shelter",
@@ -317,7 +316,6 @@
               "type": "radiogroup",
               "name": "fisheries-demands_promoting_fisheries",
               "title": "Select all that demands for promoting fisheries in the settlement",
-              "isRequired": true,
               "choices": [
                 {
                   "value": "Storage_facilities",

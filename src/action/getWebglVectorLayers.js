@@ -29,11 +29,11 @@ function getOfflineFilePath(layer_store, resource_type="") {
     case "cropping_drought":
       return `${basePath}/cropping_drought.geojson`;
 
-    case "cropping_intensity":
+    case "crop_intensity":
       return `${basePath}/cropping_intensity.geojson`;
 
-    // case "crop_grid_layers":
-    //   return `${basePath}/crop_grid.geojson`;
+    case "crop_grid_layers":
+      return `${basePath}/crop_grid.geojson`;
 
     default:
       console.error("Unknown layer_store for offline mode:", layer_store);

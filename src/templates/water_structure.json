@@ -81,7 +81,10 @@
             "Private",
             "Shared among families",
             "Don't know",
-            "Any other"
+            {
+              "value": "Any other",
+              "text": "Other"
+            }
           ]
         },
         {
@@ -120,6 +123,7 @@
           "type": "text",
           "name": "households_benefited",
           "title": "Total number of households benefited from this water structure in this settlement?",
+          "isRequired": true,
           "validators": [
             {
               "type": "numeric",
@@ -132,6 +136,7 @@
           "type": "checkbox",
           "name": "select_multiple_caste_use",
           "title": "Which caste groups use the water structure in this settlement?",
+          "isRequired": true,
           "choices": [
             "GC",
             "SC",
@@ -160,6 +165,7 @@
           "type": "radiogroup",
           "name": "select_one_scheme",
           "title": "Under which scheme were funds made available for the construction of this structure in this settlement?",
+          "isRequired": true,
           "choices": [
             "MGNREGA",
             "PM-KUSUM",
@@ -187,7 +193,7 @@
           ]
         },
         {
-          "type": "radiogroup",
+          "type": "checkbox",
           "name": "Repair_of_farm_ponds",
           "visibleIf": "{select_one_water_structure} = 'Farm pond' and {select_one_maintenance} = 'Yes'",
           "title": "Repair of farm ponds",
@@ -207,7 +213,7 @@
           "title": "Specify other"
         },
         {
-          "type": "radiogroup",
+          "type": "checkbox",
           "name": "Repair_of_canal",
           "visibleIf": "{select_one_water_structure} = 'Canal' and {select_one_maintenance} = 'Yes'",
           "title": "Repair of canal",
@@ -226,7 +232,7 @@
           "title": "Specify other"
         },
         {
-          "type": "radiogroup",
+          "type": "checkbox",
           "name": "Repair_of_community_pond",
           "visibleIf": "{select_one_water_structure} = 'Community Pond' and {select_one_maintenance} = 'Yes'",
           "title": "Repair of community pond",
@@ -246,7 +252,7 @@
           "title": "Specify other"
         },
         {
-          "type": "radiogroup",
+          "type": "checkbox",
           "name": "Repair_of_check_dam",
           "visibleIf": "{select_one_water_structure} = 'Check dam' and {select_one_maintenance} = 'Yes'",
           "title": "Repair of check dam",
@@ -264,7 +270,7 @@
           "title": "Specify other"
         },
         {
-          "type": "radiogroup",
+          "type": "checkbox",
           "name": "Repair_of_percolation_tank",
           "visibleIf": "{select_one_water_structure} = 'Percolation tank' and {select_one_maintenance} = 'Yes'",
           "title": "Repair of percolation tank",
@@ -284,7 +290,7 @@
           "title": "Specify other"
         },
         {
-          "type": "radiogroup",
+          "type": "checkbox",
           "name": "Repair_of_trench_cum_bund_network",
           "visibleIf": "{select_one_water_structure} = 'Trench cum bund network' and {select_one_maintenance} = 'Yes'",
           "title": "Repair of trench cum bund network",
@@ -302,7 +308,7 @@
           "title": "Specify other"
         },
         {
-          "type": "radiogroup",
+          "type": "checkbox",
           "name": "Repair_of_large_water_body",
           "visibleIf": "{select_one_water_structure} = 'Large water body' and {select_one_maintenance} = 'Yes'",
           "title": "Repair of large water body",
@@ -321,7 +327,7 @@
           "title": "Specify other"
         },
         {
-          "type": "radiogroup",
+          "type": "checkbox",
           "name": "Repair_of_earthen_gully_plug",
           "visibleIf": "{select_one_water_structure} = 'Earthen gully plug' and {select_one_maintenance} = 'Yes'",
           "title": "Repair of earthen gully plug",
@@ -340,7 +346,7 @@
           "title": "Specify other"
         },
         {
-          "type": "radiogroup",
+          "type": "checkbox",
           "name": "Repair_of_loose_boulder_structure",
           "visibleIf": "{select_one_water_structure} = 'Loose boulder structure' and {select_one_maintenance} = 'Yes'",
           "title": "Repair of loose boulder structure",
@@ -358,7 +364,7 @@
           "title": "Specify other"
         },
         {
-          "type": "radiogroup",
+          "type": "checkbox",
           "name": "Repair_of_drainage_soakage_channels",
           "visibleIf": "{select_one_water_structure} = 'Drainage/soakage channels' and {select_one_maintenance} = 'Yes'",
           "title": "Repair of drainage/soakage channels",
@@ -377,7 +383,7 @@
           "title": "Specify other"
         },
         {
-          "type": "radiogroup",
+          "type": "checkbox",
           "name": "Repair_of_recharge_pits",
           "visibleIf": "{select_one_water_structure} = 'Recharge pits' and {select_one_maintenance} = 'Yes'",
           "title": "Repair of recharge pits",
@@ -396,7 +402,7 @@
           "title": "Specify other"
         },
         {
-          "type": "radiogroup",
+          "type": "checkbox",
           "name": "Repair_of_soakage_pits",
           "visibleIf": "{select_one_water_structure} = 'Soakage pits' and {select_one_maintenance} = 'Yes'",
           "title": "Repair of soakage pits",
@@ -415,7 +421,7 @@
           "title": "Specify other"
         },
         {
-          "type": "radiogroup",
+          "type": "checkbox",
           "name": "Repair_of_Continuous_contour_trenches",
           "visibleIf": "{select_one_water_structure} = 'Continuous contour trenches (CCT)' and {select_one_maintenance} = 'Yes'",
           "title": "Repair of continuous contour trenches (CCT)",
@@ -433,7 +439,7 @@
           "title": "Specify other"
         },
         {
-          "type": "radiogroup",
+          "type": "checkbox",
           "name": "Repair_of_Staggered_contour_trenches",
           "visibleIf": "{select_one_water_structure} = 'Staggered Contour trenches (SCT)' and {select_one_maintenance} = 'Yes'",
           "title": "Repair of staggered contour trenches (SCT)",
@@ -451,7 +457,7 @@
           "title": "Specify other"
         },
         {
-          "type": "radiogroup",
+          "type": "checkbox",
           "name": "Repair_of_Water_absorption_trenches",
           "visibleIf": "{select_one_water_structure} = 'Water absorption trenches (WAT)' and {select_one_maintenance} = 'Yes'",
           "title": "Repair of water absorption trenches (WAT)",
@@ -469,7 +475,7 @@
           "title": "Specify other"
         },
         {
-          "type": "radiogroup",
+          "type": "checkbox",
           "name": "Repair_of_rock_fill_dam",
           "visibleIf": "{select_one_water_structure} = 'Rock fill dam' and {select_one_maintenance} = 'Yes'",
           "title": "Repair of rock fill dam",
@@ -487,7 +493,7 @@
           "title": "Specify other"
         },
         {
-          "type": "radiogroup",
+          "type": "checkbox",
           "name": "Repair_of_stone_bunding",
           "visibleIf": "{select_one_water_structure} = 'Stone bunding' and {select_one_maintenance} = 'Yes'",
           "title": "Repair of stone bunding",
@@ -505,7 +511,7 @@
           "title": "Specify other"
         },
         {
-          "type": "radiogroup",
+          "type": "checkbox",
           "name": "Repair_of_diversion_drains",
           "visibleIf": "{select_one_water_structure} = 'Diversion drains' and {select_one_maintenance} = 'Yes'",
           "title": "Repair of diversion drains",
@@ -523,7 +529,7 @@
           "title": "Specify other"
         },
         {
-          "type": "radiogroup",
+          "type": "checkbox",
           "name": "Repair_of_bunding",
           "visibleIf": "{select_one_water_structure} = 'Bunding:Contour bunds/ graded bunds' and {select_one_maintenance} = 'Yes'",
           "title": "Repair of bunding:contour bunds / graded bunds",
@@ -544,10 +550,10 @@
           "title": "Specify other"
         },
         {
-          "type": "radiogroup",
+          "type": "checkbox",
           "name": "Repair_of_farm_bund",
           "visibleIf": "{select_one_water_structure} = 'Farm bund' and {select_one_maintenance} = 'Yes'",
-          "title": "Repair of farm bund",
+          "title": "Repair of Farm bund",
           "choices": [
             "Repairing cracks or breaches in the bund",
             "Strengthening bund structure with additional soil or materials",
@@ -563,7 +569,7 @@
           "title": "Specify other"
         },
         {
-          "type": "radiogroup",
+          "type": "checkbox",
           "name": "Repair_of_model5_structure",
           "visibleIf": "{select_one_water_structure} = '5% model structure' and {select_one_maintenance} = 'Yes'",
           "title": "Repair of 5% model structure",
@@ -581,7 +587,7 @@
           "title": "Specify other"
         },
         {
-          "type": "radiogroup",
+          "type": "checkbox",
           "name": "Repair_of_30_40_model_structure",
           "visibleIf": "{select_one_water_structure} = '30-40 model structure' and {select_one_maintenance} = 'Yes'",
           "title": "Repair of 30-40 model structure",
@@ -631,7 +637,7 @@
           "type": "text",
           "name": "text_record",
           "visible": false,
-          "title": "If you cannot record, write down the justification for the need of maintenance of recharge structure at this location"
+          "title": "Write down the justification for the need of maintenance of recharge structure at this location"
         },
         {
           "type": "html",
@@ -682,11 +688,6 @@
           "type": "text",
           "name": "user_latlon",
           "title": "Current location of the user"
-        },
-        {
-          "type": "text",
-          "name": "username",
-          "title": "Username"
         }
       ]
     }

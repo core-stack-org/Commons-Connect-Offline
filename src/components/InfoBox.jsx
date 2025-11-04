@@ -132,10 +132,10 @@ const InfoBox = () => {
   };
 
   const handleSyncData = () => {
-    let tempFormData = {}
+    let tempFormData = formData
     let tempSyncItems = selectedItems
 
-    tempSyncItems.forEach((item) =>{
+    selectedItems.forEach((item) =>{
       if(item === "settlement"){
 
         let xmlString = new XMLSerializer();
@@ -236,11 +236,11 @@ const InfoBox = () => {
             tempFormData['settlement'] = remainingData
             setFormData(tempFormData)
             const arrayString = JSON.stringify(tempFormData);
-            localStorage.setItem(currentPlan.plan_id, arrayString);
+            localStorage.setItem(currentPlan.id, arrayString);
           }
         })
 
-        setSelectedItems(prev => prev.filter(item => item !== "settlement"));
+        tempSyncItems = tempSyncItems.filter(item => item !== "settlement")
       }
       else if(item === "well"){
         let xmlString = new XMLSerializer();
@@ -331,11 +331,11 @@ const InfoBox = () => {
             tempFormData['well'] = remainingData
             setFormData(tempFormData)
             const arrayString = JSON.stringify(tempFormData);
-            localStorage.setItem(currentPlan.plan_id, arrayString);
+            localStorage.setItem(currentPlan.id, arrayString);
           }
-        })
 
-        setSelectedItems(prev => prev.filter(item => item !== "well"));
+        })
+        tempSyncItems = tempSyncItems.filter(item => item !== "well")
       }
       else if(item === "waterstructure"){
         let xmlString = new XMLSerializer();
@@ -413,11 +413,11 @@ const InfoBox = () => {
             tempFormData['waterstructure'] = remainingData
             setFormData(tempFormData)
             const arrayString = JSON.stringify(tempFormData);
-            localStorage.setItem(currentPlan.plan_id, arrayString);
+            localStorage.setItem(currentPlan.id, arrayString);
           }
         })
 
-        setSelectedItems(prev => prev.filter(item => item !== "waterstructure"));
+        tempSyncItems = tempSyncItems.filter(item => item !== "waterstructure")
       }
       else if(item === "cropping"){
         let xmlString = new XMLSerializer();
@@ -491,11 +491,11 @@ const InfoBox = () => {
             tempFormData['cropping'] = remainingData
             setFormData(tempFormData)
             const arrayString = JSON.stringify(tempFormData);
-            localStorage.setItem(currentPlan.plan_id, arrayString);
+            localStorage.setItem(currentPlan.id, arrayString);
           }
         })
 
-        setSelectedItems(prev => prev.filter(item => item !== "cropping"));
+        tempSyncItems = tempSyncItems.filter(item => item !== "cropping")
       }
       else if(item === "recharge"){
         let xmlString = new XMLSerializer();
@@ -602,11 +602,11 @@ const InfoBox = () => {
             tempFormData['recharge'] = remainingData
             setFormData(tempFormData)
             const arrayString = JSON.stringify(tempFormData);
-            localStorage.setItem(currentPlan.plan_id, arrayString);
+            localStorage.setItem(currentPlan.id, arrayString);
           }
         })
 
-        setSelectedItems(prev => prev.filter(item => item !== "recharge"));
+        tempSyncItems = tempSyncItems.filter(item => item !== "recharge")
       }
       else if(item === "irrigation"){
         let xmlString = new XMLSerializer();
@@ -691,11 +691,11 @@ const InfoBox = () => {
             tempFormData['irrigation'] = remainingData
             setFormData(tempFormData)
             const arrayString = JSON.stringify(tempFormData);
-            localStorage.setItem(currentPlan.plan_id, arrayString);
+            localStorage.setItem(currentPlan.id, arrayString);
           }
         })
 
-        setSelectedItems(prev => prev.filter(item => item !== "irrigation"));
+        tempSyncItems = tempSyncItems.filter(item => item !== "irrigation")
       }
       else if(item === "livelihood"){
         let xmlString = new XMLSerializer();
@@ -799,11 +799,11 @@ const InfoBox = () => {
             tempFormData['livelihood'] = remainingData
             setFormData(tempFormData)
             const arrayString = JSON.stringify(tempFormData);
-            localStorage.setItem(currentPlan.plan_id, arrayString);
+            localStorage.setItem(currentPlan.id, arrayString);
           }
         })
 
-        setSelectedItems(prev => prev.filter(item => item !== "livelihood"));
+        tempSyncItems = tempSyncItems.filter(item => item !== "livelihood")
       }
       else if(item === "maintainSWB"){
         let xmlString = new XMLSerializer();
@@ -877,11 +877,11 @@ const InfoBox = () => {
             tempFormData['maintainSWB'] = remainingData
             setFormData(tempFormData)
             const arrayString = JSON.stringify(tempFormData);
-            localStorage.setItem(currentPlan.plan_id, arrayString);
+            localStorage.setItem(currentPlan.id, arrayString);
           }
         })
 
-        setSelectedItems(prev => prev.filter(item => item !== "maintainSWB"));
+        tempSyncItems = tempSyncItems.filter(item => item !== "maintainSWB")
       }
       else if(item === "maintainGW"){
         let xmlString = new XMLSerializer();
@@ -955,11 +955,11 @@ const InfoBox = () => {
             tempFormData['maintainGW'] = remainingData
             setFormData(tempFormData)
             const arrayString = JSON.stringify(tempFormData);
-            localStorage.setItem(currentPlan.plan_id, arrayString);
+            localStorage.setItem(currentPlan.id, arrayString);
           }
         })
 
-        setSelectedItems(prev => prev.filter(item => item !== "maintainGW"));
+        tempSyncItems = tempSyncItems.filter(item => item !== "maintainGW")
       }
       else if(item === "maintainWB"){
         let xmlString = new XMLSerializer();
@@ -1034,11 +1034,11 @@ const InfoBox = () => {
             tempFormData['maintainWB'] = remainingData
             setFormData(tempFormData)
             const arrayString = JSON.stringify(tempFormData);
-            localStorage.setItem(currentPlan.plan_id, arrayString);
+            localStorage.setItem(currentPlan.id, arrayString);
           }
         })
 
-        setSelectedItems(prev => prev.filter(item => item !== "maintainWB"));
+        tempSyncItems = tempSyncItems.filter(item => item !== "maintainWB")
       }
       else if(item === "Maintain"){
         let xmlString = new XMLSerializer();
@@ -1112,11 +1112,11 @@ const InfoBox = () => {
             tempFormData['Maintain'] = remainingData
             setFormData(tempFormData)
             const arrayString = JSON.stringify(tempFormData);
-            localStorage.setItem(currentPlan.plan_id, arrayString);
+            localStorage.setItem(currentPlan.id, arrayString);
           }
         })
 
-        setSelectedItems(prev => prev.filter(item => item !== "Maintain"));
+        tempSyncItems = tempSyncItems.filter(item => item !== "Maintain")
       }
       else if(item === "feedbackSWB"){
         let xmlString = new XMLSerializer();
@@ -1188,11 +1188,11 @@ const InfoBox = () => {
             tempFormData['feedbackSWB'] = remainingData
             setFormData(tempFormData)
             const arrayString = JSON.stringify(tempFormData);
-            localStorage.setItem(currentPlan.plan_id, arrayString);
+            localStorage.setItem(currentPlan.id, arrayString);
           }
         })
 
-        setSelectedItems(prev => prev.filter(item => item !== "feedbackSWB"));
+        tempSyncItems = tempSyncItems.filter(item => item !== "feedbackSWB")
       }
       else if(item === "feedbackGW"){
         let xmlString = new XMLSerializer();
@@ -1264,11 +1264,11 @@ const InfoBox = () => {
             tempFormData['feedbackGW'] = remainingData
             setFormData(tempFormData)
             const arrayString = JSON.stringify(tempFormData);
-            localStorage.setItem(currentPlan.plan_id, arrayString);
+            localStorage.setItem(currentPlan.id, arrayString);
           }
         })
 
-        setSelectedItems(prev => prev.filter(item => item !== "feedbackGW"));
+        tempSyncItems = tempSyncItems.filter(item => item !== "feedbackGW")
       }
       else if(item === "feedbackAgri"){
         let xmlString = new XMLSerializer();
@@ -1340,20 +1340,20 @@ const InfoBox = () => {
             tempFormData['feedbackAgri'] = remainingData
             setFormData(tempFormData)
             const arrayString = JSON.stringify(tempFormData);
-            localStorage.setItem(currentPlan.plan_id, arrayString);
+            localStorage.setItem(currentPlan.id, arrayString);
           }
         })
 
-        setSelectedItems(prev => prev.filter(item => item !== "feedbackAgri"));
+        tempSyncItems = tempSyncItems.filter(item => item !== "feedbackAgri")
       }
     })
 
-    tempSyncItems.forEach((item) => {
+    selectedItems.forEach((item) => {
       if(item === "settlement"){
         const payload = {
           layer_name: "settlement_layer",
           resource_type: "settlement",
-          plan_id: MainStore.currentPlan.plan_id,
+          plan_id: MainStore.currentPlan.id,
           plan_name: MainStore.currentPlan.plan,
           district_name: MainStore.districtName,
           block_name: MainStore.blockName,
@@ -1370,7 +1370,7 @@ const InfoBox = () => {
         const payload = {
           layer_name: "well_layer",
           resource_type: "well",
-          plan_id: MainStore.currentPlan.plan_id,
+          plan_id: MainStore.currentPlan.id,
           plan_name: MainStore.currentPlan.plan,
           district_name: MainStore.districtName,
           block_name: MainStore.blockName,
@@ -1387,7 +1387,7 @@ const InfoBox = () => {
         const payload = {
           layer_name: "waterbody_layer",
           resource_type: "waterbody",
-          plan_id: MainStore.currentPlan.plan_id,
+          plan_id: MainStore.currentPlan.id,
           plan_name: MainStore.currentPlan.plan,
           district_name: MainStore.districtName,
           block_name: MainStore.blockName,
@@ -1404,7 +1404,7 @@ const InfoBox = () => {
         const payload = {
           layer_name: "planning_layer",
           work_type: "plan_agri",
-          plan_id: MainStore.currentPlan.plan_id,
+          plan_id: MainStore.currentPlan.id,
           plan_name: MainStore.currentPlan.plan,
           district_name: MainStore.districtName,
           block_name: MainStore.blockName,
@@ -1422,7 +1422,7 @@ const InfoBox = () => {
         const payload = {
           layer_name: "planning_layer",
           work_type: "livelihood",
-          plan_id: MainStore.currentPlan.plan_id,
+          plan_id: MainStore.currentPlan.id,
           plan_name: MainStore.currentPlan.plan,
           district_name: MainStore.districtName,
           block_name: MainStore.blockName,
@@ -1440,7 +1440,7 @@ const InfoBox = () => {
         const payload = {
           layer_name: "planning_layer",
           work_type: "plan_gw",
-          plan_id: MainStore.currentPlan.plan_id,
+          plan_id: MainStore.currentPlan.id,
           plan_name: MainStore.currentPlan.plan,
           district_name: MainStore.districtName,
           block_name: MainStore.blockName,
@@ -1455,7 +1455,43 @@ const InfoBox = () => {
         })
       }
     })
+
+    setSelectedItems(tempSyncItems)
   }
+
+  const handleDeleteSubmission = (formType, index) => {
+    // Show confirmation dialog
+    if (!window.confirm(`Are you sure you want to delete this ${submissionNameMapping[formType]} submission?`)) {
+      return;
+    }
+
+    try {
+      // Create a copy of formData
+      let updatedFormData = { ...formData };
+      
+      // Remove the item at the specified index
+      updatedFormData[formType] = updatedFormData[formType].filter((_, i) => i !== index);
+      
+      // Update the state
+      setFormData(updatedFormData);
+      
+      // Update localStorage
+      localStorage.setItem(currentPlan.id, JSON.stringify(updatedFormData));
+      
+      MainStore.setInfoRemoveLayer(formType)
+
+      // Show success message
+      toast.success(`${submissionNameMapping[formType]} submission deleted successfully`);
+      
+      // If no more items of this type, clear the selected form type
+      if (updatedFormData[formType].length === 0) {
+        setSelectedFormType('');
+      }
+    } catch (error) {
+      console.error('Error deleting submission:', error);
+      toast.error('Failed to delete submission');
+    }
+  };
   
   // Content for non-home screens
   const screenContent = {
@@ -1561,33 +1597,35 @@ const InfoBox = () => {
             <p>{t("info_agri_4")}</p>
 
             {currentStep === 0 ? (<>
-            <h3 className="font-extrabold mt-1 mb-1 text-lg underline">{t("LULC Legend")}</h3>
-            <div className="mt-2 grid grid-cols-2 gap-x-6 gap-y-2">
-              <div className="flex items-center">
-                <div className="w-6 h-6 rounded mr-3 bg-[#c6e46d]"></div>
-                <span>Single Kharif</span>
-              </div>
-              <div className="flex items-center">
-                <div className="w-6 h-6 rounded mr-3 bg-[#eee05d]"></div>
-                <span>Single Non-Kharif</span>
-              </div>
-              <div className="flex items-center">
-                <div className="w-6 h-6 rounded mr-3 bg-[#f9b249]"></div>
-                <span>Double Crop</span>
-              </div>
-              <div className="flex items-center">
-                <div className="w-6 h-6 rounded mr-3 bg-[#fb5139]"></div>
-                <span>Triple Crop</span>
-              </div>
-              <div className="flex items-center">
-                <div className="w-6 h-6 rounded mr-3 bg-[#A9A9A9]"></div>
-                <span>Barren Lands</span>
-              </div>
-              <div className="flex items-center">
-                <div className="w-6 h-6 rounded mr-3 bg-[#A9A9A9]"></div>
-                <span>Shrubs and Scrubs</span>
-              </div>
-            </div>
+            <h3 className="font-extrabold mt-1 mb-1 text-lg underline">
+                            {t("LULC Legend")}
+                        </h3>
+                        <div className="mt-2 grid grid-cols-2 gap-x-6 gap-y-2">
+                            <div className="flex items-center">
+                                <div className="w-6 h-6 rounded mr-3 bg-[#c6e46d]"></div>
+                                <span>Single Kharif</span>
+                            </div>
+                            <div className="flex items-center">
+                                <div className="w-6 h-6 rounded mr-3 bg-[#eee05d]"></div>
+                                <span>Single Non-Kharif</span>
+                            </div>
+                            <div className="flex items-center">
+                                <div className="w-6 h-6 rounded mr-3 bg-[#f9b249]"></div>
+                                <span>Double Crop</span>
+                            </div>
+                            <div className="flex items-center">
+                                <div className="w-6 h-6 rounded mr-3 bg-[#fb5139]"></div>
+                                <span>Triple Crop</span>
+                            </div>
+                            <div className="flex items-center">
+                                <div className="w-6 h-6 rounded mr-3 bg-[#a9a9a9]"></div>
+                                <span>Barren Lands</span>
+                            </div>
+                            <div className="flex items-center">
+                                <div className="w-6 h-6 rounded mr-3 bg-[#4c4ef5]"></div>
+                                <span>Shrubs and Scrubs</span>
+                            </div>
+                        </div>
             </>) : (
               <>
                 <h3 className="font-extrabold mt-1 mb-1 text-lg underline">{t("CLART Legend")}</h3>
@@ -1664,7 +1702,19 @@ const InfoBox = () => {
             setMenuOption(null);
           }}
         >
-          ✕
+          <svg 
+              className="w-3.5 h-3.5" 
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+            >
+              <path 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                strokeWidth={2} 
+                d="M6 18L18 6M6 6l12 12" 
+              />
+            </svg>
         </button>
 
         {/* Menu Option Content */}
@@ -1792,7 +1842,7 @@ const InfoBox = () => {
                     <>
                     <div className="mb-6">
                       <div className="flex flex-wrap gap-2 mb-3">
-                       {Object.keys(formData).map((item) => (
+                      {Object.keys(formData).map((item) => (
                         formData[item].length > 0 ? <button
                           key={item}
                           onClick={() => setSelectedFormType(item)}
@@ -1804,7 +1854,7 @@ const InfoBox = () => {
                         >
                           {formatFormType(submissionNameMapping[item])} ({formData[item]?.length || 0})
                         </button> : <></>
-                       ))}
+                      ))}
                       </div>
 
                       {selectedFormType && formData[selectedFormType] && (
@@ -1816,10 +1866,31 @@ const InfoBox = () => {
                               {formData[selectedFormType].map((item, index) => (
                                 <div
                                   key={item[`${selectedFormType}_id`] || item.Settlements_id || index}
-                                  className="bg-white border border-gray-200 rounded-lg p-3 sm:p-4 hover:shadow-md transition-shadow"
+                                  className="bg-white border border-gray-200 rounded-lg p-3 sm:p-4 hover:shadow-md transition-shadow relative"
                                 >
+                                  {/* Delete Button */}
+                                  <button
+                                    onClick={() => handleDeleteSubmission(selectedFormType, index)}
+                                    className="absolute top-2 right-2 w-6 h-6 flex items-center justify-center rounded-full bg-red-500 hover:bg-red-600 text-white transition-colors duration-200 group"
+                                    title="Delete submission"
+                                  >
+                                    <svg 
+                                      className="w-3.5 h-3.5" 
+                                      fill="none" 
+                                      stroke="currentColor" 
+                                      viewBox="0 0 24 24"
+                                    >
+                                      <path 
+                                        strokeLinecap="round" 
+                                        strokeLinejoin="round" 
+                                        strokeWidth={2} 
+                                        d="M6 18L18 6M6 6l12 12" 
+                                      />
+                                    </svg>
+                                  </button>
+
                                   {/* --- content --- */}
-                                  <div className="space-y-1.5 sm:space-y-2">
+                                  <div className="space-y-1.5 sm:space-y-2 pr-6">
                                     <h4 className="font-medium text-gray-900 text-sm sm:text-base">
                                       {getCardTitle(item, selectedFormType)}
                                     </h4>

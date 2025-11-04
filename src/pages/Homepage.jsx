@@ -206,7 +206,7 @@ const Homepage = () => {
                         onClick={() => {
                         setIsPlanOpen(false);
                         MainStore.setCurrentPlan(plan)
-                        }}
+                      }}
                     >
                         {plan.plan.split(' ').map(word => 
                           word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()

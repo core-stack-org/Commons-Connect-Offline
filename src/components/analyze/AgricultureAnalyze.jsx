@@ -141,12 +141,13 @@ const AgricultureAnalyze = () => {
     const triplePct = (tripled / totalCrop) * 100;
     const uncroppedPct = Math.max(0, 100 - (singlePct + doublePct + triplePct));
 
+
     const data = {
       labels: [`${year}`],
       datasets: [
         { label: 'Single', data: [singlePct.toFixed(1)], backgroundColor: '#57ad2b', borderRadius: 4 },
         { label: 'Double', data: [doublePct.toFixed(1)], backgroundColor: '#e68600', borderRadius: 4 },
-        { label: 'Triple', data: [triplePct.toFixed(1)], backgroundColor: '#b3561d', borderRadius: 4 },
+        { label: 'Tripple/Annual/Perennial', data: [triplePct.toFixed(1)], backgroundColor: '#b3561d', borderRadius: 4 },
         { label: 'Uncropped', data: [uncroppedPct.toFixed(1)], backgroundColor: '#A9A9A9', borderRadius: 4 },
       ],
     };
@@ -232,7 +233,7 @@ const AgricultureAnalyze = () => {
 
   return (
     <>
-      <div className="sticky top-0 z-20 bg-white text-center pt-8 text-xl font-bold text-gray-800 border-b border-gray-300 shadow-md pb-2">
+      <div className="sticky top-12 z-10 bg-white text-center pt-8 text-xl font-bold text-gray-800 border-b border-gray-300 shadow-md pb-2">
         {t("agri_heading")}
       </div>
 
@@ -282,21 +283,63 @@ const AgricultureAnalyze = () => {
 
         {/* year slider */}
         <div className="w-3/4 max-w-lg mx-auto pt-4 pb-8">
+            {/* Year marks above slider */}
+            <div className="relative mb-2">
+                <div className="flex justify-between relative">
+                    {YEARS.map((year, index) => (
+                        <div key={year} className="flex flex-col items-center relative">
+                            {/* Tick mark */}
+                            <div 
+                                className={`w-0.5 h-3 mb-1 transition-colors duration-200 ${
+                                    index === idx ? 'bg-[#0f766e]' : 'bg-gray-400'
+                                }`}
+                            />
+                            {/* Year label */}
+                            <span 
+                                className={`text-sm font-bold transition-colors duration-200 ${
+                                    index === idx ? 'text-[#0f766e]' : 'text-gray-600'
+                                }`}
+                            >
+                                {year}
+                            </span>
+                        </div>
+                    ))}
+                </div>
+            </div>
+            
+            {/* Slider */}
             <input
                 type="range"
                 min="0"
                 max={YEARS.length - 1}
                 value={idx}
                 onChange={(e) => setIdx(Number(e.target.value))}
-                className="w-full accent-[#0f766e]"
+                className="w-full accent-[#0f766e] h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider-custom"
             />
-            <div className="flex justify-between text-sm font-bold mt-1">
-                {YEARS.map((y) => (
-                <span key={y} className="flex-1 text-center">
-                    {y}
-                </span>
-                ))}
-            </div>
+            
+            {/* Add custom slider styles */}
+            <style jsx>{`
+                .slider-custom::-webkit-slider-thumb {
+                    appearance: none;
+                    height: 20px;
+                    width: 20px;
+                    border-radius: 50%;
+                    background: #0f766e;
+                    cursor: pointer;
+                    border: 2px solid white;
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+                }
+                
+                .slider-custom::-moz-range-thumb {
+                    height: 20px;
+                    width: 20px;
+                    border-radius: 50%;
+                    background: #0f766e;
+                    cursor: pointer;
+                    border: 2px solid white;
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+                }
+            `}</style>
         </div>
         
         {/* Cropping Pattern chart */}
@@ -353,7 +396,7 @@ const AgricultureAnalyze = () => {
           >
           {t("Provide Feedback")}
           </button>
-        </div>
+        </div>  
       </div>
     </>
   );

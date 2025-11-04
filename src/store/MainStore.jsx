@@ -86,6 +86,7 @@ const useMainStore = create((set) => ({
     isAgriculture : false,
     selectedMWSDrought : null,
     selectWellDepthYear : '2017_22',
+    infoRemoveLayer : null,
 
     setSettlementName : (stat) => set({settlementName : stat}),
     setMarkerPlaced : (stat) => set({isMarkerPlaced : stat}),
@@ -101,6 +102,7 @@ const useMainStore = create((set) => ({
     setSelectedMwsDrought : (stat) => set({selectedMWSDrought : stat}),
     setIsAgriculture : (stat) => set({isAgriculture : stat}),
     setSelectedWellDepthYear : (stat) => set({selectWellDepthYear : stat}),
+    setInfoRemoveLayer : (stat) => set({infoRemoveLayer : stat}),
 
     //? NREGA Hooks
     isNregaSheet : false,

@@ -23,6 +23,7 @@
           "type": "radiogroup",
           "name": "select_one_well_type",
           "title": "Well type",
+          "isRequired": true,
           "choices": [
             "Hand pump",
             "Borewell",
@@ -55,7 +56,10 @@
           "title": "Who owns the well?",
           "isRequired": true,
           "choices": [
-            "Public well",
+            {
+              "value": "Public well",
+              "text": "Community Well"
+            },
             "Privately owned",
             "Shared amongst families"
           ]
@@ -133,6 +137,7 @@
           "type": "radiogroup",
           "name": "select_one_year",
           "title": "Until which month of the year is water available in the well, with July as the reference?",
+          "isRequired": true,
           "choices": [
             "July",
             "Aug",
@@ -167,24 +172,23 @@
           "elements": [
             {
               "type": "radiogroup",
-              "name": "Well_usage-select_one_Functional_Non_functional",
-              "title": "Is the well funtional or non-functional?",
+              "name": "Well_usage-Is_water_from_well_used",
+              "title": "Is the water from the well used",
+              "isRequired": true,
               "choices": [
-                "Functional",
-                "Non functional"
+                "Yes",
+                "No"
               ]
             },
             {
               "type": "radiogroup",
               "name": "Well_usage-select_one_well_used",
-              "visibleIf": "{Well_usage-select_one_Functional_Non_functional} = 'Functional'",
+              "visibleIf": "{Well_usage-Is_water_from_well_used} = 'Yes'",
               "title": "Well used for",
+              "isRequired": true,
               "choices": [
                 "Irrigation",
-                {
-                  "value": "Domestic Purpose",
-                  "text": "Drinking"
-                },
+                "Domestic Purpose",
                 "Both",
                 {
                   "value": "other",
@@ -210,9 +214,9 @@
             },
             {
               "type": "checkbox",
-              "name": "Well_usage-select_one_repairs_well",
+              "name": "Well_usage-repairs_type",
               "visibleIf": "{Well_usage-is_maintenance_required} = 'Yes'",
-              "title": "Type of repairs in well",
+              "title": "Type of repairs needed in the well",
               "isRequired": true,
               "choices": [
                 {
@@ -241,18 +245,8 @@
             {
               "type": "text",
               "name": "Well_usage-select_one_repairs_well_other",
-              "visibleIf": "{Well_usage-select_one_repairs_well} anyof ['other']",
+              "visibleIf": "{Well_usage-repairs_type} anyof ['other']",
               "title": "Specify other."
-            },
-            {
-              "type": "radiogroup",
-              "name": "Well_usage-select_one_water_structure_near_you",
-              "title": "Are there any rainwater harvesting or groundwater recharge structures (e.g., ponds, check dams) near your wells?",
-              "isRequired": true,
-              "choices": [
-                "Yes",
-                "No"
-              ]
             },
             {
               "type": "radiogroup",
@@ -277,13 +271,36 @@
                 "No, no noticeable pollutants or contamination",
                 "Unsure/Not sure"
               ]
+            },
+            {
+              "type": "radiogroup",
+              "name": "Well_usage-select_one_water_structure_near_you",
+              "title": "Are there any rainwater harvesting or groundwater recharge structures (e.g., ponds, check dams) near your wells?",
+              "choices": [
+                "Yes",
+                "No"
+              ]
+            },
+            {
+              "type": "radiogroup",
+              "name": "Well_usage-select_one_change_observed",
+              "title": "Changes observed in depth of this well over the past 5 years?",
+              "choices": [
+                {
+                  "value": "Decreasing_levels",
+                  "text": "Decreasing levels"
+                },
+                {
+                  "value": "Increasing_levels",
+                  "text": "Increasing levels"
+                },
+                {
+                  "value": "Not_observed_changes",
+                  "text": "Not observed any changes"
+                }
+              ]
             }
           ]
-        },
-        {
-          "type": "comment",
-          "name": "text_record",
-          "title": "Write down the justification for the need of maintenance of recharge structure at this location"
         },
         {
           "type": "html",
@@ -327,11 +344,6 @@
           "type": "text",
           "name": "user_latlon",
           "title": "Current location of the user"
-        },
-        {
-          "type": "text",
-          "name": "username",
-          "title": "Username"
         }
       ]
     }

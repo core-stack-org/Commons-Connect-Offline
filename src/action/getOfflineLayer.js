@@ -38,7 +38,9 @@ export const loadOfflineBaseLayer = (zoom, minX, maxX, minY, maxY, container_nam
                 x >= minTile[1] && x <= maxTile[1] &&
                 y >= minTile[2] && y <= maxTile[2]) {
               // Use directory structure format
+              // console.log(`${window.location.origin}/containers/${container_name}/base_map_tiles/${z}/${x}/${y}.png`)
               return `${window.location.origin}/containers/${container_name}/base_map_tiles/${z}/${x}/${y}.png`;
+              
             }
             return undefined;
           },
