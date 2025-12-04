@@ -91,17 +91,17 @@ const InfoBox = () => {
   const getCardSubtitle = (item, type) => {
     switch (type) {
       case 'settlement':
-        return `${item.number_households} households • ${item.block_name}`;
+        return `${item.number_households} households  ${item.block_name}`;
       case 'well':
-        return `${item.select_one_well_type} • ${item.households_benefited} households`;
+        return `${item.select_one_well_type}  ${item.households_benefited} households`;
       case 'waterstructure':
-        return `${item.select_one_water_structure} • ${item.households_benefited} households`;
+        return `${item.select_one_water_structure}  ${item.households_benefited} households`;
       case 'cropping':
-        return `${item.select_one_classified} • ${item.block_name}`;
+        return `${item.select_one_classified}  ${item.block_name}`;
       case 'livestock':
-        return `${item.animal_type} • Count: ${item.count}`;
+        return `${item.animal_type}  Count: ${item.count}`;
       case 'infrastructure':
-        return `${item.type} • ${item.status}`;
+        return `${item.type}  ${item.status}`;
       default:
         return item.block_name || '';
     }

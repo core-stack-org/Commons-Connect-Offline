@@ -34,13 +34,15 @@
           "type": "text",
           "name": "Beneficiary_Name",
           "visibleIf": "{demand_type} = 'Individual_demand'",
-          "title": "Beneficiary's Name"
+          "title": "Beneficiary's Name",
+          "isRequired": true
         },
         {
           "type": "radiogroup",
           "name": "select_gender",
           "visibleIf": "{demand_type} = 'Individual_demand'",
           "title": "Gender",
+          "isRequired": true,
           "choices": [
             "Male",
             "Female"
@@ -50,7 +52,8 @@
           "type": "text",
           "name": "ben_father",
           "visibleIf": "{demand_type} = 'Individual_demand'",
-          "title": "Beneficiary's father's name"
+          "title": "Beneficiary's father's name",
+          "isRequired": true
         },
         {
           "type": "text",
@@ -419,12 +422,6 @@
               "title": "Provide dimensions - Height"
             }
           ]
-        },
-        {
-          "type": "comment",
-          "name": "text_record",
-          "visible": false,
-          "title": "Write down the justification for the need of a new recharge structure at this location"
         },
         {
           "type": "html",

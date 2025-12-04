@@ -44,7 +44,7 @@
           "type": "radiogroup",
           "name": "select_one_y_n",
           "visibleIf": "{select_one_well_type} = 'Borewell'",
-          "title": "Is the bore well electrified",
+          "title": "Is the bore well electrified?",
           "choices": [
             "Yes",
             "No"
@@ -68,13 +68,15 @@
           "type": "text",
           "name": "Beneficiary_name",
           "visibleIf": "{select_one_owns} = 'Privately owned'",
-          "title": "Beneficiary's name"
+          "title": "Beneficiary's name",
+          "isRequired": true
         },
         {
           "type": "text",
           "name": "ben_father",
           "visibleIf": "{select_one_owns} = 'Privately owned'",
           "title": "Beneficiary's father's name",
+          "isRequired": true,
           "validators": [
             {
               "type": "regex",
@@ -157,6 +159,7 @@
           "type": "text",
           "name": "households_benefited",
           "title": "Total number of households benefited from this well in this settlement?",
+          "isRequired": true,
           "validators": [
             {
               "type": "numeric",
@@ -188,7 +191,10 @@
               "isRequired": true,
               "choices": [
                 "Irrigation",
-                "Domestic Purpose",
+                {
+                  "value": "Domestic Purpose",
+                  "text": "Drinking"
+                },
                 "Both",
                 {
                   "value": "other",
@@ -244,7 +250,7 @@
             },
             {
               "type": "text",
-              "name": "Well_usage-select_one_repairs_well_other",
+              "name": "Well_usage-repairs_type_other",
               "visibleIf": "{Well_usage-repairs_type} anyof ['other']",
               "title": "Specify other."
             },
@@ -310,6 +316,7 @@
         {
           "type": "multipletext",
           "name": "GPS_point",
+          "visible": true,
           "title": "GPS point to be marked of the area",
           "description": "Take a GPS point",
           "isRequired": true,

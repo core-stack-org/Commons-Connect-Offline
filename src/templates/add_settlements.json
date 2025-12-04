@@ -23,6 +23,7 @@
           "type": "text",
           "name": "number_households",
           "title": "How many households are there in this settlement?",
+          "isRequired": true,
           "validators": [
             {
               "type": "numeric",
@@ -37,7 +38,14 @@
           "name": "count_sc",
           "title": "Total Households count under SC Category",
           "isRequired": true,
-          "inputType": "number"
+          "validators": [
+            {
+              "type": "expression"
+            }
+          ],
+          "inputType": "number",
+          "minErrorText": "The value should not be less than 0.",
+          "maxErrorText": "The value should not be greater than {number_households}"
         },
         {
           "type": "text",
@@ -59,25 +67,6 @@
           "title": "Total Households count under General Category",
           "isRequired": true,
           "inputType": "number"
-        },
-        {
-          "type": "text",
-          "name": "BPL_households",
-          "title": "Total number of households with BPL cards in this settlement",
-          "description": "Cannot exceed the total number of households",
-          "validators": [
-            {
-              "type": "numeric",
-              "minValue": 0
-            },
-            {
-              "type": "expression",
-              "text": "Cannot exceed the total number of households",
-              "expression": "{BPL_households} <= {number_households}"
-            }
-          ],
-          "inputType": "number",
-          "step": -3
         },
         {
           "type": "text",
@@ -170,7 +159,7 @@
           "elements": [
             {
               "type": "text",
-              "name": "question1",
+              "name": "MNREGA_INFORMATION-Households_BPL_cards",
               "title": "Total number of households with BPL / PDS cards in this settlement",
               "description": "Cannot exceed the total number of households"
             },
@@ -211,16 +200,10 @@
               "inputType": "number"
             },
             {
-              "type": "html",
-              "name": "sett_note_2",
-              "title": "",
-              "html": "<span style=\"color:red\">To calculate the total days of work, add up the workdays provided to all households with job cards as recorded in the MGNREGA database</span>"
-            },
-            {
               "type": "checkbox",
               "name": "MNREGA_INFORMATION-reason_low_work",
               "visibleIf": "{MNREGA_INFORMATION-NREGA_work_days} < 50",
-              "title": "What were the reasons for low work uptake under NREGA?\n",
+              "title": "What were the reasons for low work uptake under NREGA?",
               "choices": [
                 {
                   "value": "yes, and many demands were fullfilled",
@@ -400,7 +383,7 @@
             },
             {
               "type": "text",
-              "name": "MNREGA_INFORMATION-select_multiple_issues_other",
+              "name": "MNREGA_INFORMATION-other_issue",
               "visibleIf": "{MNREGA_INFORMATION-select_multiple_issues} anyof ['other']",
               "title": "Please specify other issue",
               "isRequired": true
@@ -409,7 +392,6 @@
               "type": "radiogroup",
               "name": "MNREGA_INFORMATION-select_one_contributions",
               "title": "Is the community willing to come together collectively to raise the work demands such as water structures",
-              "isRequired": true,
               "choices": [
                 {
                   "value": "yes,almost all",
@@ -438,6 +420,7 @@
         {
           "type": "multipletext",
           "name": "GPS_point",
+          "visible": true,
           "title": "GPS point to be marked of the area",
           "description": "Take a GPS point",
           "isRequired": true,

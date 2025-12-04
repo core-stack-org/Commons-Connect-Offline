@@ -41,7 +41,8 @@
           "type": "text",
           "name": "ben_father",
           "visibleIf": "{demand_type} = 'Individual_demand'",
-          "title": "Beneficiary's father's name"
+          "title": "Beneficiary's father's name",
+          "isRequired": true
         },
         {
           "type": "text",
@@ -195,11 +196,6 @@
             "Breaches in bunding or structure walls",
             "Erosion along trenches or bunds"
           ]
-        },
-        {
-          "type": "comment",
-          "name": "text_record",
-          "title": "Write down the justification for the need of maintenance of recharge structure at this location"
         },
         {
           "type": "html",

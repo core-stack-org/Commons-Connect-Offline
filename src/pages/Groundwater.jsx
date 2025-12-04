@@ -1,5 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useMainStore from "../store/MainStore.jsx";
+import useLayersStore from "../store/LayerStore.jsx";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import toast from 'react-hot-toast';
@@ -8,16 +9,23 @@ const Groundwater = () => {
 
     const STATE_MACHINE = {
         1: {
-          Screen : "analyze",
+            Screen: "analyze",
         },
         2: {
-          Screen : "add_maintain"
-        }
+            Screen: "planning_site",
+        },
+        3: {
+            Screen: "add_maintain",
+        },
     };
 
     const { t } = useTranslation();
     const MainStore = useMainStore((state) => state);
+    const LayersStore = useLayersStore((state) => state);
     const navigate = useNavigate();
+
+    const [selectedLayer, setSelectedLayer] = useState("CLART");
+    const [selectedSiteLayer, setSelectedSiteLayer] = useState("StreamOrder");
 
     useEffect(() =>{
       MainStore.setMarkerPlaced(false)
@@ -90,6 +98,34 @@ const Groundwater = () => {
                 lineHeight: '1.5',
             },
         });
+    };
+
+    const handleLayerChange = (layerName) => {
+        setSelectedLayer(layerName);
+
+        if (layerName === "CLART") {
+            MainStore.setLayerClicked("CLARTLayer");
+            LayersStore.setCLARTLayer(true);
+            LayersStore.setTerrainLayer(false);
+        } else if (layerName === "Terrain") {
+            MainStore.setLayerClicked("TerrainLayer");
+            LayersStore.setTerrainLayer(true);
+            LayersStore.setCLARTLayer(false);
+        }
+    };
+
+    const handleSiteLayerChange = (layerName) => {
+        setSelectedSiteLayer(layerName);
+
+        if (layerName === "StreamOrder") {
+            MainStore.setLayerClicked("StreamOrderLayer");
+            LayersStore.setStreamOrderLayer(true);
+            LayersStore.setNaturalDepressionLayer(false);
+        } else if (layerName === "NaturalDepression") {
+            MainStore.setLayerClicked("NaturalDepressionLayer");
+            LayersStore.setNaturalDepressionLayer(true);
+            LayersStore.setStreamOrderLayer(false);
+        }
     };
 
     return(
@@ -219,6 +255,87 @@ const Groundwater = () => {
                           {'2018-2023'}
                         </button>
                       </div>
+                    </div>
+                </div>
+            )}
+
+            {/* 4. Layers Slider - Only show in step 1 */}
+            {MainStore.currentStep === 1 && (
+                <div className="absolute top-31.5 left-13 w-full px-4 z-10 flex justify-start pointer-events-auto">
+                    <div className="flex gap-4 max-w-lg">
+                        <div
+                            className="relative inline-flex rounded-xl pb-0.5 pt-0.5"
+                            style={{ backgroundColor: "#D6D5C9" }}
+                        >
+                            {/* Sliding white pill background */}
+                            <div
+                                className="absolute top-0.5 rounded-xl bg-white shadow-sm transition-transform duration-300 ease-in-out"
+                                style={{
+                                    height: "calc(100% - 4px)",
+                                    width: "50%",
+                                    transform:
+                                        selectedLayer === "Terrain"
+                                            ? "translateX(100%)"
+                                            : "translateX(0%)",
+                                }}
+                            />
+
+                            <button
+                                type="button"
+                                onClick={() => handleLayerChange("CLART")}
+                                className="relative z-10 px-4 py-2 text-sm font-medium rounded-xl transition-all duration-200 cursor-pointer"
+                                style={{ color: "#592941" }}
+                            >
+                                CLART
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => handleLayerChange("Terrain")}
+                                className="relative z-10 px-4 py-2 text-sm font-medium rounded-xl transition-all duration-200 cursor-pointer"
+                                style={{ color: "#592941" }}
+                            >
+                                Terrain
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* 5. Site Layers Slider - Only show in step 2 */}
+            {MainStore.currentStep === 2 && (
+                <div className="absolute top-31.5 left-13 w-full px-4 z-10 flex justify-start pointer-events-auto">
+                    <div className="flex gap-4 max-w-lg">
+                        <div
+                            className="relative inline-flex rounded-xl pb-0.5 pt-0.5"
+                            style={{ backgroundColor: "#D6D5C9" }}
+                        >
+                            {/* Sliding white pill background */}
+                            <div
+                                className="absolute top-0.5 rounded-xl bg-white shadow-sm transition-all duration-300 ease-in-out"
+                                style={{
+                                    height: "calc(100% - 4px)",
+                                    width: selectedSiteLayer === "NaturalDepression" ? "58%" : "42%",
+                                    left: selectedSiteLayer === "NaturalDepression" ? "42%" : "0%",
+                                }}
+                            />
+
+                            <button
+                                type="button"
+                                onClick={() => handleSiteLayerChange("StreamOrder")}
+                                className="relative z-10 px-4 py-2 text-sm font-medium rounded-xl transition-all duration-200 cursor-pointer whitespace-nowrap"
+                                style={{ color: "#592941" }}
+                            >
+                                Stream Order
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => handleSiteLayerChange("NaturalDepression")}
+                                className="relative z-10 px-4 py-2 text-sm font-medium rounded-xl transition-all duration-200 cursor-pointer whitespace-nowrap"
+                                style={{ color: "#592941" }}
+                            >
+                                Natural Depression
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}
@@ -378,6 +495,7 @@ const Groundwater = () => {
                                     let BACK = MainStore.currentStep - 1;
                                     if(MainStore.currentStep) {
                                         MainStore.setCurrentStep(BACK);
+                                        setSelectedLayer("CLART")
                                     }
                                 }}
                                 style={{
@@ -395,7 +513,7 @@ const Groundwater = () => {
                             {/* Recharge Structure Button */}
                             <button
                                 className="px-6 py-3 text-sm font-medium flex items-center justify-center"
-                                onClick={() => toggleFormsUrl("recharge")}
+                                onClick={() => MainStore.setCurrentStep(2)}
                                 disabled={MainStore.isFeatureClicked}
                                 style={{
                                     backgroundColor: MainStore.isFeatureClicked ? '#696969' : '#D6D5C9',
@@ -407,10 +525,60 @@ const Groundwater = () => {
                                     boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
                                 }}
                             >
-                                {t("New Recharge Structure")}
+                                {t("Plan for a New Structure")}
                             </button>
+                        </div>
+                    </div>
+                )}
 
-                            {/* Separate Finish Button */}
+                {MainStore.currentStep === 2 && (
+                    <div className="flex flex-col items-center justify-center w-full gap-3">
+                        <div className="flex items-center justify-center w-full">
+                            <button
+                                className="px-6 py-3 text-sm font-medium flex items-center justify-center"
+                                onClick={() => toggleFormsUrl("recharge")}
+                                disabled={MainStore.isFeatureClicked}
+                                style={{
+                                    backgroundColor: MainStore.isFeatureClicked
+                                        ? "#696969"
+                                        : "#D6D5C9",
+                                    color: MainStore.isFeatureClicked
+                                        ? "#A8A8A8"
+                                        : "#592941",
+                                    border: "none",
+                                    borderRadius: "22px",
+                                    height: "44px",
+                                    width: "350px",
+                                    boxShadow: "0 4px 20px rgba(0, 0, 0, 0.3)",
+                                }}
+                            >
+                                {t("Propose Structure")}
+                            </button>
+                        </div>
+                        <div className="flex items-center justify-center w-full gap-3">
+                            <button
+                                className="px-4 py-3 text-sm font-medium flex items-center justify-center"
+                                onClick={() => {
+                                    let BACK = MainStore.currentStep - 1;
+                                    if (MainStore.currentStep) {
+                                        MainStore.setCurrentStep(BACK);
+                                        setSelectedSiteLayer("StreamOrder")
+                                    }
+                                }}
+                                style={{
+                                    backgroundColor: "#D6D5C9",
+                                    color: "#592941",
+                                    border: "none",
+                                    borderRadius: "22px",
+                                    height: "44px",
+                                    cursor: "pointer",
+                                    transition:
+                                        "all 300ms cubic-bezier(0.4, 0, 0.2, 1)",
+                                    boxShadow: "0 4px 20px rgba(0, 0, 0, 0.3)",
+                                }}
+                            >
+                                {t("Back")}
+                            </button>
                             <button
                                 className="px-4 py-3 text-sm font-medium flex items-center justify-center"
                                 onClick={() => navigate('/maps')}
@@ -426,7 +594,7 @@ const Groundwater = () => {
                                 }}
                             >
                                 {t("Finish")}
-                            </button>
+                            </button>         
                         </div>
                     </div>
                 )}

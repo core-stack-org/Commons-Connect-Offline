@@ -1,5 +1,5 @@
 {
-  "title": "Propose Maintenance on Water structures",
+  "title": "Propose Maintenance On Existing Water Recharge Structures",
   "logoFit": "none",
   "logoPosition": "right",
   "completedHtml": "<h3>Water Structure Maintenance Proposal Submitted Successfully!</h3>",
@@ -11,7 +11,8 @@
         {
           "type": "text",
           "name": "beneficiary_settlement",
-          "title": "Name of Beneficiary's Settlement"
+          "title": "Name of Beneficiary's Settlement",
+          "isRequired": true
         },
         {
           "type": "radiogroup",
@@ -33,13 +34,15 @@
           "type": "text",
           "name": "Beneficiary_Name",
           "visibleIf": "{demand_type} = 'Individual_demand'",
-          "title": "Beneficiary's Name"
+          "title": "Beneficiary's Name",
+          "isRequired": true
         },
         {
           "type": "radiogroup",
           "name": "select_gender",
           "visibleIf": "{demand_type} = 'Individual_demand'",
           "title": "Gender",
+          "isRequired": true,
           "choices": [
             {
               "value": "female",
@@ -55,7 +58,8 @@
           "type": "text",
           "name": "ben_father",
           "visibleIf": "{demand_type} = 'Individual_demand'",
-          "title": "Beneficiary's father's name"
+          "title": "Beneficiary's father's name",
+          "isRequired": true
         },
         {
           "type": "text",
@@ -74,270 +78,368 @@
         },
         {
           "type": "radiogroup",
-          "name": "TYPE_OF_WORK",
-          "title": "Select the type of surface water structure repair work",
+          "name": "past_repair",
+          "visibleIf": "{demand_type} = 'Individual_demand'",
+          "title": "Any past repair or maintenance work done on this structure?",
           "isRequired": true,
           "choices": [
-            "Farm pond",
-            "Community Pond",
-            "Large water body",
-            "Canal",
+            "Yes",
+            "No"
+          ]
+        },
+        {
+          "type": "radiogroup",
+          "name": "select_one_recharge_structure",
+          "title": "Select the visible repairs or maintenance issues for the recharge structures?",
+          "isRequired": true,
+          "choices": [
             "Check dam",
             "Percolation tank",
-            "Rock fill dam",
+            "Earthen gully plug",
+            "Drainage/soakage channels",
+            "Recharge pits",
+            "Soakage pits",
+            "Trench cum bund network",
+            "Continuous contour trenches (CCT)",
+            "Staggered Contour trenches(SCT)",
+            "Water absorption trenches(WAT)",
             "Loose boulder structure",
+            "Rock fill dam",
+            "Stone bunding",
+            "Diversion drains",
+            "Bunding:Contour bunds/ graded bunds",
             "5% Model structure",
             "30-40 Model structure"
           ]
         },
         {
           "type": "radiogroup",
-          "name": "select_one_farm_pond",
-          "visibleIf": "{TYPE_OF_WORK} = 'Farm pond'",
-          "title": "Repair of farm pond",
-          "choices": [
-            {
-              "value": "Removal of accumulated sediments",
-              "text": "Removal of accumulated sediments / जमी हुई गाद को हटाना"
-            },
-            {
-              "value": "Repairing cracks or damage in embankments",
-              "text": "Repairing cracks or damage in embankments / तटबंधों में दरारों या नुक़सान की मरम्मत"
-            },
-            {
-              "value": "Controlling seepage or leaks in the pond bed",
-              "text": "Controlling seepage or leaks in the pond bed / तालाब तल में रिसाव या लीक को नियंत्रित करना"
-            },
-            {
-              "value": "Erosion control on embankments",
-              "text": "Erosion control on embankments / तटबंधों पर कटाव नियंत्रण"
-            },
-            {
-              "value": "Addressing excessive aquatic vegetation growth",
-              "text": "Addressing excessive aquatic vegetation growth / अधिक जलीय पौधों की वृद्धि को रोकना"
-            }
-          ]
-        },
-        {
-          "type": "radiogroup",
-          "name": "select_one_community_pond",
-          "visibleIf": "{TYPE_OF_WORK} = 'Community Pond'",
-          "title": "Repair of community Pond",
-          "choices": [
-            {
-              "value": "Removal of accumulated sediments",
-              "text": "Removal of accumulated sediments / जमी हुई गाद को हटाना"
-            },
-            {
-              "value": "Shoreline erosion control",
-              "text": "Shoreline erosion control / किनारे का कटाव रोकना"
-            },
-            {
-              "value": "Repairing cracks or damage in embankments",
-              "text": "Repairing cracks or damage in embankments / तटबंधों में दरारों या टूट की मरम्मत"
-            },
-            {
-              "value": "Controlling excessive aquatic vegetation growth",
-              "text": "Controlling excessive aquatic vegetation growth / अधिक जलीय पौधों की वृद्धि को रोकना"
-            },
-            {
-              "value": "Repair or cleaning of inlet/outlet structures",
-              "text": "Repair or cleaning of inlet/outlet structures / इनलेट/आउटलेट स्ट्रक्चर की मरम्मत या सफाई"
-            }
-          ]
-        },
-        {
-          "type": "radiogroup",
-          "name": "select_one_repair_large_water_body",
-          "visibleIf": "{TYPE_OF_WORK} = 'Large water body'",
-          "title": "Repair of large water body",
-          "choices": [
-            {
-              "value": "Removal of accumulated sediments",
-              "text": "Removal of accumulated sediments / जमी हुई गाद को हटाना"
-            },
-            {
-              "value": "Shoreline Erosion Control",
-              "text": "Shoreline erosion control / किनारे का कटाव रोकना"
-            },
-            {
-              "value": "Dam Repairs",
-              "text": "Dam Repairs / बांध की मरम्मत"
-            },
-            {
-              "value": "Controlling excessive growth of aquatic vegetation",
-              "text": "Controlling excessive growth of aquatic vegetation / जलीय पौधों की वृद्धि को नियंत्रित करना"
-            }
-          ]
-        },
-        {
-          "type": "radiogroup",
-          "name": "select_one_repair_canal",
-          "visibleIf": "{TYPE_OF_WORK} = 'Canal'",
-          "title": "Repair of canal",
-          "description": "नहर की मरम्मत",
-          "choices": [
-            {
-              "value": "Stabilizing canal banks to prevent erosion",
-              "text": "Stabilizing canal banks to prevent erosion / कटाव को रोकने के लिए नहर के किनारों को मजबूत करना"
-            },
-            {
-              "value": "Lining Repairs",
-              "text": "Lining Repairs / परत की मरम्मत"
-            },
-            {
-              "value": "Desilting",
-              "text": "Desilting / गाद निकालना"
-            },
-            {
-              "value": "Structural repairs",
-              "text": "Structural repairs / स्ट्रक्चर की मरम्मत"
-            }
-          ]
-        },
-        {
-          "type": "radiogroup",
           "name": "select_one_check_dam",
-          "visibleIf": "{TYPE_OF_WORK} = 'Check dam'",
+          "visibleIf": "{select_one_recharge_structure} = 'Check dam'",
           "title": "Repair of check dam",
-          "description": "चेक डैम की मरम्मत",
           "choices": [
-            {
-              "value": "Erosion on the check dam",
-              "text": "Erosion on the check dam / चेक डैम पर कटाव"
-            },
-            {
-              "value": "Sediment accumulated in the check dam",
-              "text": "Sediment accumulated in the check dam / चेक डैम में गन्दगी जमी हुई है"
-            },
-            {
-              "value": "Structural damage on the check dam",
-              "text": "Structural damage on the check dam / चेक डैम के स्ट्रक्चर का नुकसान"
-            }
+            "Erosion on the check dam",
+            "Sediment accumulated in the check dam",
+            "Structural damage on the check dam",
+            "Other"
           ]
+        },
+        {
+          "type": "text",
+          "name": "select_one_check_dam_other",
+          "visibleIf": "{select_one_check_dam} = 'Other'",
+          "title": "Specify other."
         },
         {
           "type": "radiogroup",
           "name": "select_one_percolation_tank",
-          "visibleIf": "{TYPE_OF_WORK} = 'Percolation tank'",
+          "visibleIf": "{select_one_recharge_structure} = 'Percolation tank'",
           "title": "Repair of Percolation tank",
-          "description": "परकोलेशन टैंक की मरम्मत",
           "choices": [
-            {
-              "value": "Sediment accumulation reducing infiltration capacity",
-              "text": "Sediment accumulation reducing infiltration capacity / गाद के जमाव से पानी घुसने की क्षमता कम हो जाती है"
-            },
-            {
-              "value": "Breach in embankments",
-              "text": "Breach in embankments / तटबंधों का टूटना"
-            },
-            {
-              "value": "Erosion on tank bund or inlet/outlet",
-              "text": "Erosion on tank bund or inlet/outlet / टैंक बांध या इनलेट/आउटलेट पर कटाव"
-            },
-            {
-              "value": "Vegetation growth blocking water entry",
-              "text": "Vegetation growth blocking water entry / पौधों की वृद्धि से पानी का बहाव रुक रहा है"
-            },
-            {
-              "value": "Damage to spillway or outlet structure",
-              "text": "Damage to spillway or outlet structure / स्पिलवे या आउटलेट स्ट्रक्चर को नुकसान"
-            }
+            "Sediment accumulation reducing infiltration capacity",
+            "Breach in embankments",
+            "Erosion on tank bund or inlet/outlet",
+            "Vegetation growth blocking water entry",
+            "Damage to spillway or outlet structure",
+            "Other"
           ]
         },
         {
+          "type": "text",
+          "name": "select_one_percolation_tank_other",
+          "visibleIf": "{select_one_percolation_tank} = 'Other'",
+          "title": "Specify other."
+        },
+        {
           "type": "radiogroup",
-          "name": "select_one_rock_fill_dam",
-          "visibleIf": "{TYPE_OF_WORK} = 'Rock fill dam'",
-          "title": "Repair of rock fill dam",
-          "description": "रॉक फिल बांध की मरम्मत",
+          "name": "select_one_earthen_gully_plug",
+          "visibleIf": "{select_one_recharge_structure} = 'Earthen gully plug'",
+          "title": "Repair of earthen gully plug",
           "choices": [
-            {
-              "value": "Sediment accumulation reducing water storage",
-              "text": "Sediment accumulation reducing water storage / गाद के जमाव से जल भंडारण में कमी"
-            },
-            {
-              "value": "Dislodged or loose rocks",
-              "text": "Dislodged or loose rocks / उखड़ी हुई या ढीली चट्टानें"
-            },
-            {
-              "value": "Erosion around or under the dam structure",
-              "text": "Erosion around or under the dam structure / बांध स्ट्रक्चर के आसपास या नीचे कटाव"
-            }
+            "Breaches in the earthen structure",
+            "Erosion at the base or sides",
+            "Loss of compactness in the soil structure",
+            "Vegetation growth on the plug",
+            "Other"
           ]
+        },
+        {
+          "type": "text",
+          "name": "select_one_earthen_gully_plug_other",
+          "visibleIf": "{select_one_earthen_gully_plug} = 'Other'",
+          "title": "Specify other."
+        },
+        {
+          "type": "radiogroup",
+          "name": "select_one_drainage_soakage_channels",
+          "visibleIf": "{select_one_recharge_structure} = 'Rock fill dam'",
+          "title": "Repair of drainage/soakage channels",
+          "choices": [
+            "Blockages due to sediment or debris",
+            "Erosion along the channel sides",
+            "Collapsed sections of the channel",
+            "Vegetation overgrowth reducing flow efficiency",
+            "Other"
+          ]
+        },
+        {
+          "type": "text",
+          "name": "select_one_drainage_soakage_channels_other",
+          "visibleIf": "{select_one_drainage_soakage_channels} = 'Other'",
+          "title": "Specify other."
+        },
+        {
+          "type": "radiogroup",
+          "name": "select_one_recharge_pits",
+          "visibleIf": "{select_one_recharge_structure} = 'Recharge pits'",
+          "title": "Repair of recharge pits",
+          "choices": [
+            "Sediment accumulation blocking infiltration",
+            "Cracks or damages in the lining",
+            "Blockages in filters or gravel layers",
+            "Vegetation or debris obstructing the pit",
+            "Other"
+          ]
+        },
+        {
+          "type": "text",
+          "name": "select_one_recharge_pits_other",
+          "visibleIf": "{select_one_recharge_pits} = 'Other'",
+          "title": "Specify other."
+        },
+        {
+          "type": "radiogroup",
+          "name": "select_one_sokage_pits",
+          "visibleIf": "{select_one_recharge_structure} = 'Soakage pits'",
+          "title": "Repair of sokage pits",
+          "choices": [
+            "Sediment clogging reducing infiltration rate",
+            "Damage to pit walls or filters",
+            "Vegetation obstructing flow into the pit",
+            "Water pooling due to improper drainage",
+            "Other"
+          ]
+        },
+        {
+          "type": "text",
+          "name": "select_one_sokage_pits_other",
+          "visibleIf": "{select_one_sokage_pits} = 'Other'",
+          "title": "Specify other."
+        },
+        {
+          "type": "radiogroup",
+          "name": "select_one_trench_cum_bund_network",
+          "visibleIf": "{select_one_recharge_structure} = 'Trench cum bund network'",
+          "title": "Repair of trench cum bund network",
+          "choices": [
+            "Sediments in trench",
+            "Water leakage in Bund due to breach",
+            "Erosion on bund",
+            "Other"
+          ]
+        },
+        {
+          "type": "text",
+          "name": "select_one_trench_cum_bund_network_other",
+          "visibleIf": "{select_one_trench_cum_bund_network} = 'Other'",
+          "title": "Specify other."
+        },
+        {
+          "type": "radiogroup",
+          "name": "select_one_continuous_contour_trenches",
+          "visibleIf": "{select_one_recharge_structure} = 'Continuous contour trenches (CCT)'",
+          "title": "Repair of continuous contour trenches (CCT)",
+          "choices": [
+            "Sediments filling trenches reducing capacity",
+            "Erosion of trench edges",
+            "Vegetation growth obstructing water infiltration",
+            "Other"
+          ]
+        },
+        {
+          "type": "text",
+          "name": "select_one_continuous_contour_trenches_other",
+          "visibleIf": "{select_one_continuous_contour_trenches} = 'Other'",
+          "title": "Specify other."
+        },
+        {
+          "type": "radiogroup",
+          "name": "select_one_staggered_contour_trenches",
+          "visibleIf": "{select_one_recharge_structure} = 'Staggered Contour trenches(SCT)'",
+          "title": "Repair of staggered Contour trenches (SCT)",
+          "choices": [
+            "Sediments in trenches reducing infiltration",
+            "Erosion of trench edges or sides",
+            "Poor alignment reducing effectiveness",
+            "Other"
+          ]
+        },
+        {
+          "type": "text",
+          "name": "select_one_staggered_contour_trenches_other",
+          "visibleIf": "{select_one_staggered_contour_trenches} = 'Other'",
+          "title": "Specify other."
+        },
+        {
+          "type": "radiogroup",
+          "name": "select_one_water_absorption_trenches",
+          "visibleIf": "{select_one_recharge_structure} = 'Water absorption trenches(WAT)'",
+          "title": "Repair of water absorption trenches (WAT)",
+          "choices": [
+            "Sediment clogging the trenches",
+            "Erosion along trench edges",
+            "Vegetation obstructing flow into the trench",
+            "Other"
+          ]
+        },
+        {
+          "type": "text",
+          "name": "select_one_water_absorption_trenches_other",
+          "visibleIf": "{select_one_water_absorption_trenches} = 'Other'",
+          "title": "Specify other."
         },
         {
           "type": "radiogroup",
           "name": "select_one_loose_boulder_structure",
-          "visibleIf": "{TYPE_OF_WORK} = 'Loose boulder structure'",
+          "visibleIf": "{select_one_recharge_structure} = 'Loose boulder structure'",
           "title": "Repair of loose boulder structure",
-          "description": "लूज बोल्डर स्ट्रक्चर की मरम्मत",
+          "choices": [
+            "Dislodged boulders",
+            "Grouting",
+            "Erosion around boulder structure",
+            "Other"
+          ]
+        },
+        {
+          "type": "text",
+          "name": "select_one_loose_boulder_structure_other",
+          "visibleIf": "{select_one_loose_boulder_structure} = 'Other'",
+          "title": "Specify other."
+        },
+        {
+          "type": "radiogroup",
+          "name": "select_one_rock_fill_dam",
+          "visibleIf": "{select_one_recharge_structure} = 'Rock fill dam'",
+          "title": "Repair of rock fill dam",
+          "choices": [
+            "Sediment accumulation reducing water storage",
+            "Dislodged or loose rocks",
+            "Erosion around or under the dam structure",
+            "Other"
+          ]
+        },
+        {
+          "type": "text",
+          "name": "select_one_rock_fill_dam_other",
+          "visibleIf": "{select_one_rock_fill_dam} = 'Other'",
+          "title": "Specify other."
+        },
+        {
+          "type": "radiogroup",
+          "name": "select_one_stone_bunding",
+          "visibleIf": "{select_one_recharge_structure} = 'Stone bunding'",
+          "title": "Repair of stone bunding",
+          "choices": [
+            "Dislodged stones reducing structure stability",
+            "Sediment buildup behind the bund",
+            "Erosion along the bund edges",
+            "Other"
+          ]
+        },
+        {
+          "type": "text",
+          "name": "select_one_stone_bunding_other",
+          "visibleIf": "{select_one_stone_bunding} = 'Other'",
+          "title": "Specify other."
+        },
+        {
+          "type": "radiogroup",
+          "name": "select_one_diversion_drains",
+          "visibleIf": "{select_one_recharge_structure} = 'Diversion drains'",
+          "title": "Repair of diversion drains",
+          "choices": [
+            "Blockages due to sediment or debris",
+            "Erosion along the drain edges",
+            "Collapsed or damaged drain sections",
+            "Other"
+          ]
+        },
+        {
+          "type": "text",
+          "name": "select_one_diversion_drains_other",
+          "visibleIf": "{select_one_diversion_drains} = 'Other'",
+          "title": "Specify other."
+        },
+        {
+          "type": "radiogroup",
+          "name": "select_one_bunding",
+          "visibleIf": "{select_one_recharge_structure} = 'Bunding:Contour bunds/ graded bunds'",
+          "title": "Repair of bunding:Contour bunds/ graded bunds",
           "choices": [
             {
               "value": "Dislodged boulders",
-              "text": "Dislodged boulders / उखड़े हुए पत्थर"
+              "text": "Sediment accumulation reducing water retention or obstructing flow"
             },
             {
               "value": "Grouting",
-              "text": "Grouting / दरार को भरना"
+              "text": "Cracks, breaches, or damage to the bund structure"
             },
             {
               "value": "Erosion around boulder structure",
-              "text": "Erosion around boulder structure / बोल्डर स्ट्रक्चर के आस-पास कटाव"
-            }
+              "text": "Erosion along bund edges, slopes, or base"
+            },
+            "Improper alignment or grading disrupting water distribution",
+            "Vegetative growth weakening bund stability",
+            "Weakening of the structure due to seepage or heavy rainfall",
+            "Other"
           ]
+        },
+        {
+          "type": "text",
+          "name": "select_one_bunding_other",
+          "visibleIf": "{select_one_bunding} = 'Other'",
+          "title": "Specify other."
         },
         {
           "type": "radiogroup",
           "name": "select_one_model5_structure",
-          "visibleIf": "{TYPE_OF_WORK} = '5% Model structure'",
+          "visibleIf": "{select_one_recharge_structure} = '5% Model structure'",
           "title": "Repair of 5% Model structure",
-          "description": "5% मॉडल स्ट्रक्चर की मरम्मत",
           "choices": [
-            {
-              "value": "Sediment accumulation reducing capacity",
-              "text": "Sediment accumulation reducing capacity / जमा गाद क्षमता को कम कर रहा है"
-            },
-            {
-              "value": "Breaches or leaks in the embankment",
-              "text": "Breaches or leaks in the embankment / तटबंध में दरारें या रिसाव"
-            },
-            {
-              "value": "Erosion on sides or base",
-              "text": "Erosion on sides or base / किनारों या आधार पर कटाव"
-            }
+            "Sediment accumulation reducing capacity",
+            "Breaches or leaks in the embankment",
+            "Erosion on sides or base",
+            "Other"
           ]
+        },
+        {
+          "type": "text",
+          "name": "select_one_model5_structure_other",
+          "visibleIf": "{select_one_model5_structure} = 'Other'",
+          "title": "Specify other."
         },
         {
           "type": "radiogroup",
           "name": "select_one_Model30_40_structure",
-          "visibleIf": "{TYPE_OF_WORK} = '30-40 Model structure'",
+          "visibleIf": "{select_one_recharge_structure} = '30-40 Model structure'",
           "title": "Repair of 30-40 Model structure",
-          "description": "30-40 मॉडल स्ट्रक्चर की मरम्मत",
           "choices": [
-            {
-              "value": "Sediment accumulation",
-              "text": "Sediment accumulation / गाद का जमा होना"
-            },
-            {
-              "value": "Breaches in bunding or structure walls",
-              "text": "Breaches in bunding or structure walls / बाँध या स्ट्रक्चर की दीवारों में दरारें"
-            },
-            {
-              "value": "Erosion along trenches or bunds",
-              "text": "Erosion along trenches or bunds / खाइयों या बांधों के किनारों पर कटाव"
-            }
+            "Sediment accumulation",
+            "Breaches in bunding or structure walls",
+            "Erosion along trenches or bunds",
+            "Other"
           ]
         },
         {
-          "type": "comment",
-          "name": "text_record",
-          "title": "Write down the justification for the need of maintenance of water structure at this location"
+          "type": "text",
+          "name": "select_one_model30_40_structure_other",
+          "visibleIf": "{select_one_Model30_40_structure} = 'Other'",
+          "title": "Specify other."
         },
         {
           "type": "html",
           "name": "form_submission_note",
-          "html": "<div style='background-color: #ffebee; border: 1px solid #f44336; padding: 10px; margin: 10px 0; border-radius: 4px;'><span style='color: #f44336; font-weight: bold;'>DO NOT MODIFY ANYTHING BEYOND THIS POINT AND SUBMIT YOUR FORM DATA</span><br><span style='color: #666;'>इससे परे कुछ भी संशोधित न करें और अपना फॉर्म डेटा सबमिट करें</span></div>"
+          "html": "<div style='background-color: #ffebee; border: 1px solid #f44336; padding: 10px; margin: 10px 0; border-radius: 4px;'><span style='color: #f44336; font-weight: bold;'>DO NOT MODIFY ANYTHING BEYOND THIS POINT AND SUBMIT YOUR FORM DATA</span></div>"
         },
         {
           "type": "multipletext",
@@ -360,28 +462,24 @@
           "type": "text",
           "name": "block_name",
           "title": "Block name",
-          "description": "ब्लॉक का नाम",
           "readOnly": true
         },
         {
           "type": "text",
           "name": "plan_id",
           "title": "Plan ID",
-          "description": "योजना का आईडी",
           "readOnly": true
         },
         {
           "type": "text",
           "name": "plan_name",
           "title": "Plan name",
-          "description": "योजना का नाम",
           "readOnly": true
         },
         {
           "type": "text",
           "name": "corresponding_work_id",
           "title": "Corresponding Work ID",
-          "description": "सम्बंधित कार्य का आईडी",
           "readOnly": true
         },
         {
@@ -395,7 +493,6 @@
           "type": "text",
           "name": "user_latlon",
           "title": "Current location of the user",
-          "description": "उपयोगकर्ता का वर्तमान स्थान",
           "readOnly": true
         }
       ]

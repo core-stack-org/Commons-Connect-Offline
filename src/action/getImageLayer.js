@@ -27,7 +27,7 @@ export default async function getImageLayer(layer_store, layer_name, setVisible 
     console.log('Image extent (EPSG:4326):', extent);
 
     const imageUrl = `http://localhost:3000/containers/${containerName}/image_layers/${layer_name}.png`;
-    //const imageUrl =`https://imgs.xkcd.com/comics/online_communities.png`
+
     console.log('Image URL:', imageUrl);
 
     // Create the image layer with EPSG:4326 projection

@@ -15,7 +15,7 @@
         },
         {
           "type": "panel",
-          "name": "question1",
+          "name": "plantations",
           "title": "Plantations",
           "elements": [
             {
@@ -49,13 +49,15 @@
               "type": "text",
               "name": "plantations-ben_plantation",
               "visibleIf": "{plantations-demand_type_plantations} = 'Individual_demand'",
-              "title": "Beneficiary's Name"
+              "title": "Beneficiary's Name",
+              "isRequired": true
             },
             {
               "type": "radiogroup",
               "name": "plantations-gender",
               "visibleIf": "{plantations-demand_type_plantations} = 'Individual_demand'",
-              "title": "Gender\n",
+              "title": "Gender",
+              "isRequired": true,
               "choices": [
                 {
                   "value": "male",
@@ -71,17 +73,23 @@
               "type": "text",
               "name": "plantations-ben_father",
               "visibleIf": "{plantations-demand_type_plantations} = 'Individual_demand'",
-              "title": "Beneficiary's father's name"
+              "title": "Beneficiary's father's name",
+              "isRequired": true
             },
             {
               "type": "text",
               "name": "plantations-crop_name",
-              "title": "Plantation Crop Name"
+              "visibleIf": "{plantations-select_plantation_demands} = 'Yes'",
+              "title": "Plantation Crop Name",
+              "isRequired": true
             },
             {
               "type": "text",
               "name": "plantations-crop_area",
+              "visibleIf": "{plantations-select_plantation_demands} = 'Yes'",
               "title": "Total area of the plantation",
+              "description": "In acres",
+              "isRequired": true,
               "inputType": "number"
             }
           ]
@@ -122,13 +130,15 @@
               "type": "text",
               "name": "Livestock-ben_livestock",
               "visibleIf": "{Livestock-livestock_demand} = 'Individual_demand'",
-              "title": "Beneficiary's Name"
+              "title": "Beneficiary's Name",
+              "isRequired": true
             },
             {
               "type": "radiogroup",
               "name": "Livestock-gender_livestock",
               "visibleIf": "{Livestock-livestock_demand} = 'Individual_demand'",
-              "title": "Gender\n",
+              "title": "Gender",
+              "isRequired": true,
               "choices": [
                 {
                   "value": "male",
@@ -144,12 +154,15 @@
               "type": "text",
               "name": "Livestock-ben_father_livestock",
               "visibleIf": "{Livestock-livestock_demand} = 'Individual_demand'",
-              "title": "Beneficiary's father's name"
+              "title": "Beneficiary's father's name",
+              "isRequired": true
             },
             {
               "type": "radiogroup",
               "name": "Livestock-demands_promoting_livestock",
+              "visibleIf": "{Livestock-is_demand_livestock} = 'Yes'",
               "title": "Select all the demands for promoting livestock development",
+              "isRequired": true,
               "choices": [
                 {
                   "value": "poultry_shelter",
@@ -192,9 +205,8 @@
           "elements": [
             {
               "type": "radiogroup",
-              "name": "kitchen_gardens-indi_assets",
+              "name": "kitchen_gardens-assets_kg",
               "title": "Are there demands for promoting Kitchen Gardens / Didi Badi / Poshan Vatika as Individual assets in the settlement",
-              "isRequired": true,
               "choices": [
                 "Yes",
                 "No"
@@ -203,7 +215,7 @@
             {
               "type": "radiogroup",
               "name": "kitchen_gardens-demand_type_kitchen_garden",
-              "visibleIf": "{kitchen_gardens-indi_assets} = 'Yes'",
+              "visibleIf": "{kitchen_gardens-assets_kg} = 'Yes'",
               "title": "Type of demand",
               "isRequired": true,
               "choices": [
@@ -221,13 +233,15 @@
               "type": "text",
               "name": "kitchen_gardens-ben_kitchen_gardens",
               "visibleIf": "{kitchen_gardens-demand_type_kitchen_garden} = 'Individual_demand'",
-              "title": "Beneficiary's Name"
+              "title": "Beneficiary's Name",
+              "isRequired": true
             },
             {
               "type": "radiogroup",
               "name": "kitchen_gardens-gender_kitchen_gardens",
               "visibleIf": "{kitchen_gardens-demand_type_kitchen_garden} = 'Individual_demand'",
               "title": "Gender\n",
+              "isRequired": true,
               "choices": [
                 {
                   "value": "male",
@@ -243,12 +257,15 @@
               "type": "text",
               "name": "kitchen_gardens-ben_father_kitchen_gardens",
               "visibleIf": "{kitchen_gardens-demand_type_kitchen_garden} = 'Individual_demand'",
-              "title": "Beneficiary's father's name"
+              "title": "Beneficiary's father's name",
+              "isRequired": true
             },
             {
               "type": "text",
-              "name": "kitchen_gardens-area_didi_badi",
-              "title": "Total area for kitchen gardens/ Didi Badi / Poshan Vatika (Acres)"
+              "name": "kitchen_gardens-area_kg",
+              "visibleIf": "{kitchen_gardens-assets_kg} = 'Yes'",
+              "title": "Total area for kitchen gardens/ Didi Badi / Poshan Vatika (Acres)",
+              "isRequired": true
             }
           ]
         },
@@ -261,7 +278,6 @@
               "type": "radiogroup",
               "name": "fisheries-is_demand_fisheries",
               "title": "Are there demands for promoting fisheries in the settlement?",
-              "isRequired": true,
               "choices": [
                 "Yes",
                 "No"
@@ -288,13 +304,15 @@
               "type": "text",
               "name": "fisheries-ben_fisheries",
               "visibleIf": "{fisheries-demand_type_fisheries} = 'Individual_demand'",
-              "title": "Beneficiary's Name"
+              "title": "Beneficiary's Name",
+              "isRequired": true
             },
             {
               "type": "radiogroup",
               "name": "fisheries-gender_fisheries",
               "visibleIf": "{fisheries-demand_type_fisheries} = 'Individual_demand'",
-              "title": "Gender\n",
+              "title": "Gender",
+              "isRequired": true,
               "choices": [
                 {
                   "value": "male",
@@ -310,12 +328,15 @@
               "type": "text",
               "name": "fisheries-ben_father_fisheries",
               "visibleIf": "{fisheries-demand_type_fisheries} = 'Individual_demand'",
-              "title": "Beneficiary's father's name"
+              "title": "Beneficiary's father's name",
+              "isRequired": true
             },
             {
               "type": "radiogroup",
               "name": "fisheries-demands_promoting_fisheries",
+              "visibleIf": "{fisheries-is_demand_fisheries} = 'Yes'",
               "title": "Select all that demands for promoting fisheries in the settlement",
+              "isRequired": true,
               "choices": [
                 {
                   "value": "Storage_facilities",
@@ -333,16 +354,11 @@
             },
             {
               "type": "text",
-              "name": "fisheries-select_one_promoting_fisheries_other",
+              "name": "fisheries-demands_promoting_fisheries_other",
               "visibleIf": "{fisheries-demands_promoting_fisheries} = 'other'",
               "title": "Specify other."
             }
           ]
-        },
-        {
-          "type": "comment",
-          "name": "text_record",
-          "title": "Record a message justifying the need for livelihood at this location"
         },
         {
           "type": "html",

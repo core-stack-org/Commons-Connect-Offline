@@ -12,7 +12,7 @@
           "type": "html",
           "name": "crop_note_1",
           "title": "",
-          "html": "<span style=\"font-size: large; color:red\">Please provide information for crop patch on land owned by people in this settlement\n</span>"
+          "html": "<span style=\"font-size: large; color:red\">Note : Please provide information for crop patch on land owned by people in this settlement\n</span>"
         },
         {
           "type": "text",
@@ -229,6 +229,7 @@
         {
           "type": "radiogroup",
           "name": "soil_degraded",
+          "visibleIf": "{Uncropped_barren_land} = 'No'",
           "title": "Has the soil degraded over the last 3 years in this patch?",
           "isRequired": true,
           "choices": [
@@ -241,6 +242,7 @@
           "name": "select_one_reason_degradation",
           "visibleIf": "{soil_degraded} = 'Yes'",
           "title": "If degraded, what are the reasons for degradation?",
+          "isRequired": true,
           "choices": [
             "Overuse of fertilizers",
             "Heavy rains causing erosion",

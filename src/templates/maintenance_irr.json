@@ -18,6 +18,7 @@
           "type": "radiogroup",
           "name": "demand_type",
           "title": "Type of demand",
+          "isRequired": true,
           "choices": [
             {
               "value": "Community_demand",
@@ -74,7 +75,7 @@
           "type": "radiogroup",
           "name": "select_one_farm_pond",
           "visibleIf": "({select_one_irrigation_structure} == 'Farm pond')",
-          "title": "Repair of farm pond",
+          "title": "Select the type of repair maintenance required for farm pond?",
           "choices": [
             "Removal of accumulated sediments",
             "Repairing cracks or damage in embankments",
@@ -91,14 +92,14 @@
           "type": "text",
           "name": "select_one_farm_pond_other",
           "visibleIf": "{select_one_farm_pond} = 'other' and {select_one_irrigation_structure} = 'Farm pond'",
-          "title": "Specify other farm pond repair",
+          "title": "Specify other",
           "isRequired": true
         },
         {
           "type": "radiogroup",
           "name": "select_one_community_pond",
           "visibleIf": "({select_one_irrigation_structure} == 'Community Pond')",
-          "title": "Repair of community pond",
+          "title": "Select the type of repair maintenance required for community pond?",
           "choices": [
             "Removal of accumulated sediments",
             "Shoreline erosion control",
@@ -115,14 +116,14 @@
           "type": "text",
           "name": "select_one_community_pond_other",
           "visibleIf": "{select_one_community_pond} = 'other' and {select_one_irrigation_structure} = 'Community Pond'",
-          "title": "Specify other community pond repair",
+          "title": "Specify other",
           "isRequired": true
         },
         {
           "type": "radiogroup",
           "name": "select_one_well",
           "visibleIf": "({select_one_irrigation_structure} == 'Well')",
-          "title": "Repair of well",
+          "title": "Select the type of repair maintenance required for well?",
           "choices": [
             "Cleaning and removal of silt or debris",
             "Repairing cracks or damage to well walls",
@@ -139,14 +140,14 @@
           "type": "text",
           "name": "select_one_well_other",
           "visibleIf": "{select_one_well} = 'other' and {select_one_irrigation_structure} = 'Well'",
-          "title": "Specify other well repair",
+          "title": "Specify other",
           "isRequired": true
         },
         {
           "type": "radiogroup",
           "name": "select_one_canal",
           "visibleIf": "({select_one_irrigation_structure} == 'Canal')",
-          "title": "Repair of canal",
+          "title": "Select the type of repair maintenance required for canal?",
           "choices": [
             "Stabilizing canal banks to prevent erosion",
             "Lining Repairs",
@@ -165,14 +166,14 @@
           "type": "text",
           "name": "select_one_canal_other",
           "visibleIf": "{select_one_canal} = 'other' and {select_one_irrigation_structure} = 'Canal'",
-          "title": "Specify other canal repair",
+          "title": "Specify other",
           "isRequired": true
         },
         {
           "type": "radiogroup",
           "name": "select_one_farm_bund",
           "visibleIf": "({select_one_irrigation_structure} == 'Farm bund')",
-          "title": "Repair of farm bund",
+          "title": "Select the type of repair maintenance required for farm bund?",
           "choices": [
             "Repairing cracks or breaches in the bund",
             "Strengthening bund structure with additional soil or materials",
@@ -188,13 +189,8 @@
           "type": "text",
           "name": "select_one_farm_bund_other",
           "visibleIf": "{select_one_farm_bund} = 'other' and {select_one_irrigation_structure} = 'Farm bund'",
-          "title": "Specify other farm bund repair",
+          "title": "Specify other",
           "isRequired": true
-        },
-        {
-          "type": "comment",
-          "name": "text_record",
-          "title": "Write down the justification for the need of maintenance of recharge structure at this location"
         },
         {
           "type": "html",
