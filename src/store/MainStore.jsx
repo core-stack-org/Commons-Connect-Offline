@@ -55,12 +55,13 @@ const useMainStore = create((set) => ({
     //             headers: {
     //                 "ngrok-skip-browser-warning": "1",
     //                 "Content-Type": "application/json",
+    //                 "Authorization" : "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc3MTUxNTgyLCJpYXQiOjE3NjkzNzU1ODIsImp0aSI6IjNjODg3YzIzYmNhZTQxNGJhNWZhZDlhZmU0Mzg2NGZjIiwidXNlcl9pZCI6MTY1fQ.tLRQPebY8pxn70a19pl7pbLQHYQCn7axCUsl9uSCQuI"
     //             },
     //         });
     //         response = await response.json();
 
     //         //console.log(response)
-    //         set({ plans: response.plans });
+    //         set({ plans: response });
     //     } catch (e) {
     //         console.log("Not able to Fetch Plans !");
     //     }

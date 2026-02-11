@@ -19,13 +19,22 @@ const Homepage = () => {
 
     useEffect(() => {
       if(MainStore.blockName === null){
-        MainStore.setDistrictName(searchParams.get('dist_name'));
-        MainStore.setBlockName(searchParams.get('block_name'));
+        const transformName = (name) => {
+                    if (!name) return name;
+                    return name
+                        .replace(/[()]/g, "") // Remove all parentheses
+                        .replace(/[-\s]+/g, "_") // Replace dashes and spaces with "_"
+                        .replace(/_+/g, "_") // Collapse multiple underscores to one
+                        .replace(/^_|_$/g, "") // Remove leading/trailing underscores
+                        .toLowerCase();
+                };
+        MainStore.setDistrictName(transformName(searchParams.get('dist_name')));
+        MainStore.setBlockName(transformName(searchParams.get('block_name')));
         MainStore.setBlockId?.(searchParams.get('block_id'));
         MainStore.setZoomLat(searchParams.get('latitude'))
         MainStore.setZoomLong(searchParams.get('longitude'))
         MainStore.fetchPlans(searchParams.get('plans'))
-        //MainStore.fetchPlans(`${import.meta.env.VITE_API_URL}get_plans/?block_id=${searchParams.get('block_id')}`)
+        //MainStore.fetchPlans(`${import.meta.env.VITE_API_URL}watershed/plans/?tehsil=${searchParams.get('block_id')}`)
         MainStore.setContainerName(searchParams.get('container_name'))
       }
       MainStore.setIsResourceOpen(false)

@@ -214,8 +214,9 @@ const InfoBox = () => {
             xmlDoc.appendChild(mnregaParent);
           }
 
-          let tempString = xmlString.serializeToString(xmlDoc);
 
+          let tempString = xmlString.serializeToString(xmlDoc);
+          
           const response = await fetch(`${import.meta.env.VITE_API_URL}/sync_offline_data/resource/settlement/`, {
             method : "POST",
             headers: {
@@ -1348,23 +1349,30 @@ const InfoBox = () => {
       }
     })
 
-    selectedItems.forEach((item) => {
+    selectedItems.forEach(async(item) => {
       if(item === "settlement"){
-        const payload = {
-          layer_name: "settlement_layer",
-          resource_type: "settlement",
-          plan_id: MainStore.currentPlan.id,
-          plan_name: MainStore.currentPlan.plan,
-          district_name: MainStore.districtName,
-          block_name: MainStore.blockName,
+        try{
+          const payload = {
+            layer_name: "settlement_layer",
+            resource_type: "settlement",
+            plan_id: MainStore.currentPlan.id,
+            plan_name: MainStore.currentPlan.plan,
+            district_name: MainStore.districtName,
+            block_name: MainStore.blockName,
+          }
+          let result = await fetch(`${import.meta.env.VITE_API_URL}add_resources/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+          })
+          const data = await result.json();
+          console.log(payload)
+          console.log(data)
+        } catch (error) {
+          console.error("Error:", error);
         }
-        fetch(`${import.meta.env.VITE_API_URL}add_resources/`, {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(payload)
-        })
       }
       else if(item === "well"){
         const payload = {
@@ -1375,13 +1383,19 @@ const InfoBox = () => {
           district_name: MainStore.districtName,
           block_name: MainStore.blockName,
         }
-        fetch(`${import.meta.env.VITE_API_URL}add_resources/`, {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(payload)
-        })
+
+        try {
+         await fetch(`${import.meta.env.VITE_API_URL}add_resources/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+          })
+          
+        } catch(err) {
+          console.error(err)
+        }
       }
       else if(item === "waterstructure"){
         const payload = {
@@ -1392,13 +1406,19 @@ const InfoBox = () => {
           district_name: MainStore.districtName,
           block_name: MainStore.blockName,
         }
-        fetch(`${import.meta.env.VITE_API_URL}add_resources/`, {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(payload)
-        })
+
+        try {
+          await fetch(`${import.meta.env.VITE_API_URL}add_resources/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+          })
+          
+        } catch(err) {
+          console.error(err)
+        }
       }
       else if(item === "irrigation"){
         const payload = {
@@ -1410,13 +1430,17 @@ const InfoBox = () => {
           block_name: MainStore.blockName,
         }
 
-        fetch(`${import.meta.env.VITE_API_URL}add_works/`, {
+        try {
+          await fetch(`${import.meta.env.VITE_API_URL}add_works/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(payload)
-        })
+          })
+        } catch(err) {
+          console.error(err)
+        }
       }
       else if(item === "livelihood"){
         const payload = {
@@ -1428,13 +1452,17 @@ const InfoBox = () => {
           block_name: MainStore.blockName,
         }
 
-        fetch(`${import.meta.env.VITE_API_URL}add_works/`, {
+        try {
+          await fetch(`${import.meta.env.VITE_API_URL}add_works/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(payload)
-        })
+          })
+        } catch(err) {
+          console.error(err)
+        }
       }
       else if(item === "recharge"){
         const payload = {
@@ -1446,13 +1474,18 @@ const InfoBox = () => {
           block_name: MainStore.blockName,
         }
 
-        fetch(`${import.meta.env.VITE_API_URL}add_works/`, {
+        try {
+          await fetch(`${import.meta.env.VITE_API_URL}add_works/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(payload)
-        })
+          })
+
+        } catch(err) {
+          console.error(err)
+        }
       }
     })
 

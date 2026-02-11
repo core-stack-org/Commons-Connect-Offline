@@ -1977,7 +1977,7 @@ const MapComponent = () => {
                 
                 PositionFeatureRef.current = null;
             };
-        }, [MainStore.isGPSClick]);
+    }, [MainStore.isGPSClick]);
 
     useEffect(() => {
         if (!mapRef.current && MainStore.containerName) {

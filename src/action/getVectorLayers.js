@@ -7,7 +7,6 @@ export default async function getVectorLayers (layer_store, layer_name, setVisib
    
   let url = `http://localhost:3000/containers/${container_name}/vector_layers/${layer_name}.geojson`
 
-
   const vectorSource = new Vector({
     url: url,
     format: new GeoJSON(),

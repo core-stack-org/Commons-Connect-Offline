@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -13,6 +13,7 @@ import {
 import { Bar, Line } from "react-chartjs-2";
 import useMainStore from "../../store/MainStore";
 import { useTranslation } from "react-i18next";
+//import getOdkUrlForScreen from "../../action/getOdkUrl"
 
 ChartJS.register(
   CategoryScale,
@@ -24,9 +25,6 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-
-/* → 1.  Years are now fixed */
-const YEAR_LABELS = ["2017", "2018", "2019", "2020", "2021", "2022"];
 
 /* pretty-print */
 const fmt = (v, d = 0) =>
@@ -42,11 +40,46 @@ const GroundwaterAnalyze = () => {
   const { t } = useTranslation();
   const MainStore = useMainStore((s) => s);
 
-  /* slider index */
-  const [idx, setIdx] = useState(YEAR_LABELS.length - 1);
-  const yearFour = YEAR_LABELS[idx]; // "2017" … "2022"
+  /* Dynamically generate year labels from available data */
+  const YEAR_LABELS = useMemo(() => {
+    const years = new Set();
+    
+    // Extract years from yearlyData keys (e.g., "2017_2018" -> "2017")
+    if (yearlyData) {
+      Object.keys(yearlyData).forEach(key => {
+        if (key.match(/^\d{4}_\d{4}$/)) {
+          const startYear = key.split('_')[0];
+          years.add(startYear);
+        }
+      });
+    }
+    
+    // Extract years from fortnightData keys (e.g., "2017-07-01" -> "2017")
+    if (fortnightData) {
+      Object.keys(fortnightData).forEach(key => {
+        if (key.match(/^\d{4}-\d{2}-\d{2}$/)) {
+          const year = key.split('-')[0];
+          years.add(year);
+        }
+      });
+    }
+    
+    return Array.from(years).sort();
+  }, [yearlyData, fortnightData]);
 
-  /* 2.  annual record for that year ----------------------------- */
+  /* slider index */
+  const [idx, setIdx] = useState(0);
+  
+  /* Set slider to last year on initial load */
+  useEffect(() => {
+    if (YEAR_LABELS.length > 0) {
+      setIdx(YEAR_LABELS.length - 1);
+    }
+  }, [YEAR_LABELS.length]);
+
+  const yearFour = YEAR_LABELS[idx] || ""; // "2017" … "2025"
+
+
   const annual = useMemo(() => {
     const k = Object.keys(yearlyData || {}).find((key) =>
       key.startsWith(yearFour)
@@ -58,7 +91,7 @@ const GroundwaterAnalyze = () => {
     }
   }, [yearFour, yearlyData]);
 
-  /* 3.  slice fortnight data ------------------------------------ */
+
   const fort = useMemo(() => {
     if (!fortnightData) return { dates: [] };
     const out = { dates: [], prec: [], run: [], et: [], gw: [] };
@@ -82,7 +115,7 @@ const GroundwaterAnalyze = () => {
   const hasAnnual = Object.keys(annual).length > 0;
   const hasFort   = fort.dates.length > 0;
 
-  /* 4.  chart data (unchanged) ---------------------------------- */
+
   const barLine = {
     labels: fort.dates,
     datasets: [
@@ -144,7 +177,6 @@ const GroundwaterAnalyze = () => {
   }
 
 
-  /* 5.  UI ------------------------------------------------------ */
   return (
     <>
       <div className="sticky top-12 z-10 bg-white text-center pt-8 text-xl font-bold text-gray-800 border-b border-gray-300 shadow-md pb-2">
