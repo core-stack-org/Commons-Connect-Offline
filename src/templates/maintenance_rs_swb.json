@@ -101,8 +101,18 @@
             {
               "value": "Addressing_excessive_aquatic_vegetation_growth",
               "text": "Addressing excessive aquatic vegetation growth"
+            },
+            {
+              "value": "other",
+              "text": ""
             }
           ]
+        },
+        {
+          "type": "text",
+          "name": "select_one_farm_pond_other",
+          "visibleIf": "{select_one_farm_pond} anyof ['other']",
+          "title": "Specify other"
         },
         {
           "type": "checkbox",
@@ -129,8 +139,18 @@
             {
               "value": "Repair_or_cleaning_of_inlet_outlet_structures",
               "text": "Repair or cleaning of inlet outlet structures"
+            },
+            {
+              "value": "other",
+              "text": ""
             }
           ]
+        },
+        {
+          "type": "text",
+          "name": "select_one_community_pond_other",
+          "visibleIf": "{select_one_community_pond} anyof ['other']",
+          "title": "Specify other"
         },
         {
           "type": "checkbox",
@@ -153,8 +173,18 @@
             {
               "value": "Controlling_excessive_growth_of_aquatic_vegetation",
               "text": "Controlling excessive growth of aquatic vegetation"
+            },
+            {
+              "value": "other",
+              "text": ""
             }
           ]
+        },
+        {
+          "type": "text",
+          "name": "select_one_repair_large_water_body_other",
+          "visibleIf": "{select_one_repair_large_water_body} anyof ['other']",
+          "title": "Specify other"
         },
         {
           "type": "checkbox",
@@ -174,8 +204,15 @@
             {
               "value": "Structural_repairs",
               "text": "Structural repairs"
-            }
+            },
+            "other"
           ]
+        },
+        {
+          "type": "text",
+          "name": "select_one_repair_canal_other",
+          "visibleIf": "{select_one_repair_canal} anyof ['other']",
+          "title": "Specify other"
         },
         {
           "type": "checkbox",
@@ -194,8 +231,18 @@
             {
               "value": "Structural_damage_on_the_check_dam",
               "text": "Structural damage on the check dam"
+            },
+            {
+              "value": "other",
+              "text": ""
             }
           ]
+        },
+        {
+          "type": "text",
+          "name": "select_one_check_dam_other",
+          "visibleIf": "{select_one_check_dam} anyof ['other']",
+          "title": "Specify other"
         },
         {
           "type": "checkbox",
@@ -222,8 +269,18 @@
             {
               "value": "Damage_to_spillway_or_outlet_structure",
               "text": "Damage to spillway or outlet structure"
+            },
+            {
+              "value": "other",
+              "text": ""
             }
           ]
+        },
+        {
+          "type": "text",
+          "name": "select_one_percolation_tank_other",
+          "visibleIf": "{select_one_percolation_tank} anyof ['other']",
+          "title": "Specify other"
         },
         {
           "type": "checkbox",
@@ -242,8 +299,18 @@
             {
               "value": "Erosion_around_or_under_the_dam_structure",
               "text": "Erosion around or under the dam structure"
+            },
+            {
+              "value": "other",
+              "text": ""
             }
           ]
+        },
+        {
+          "type": "text",
+          "name": "select_one_rock_fill_dam_other",
+          "visibleIf": "{select_one_rock_fill_dam} anyof ['other']",
+          "title": "Specify other"
         },
         {
           "type": "checkbox",
@@ -253,8 +320,18 @@
           "choices": [
             "Dislodged_boulders",
             "Grouting",
-            "Erosion_around_boulder_structure"
+            "Erosion_around_boulder_structure",
+            {
+              "value": "other",
+              "text": ""
+            }
           ]
+        },
+        {
+          "type": "text",
+          "name": "select_one_loose_boulder_structure_other",
+          "visibleIf": "{select_one_loose_boulder_structure} anyof ['other']",
+          "title": "Specify other"
         },
         {
           "type": "checkbox",
@@ -273,8 +350,18 @@
             {
               "value": "Erosion_on_sides_or_base",
               "text": "Erosion on sides or base"
+            },
+            {
+              "value": "other",
+              "text": ""
             }
           ]
+        },
+        {
+          "type": "text",
+          "name": "select_one_model5_structure_other",
+          "visibleIf": "{select_one_model5_structure} anyof ['other']",
+          "title": "Specify other"
         },
         {
           "type": "checkbox",
@@ -293,8 +380,18 @@
             {
               "value": "Erosion_along_trenches_or_bunds",
               "text": "Erosion along trenches or bunds"
+            },
+            {
+              "value": "other",
+              "text": ""
             }
           ]
+        },
+        {
+          "type": "text",
+          "name": "select_one_Model30_40_structure_other",
+          "visibleIf": "{select_one_Model30_40_structure} anyof ['other']",
+          "title": "Specify other"
         },
         {
           "type": "html",

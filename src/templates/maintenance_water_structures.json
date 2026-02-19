@@ -1,12 +1,12 @@
 {
-  "title": "Propose Maintenance On Existing Water Recharge Structures",
+  "title": "Propose Maintenance on Surface Water structures",
   "logoFit": "none",
   "logoPosition": "right",
-  "completedHtml": "<h3>Water Structure Maintenance Proposal Submitted Successfully!</h3>",
-  "loadingHtml": "<h3>Loading Water Structure Maintenance Form...</h3>",
+  "completedHtml": "<h3>Water Structure Maintenance proposal has been recorded!</h3>",
+  "loadingHtml": "<h3>Loading Form...</h3>",
   "pages": [
     {
-      "name": "water_structure_maintenance_page",
+      "name": "page1",
       "elements": [
         {
           "type": "text",
@@ -21,12 +21,12 @@
           "isRequired": true,
           "choices": [
             {
-              "value": "Individual_demand",
-              "text": "Individual Demand"
-            },
-            {
               "value": "Community_demand",
               "text": "Community Demand"
+            },
+            {
+              "value": "Individual_demand",
+              "text": "Individual Demand"
             }
           ]
         },
@@ -36,23 +36,6 @@
           "visibleIf": "{demand_type} = 'Individual_demand'",
           "title": "Beneficiary's Name",
           "isRequired": true
-        },
-        {
-          "type": "radiogroup",
-          "name": "select_gender",
-          "visibleIf": "{demand_type} = 'Individual_demand'",
-          "title": "Gender",
-          "isRequired": true,
-          "choices": [
-            {
-              "value": "female",
-              "text": "Female"
-            },
-            {
-              "value": "male",
-              "text": "Male"
-            }
-          ]
         },
         {
           "type": "text",
@@ -65,7 +48,7 @@
           "type": "text",
           "name": "Beneficiary_Contact_Number",
           "visibleIf": "{demand_type} = 'Individual_demand'",
-          "title": "Beneficiary's Contact Number",
+          "title": "Beneficiary Contact Number",
           "validators": [
             {
               "type": "regex",
@@ -73,56 +56,168 @@
               "regex": "^(?:(?:\\+?91[-\\s]?)|0)?[6-9]\\d{9}$"
             }
           ],
-          "inputType": "tel",
-          "placeholder": "9876543210"
+          "inputType": "tel"
         },
         {
           "type": "radiogroup",
-          "name": "past_repair",
-          "visibleIf": "{demand_type} = 'Individual_demand' or {demand_type} = 'Community_demand'",
-          "title": "Any past repair or maintenance work done on this structure?",
+          "name": "TYPE_OF_WORK",
+          "title": "Select the type of surface water structure repair work",
           "isRequired": true,
           "choices": [
-            "Yes",
-            "No"
-          ]
-        },
-        {
-          "type": "radiogroup",
-          "name": "select_one_recharge_structure",
-          "visibleIf": "{demand_type} = 'Individual_demand' or {demand_type} = 'Community_demand'",
-          "title": "Select the visible repairs or maintenance issues for the recharge structures?",
-          "isRequired": true,
-          "choices": [
+            "Farm pond",
+            "Community Pond",
+            "Large water body",
+            "Canal",
             "Check dam",
             "Percolation tank",
-            "Earthen gully plug",
-            "Drainage/soakage channels",
-            "Recharge pits",
-            {
-              "value": "Sokage pits",
-              "text": "Soakage pits"
-            },
-            "Trench cum bund network",
-            "Continuous contour trenches (CCT)",
-            "Staggered Contour trenches(SCT)",
-            "Water absorption trenches(WAT)",
-            "Loose boulder structure",
             "Rock fill dam",
-            {
-              "value": "Stone bunding",
-              "text": "Stone Bunding"
-            },
-            "Diversion drains",
-            "Bunding:Contour bunds/ graded bunds",
+            "Loose boulder structure",
             "5% Model structure",
             "30-40 Model structure"
           ]
         },
         {
           "type": "checkbox",
+          "name": "select_one_farm_pond",
+          "visibleIf": "{TYPE_OF_WORK} = 'Farm pond'",
+          "title": "Repair of farm pond",
+          "choices": [
+            {
+              "value": "Removal_of_accumulated_sediments",
+              "text": "Removal of accumulated sediments"
+            },
+            {
+              "value": "Repairing_cracks_or_damage_in_embankments",
+              "text": "Repairing cracks or damage in embankments"
+            },
+            {
+              "value": "Controlling_seepage_or_leaks_in_the_pond_bed",
+              "text": "Controlling seepage or leaks in the pond bed"
+            },
+            {
+              "value": "Erosion_control_on_embankments",
+              "text": "Erosion control on embankments"
+            },
+            {
+              "value": "Addressing_excessive_aquatic_vegetation_growth",
+              "text": "Addressing excessive aquatic vegetation growth"
+            },
+            {
+              "value": "other",
+              "text": ""
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "name": "select_one_farm_pond_other",
+          "visibleIf": "{select_one_farm_pond} anyof ['other']",
+          "title": "Specify other"
+        },
+        {
+          "type": "checkbox",
+          "name": "select_one_community_pond",
+          "visibleIf": "{TYPE_OF_WORK} = 'Community Pond'",
+          "title": "Repair of community Pond",
+          "choices": [
+            {
+              "value": "Removal_of_accumulated_sediments",
+              "text": "Removal of accumulated sediments"
+            },
+            {
+              "value": "Shoreline_erosion_control",
+              "text": "Shoreline erosion control"
+            },
+            {
+              "value": "Repairing_cracks_or_damage_in_embankments",
+              "text": "Repairing cracks or damage in embankments"
+            },
+            {
+              "value": "Controlling_excessive_aquatic_vegetation_growth",
+              "text": "Controlling excessive aquatic vegetation growth"
+            },
+            {
+              "value": "Repair_or_cleaning_of_inlet_outlet_structures",
+              "text": "Repair or cleaning of inlet outlet structures"
+            },
+            {
+              "value": "other",
+              "text": ""
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "name": "select_one_community_pond_other",
+          "visibleIf": "{select_one_community_pond} anyof ['other']",
+          "title": "Specify other"
+        },
+        {
+          "type": "checkbox",
+          "name": "select_one_repair_large_water_body",
+          "visibleIf": "{TYPE_OF_WORK} = 'Large water body'",
+          "title": "Repair of large water body",
+          "choices": [
+            {
+              "value": "Removal_of_accumulated_sediments",
+              "text": "Removal of accumulated sediments"
+            },
+            {
+              "value": "Shoreline_erosion_control",
+              "text": "Shoreline erosion control"
+            },
+            {
+              "value": "Dam_repairs",
+              "text": "Dam repairs"
+            },
+            {
+              "value": "Controlling_excessive_growth_of_aquatic_vegetation",
+              "text": "Controlling excessive growth of aquatic vegetation"
+            },
+            {
+              "value": "other",
+              "text": ""
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "name": "select_one_repair_large_water_body_other",
+          "visibleIf": "{select_one_repair_large_water_body} anyof ['other']",
+          "title": "Specify other"
+        },
+        {
+          "type": "checkbox",
+          "name": "select_one_repair_canal",
+          "visibleIf": "{TYPE_OF_WORK} = 'Canal'",
+          "title": "Repair of canal",
+          "choices": [
+            {
+              "value": "Stabilizing_canal_banks_to_prevent_erosion",
+              "text": "Stabilizing canal banks to prevent erosion"
+            },
+            {
+              "value": "Lining_repairs",
+              "text": "Lining repairs"
+            },
+            "Desilting",
+            {
+              "value": "Structural_repairs",
+              "text": "Structural repairs"
+            },
+            "other"
+          ]
+        },
+        {
+          "type": "text",
+          "name": "select_one_repair_canal_other",
+          "visibleIf": "{select_one_repair_canal} anyof ['other']",
+          "title": "Specify other"
+        },
+        {
+          "type": "checkbox",
           "name": "select_one_check_dam",
-          "visibleIf": "{select_one_recharge_structure} = 'Check dam'",
+          "visibleIf": "{TYPE_OF_WORK} = 'Check dam'",
           "title": "Repair of check dam",
           "choices": [
             {
@@ -137,20 +232,23 @@
               "value": "Structural_damage_on_the_check_dam",
               "text": "Structural damage on the check dam"
             },
-            "other"
+            {
+              "value": "other",
+              "text": ""
+            }
           ]
         },
         {
           "type": "text",
           "name": "select_one_check_dam_other",
           "visibleIf": "{select_one_check_dam} anyof ['other']",
-          "title": "Specify other."
+          "title": "Specify other"
         },
         {
           "type": "checkbox",
           "name": "select_one_percolation_tank",
-          "visibleIf": "{select_one_recharge_structure} = 'Percolation tank'",
-          "title": "Repair of Percolation Tank",
+          "visibleIf": "{TYPE_OF_WORK} = 'Percolation tank'",
+          "title": "Repair of Percolation tank",
           "choices": [
             {
               "value": "Sediment_accumulation_reducing_infiltration_capacity",
@@ -162,7 +260,7 @@
             },
             {
               "value": "Erosion_on_tank_bund_or_inlet_outlet",
-              "text": "Erosion on tank bund or inlet/outlet"
+              "text": "Erosion on tank bund or inlet outlet"
             },
             {
               "value": "Vegetation_growth_blocking_water_entry",
@@ -174,7 +272,7 @@
             },
             {
               "value": "other",
-              "text": "Other"
+              "text": ""
             }
           ]
         },
@@ -182,269 +280,42 @@
           "type": "text",
           "name": "select_one_percolation_tank_other",
           "visibleIf": "{select_one_percolation_tank} anyof ['other']",
-          "title": "Specify other."
+          "title": "Specify other"
         },
         {
           "type": "checkbox",
-          "name": "select_one_earthen_gully_plug",
-          "visibleIf": "{select_one_recharge_structure} = 'Earthen gully plug'",
-          "title": "Repair of earthen gully plug",
+          "name": "select_one_rock_fill_dam",
+          "visibleIf": "{TYPE_OF_WORK} = 'Rock fill dam'",
+          "title": "Repair of rock fill dam",
           "choices": [
             {
-              "value": "Breaches_in_the_earthen_structure",
-              "text": "Breaches in the earthen structure"
+              "value": "Sediment_accumulation_reducing_water_storage",
+              "text": "Sediment accumulation reducing water storage"
             },
             {
-              "value": "Erosion_at_the_base_or_sides",
-              "text": "Erosion at the base or sides"
+              "value": "Dislodged_or_loose_rocks",
+              "text": "Dislodged or loose rocks"
             },
             {
-              "value": "Loss_of_compactness_in_the_soil_structure",
-              "text": "Loss of compactness in the soil structure"
-            },
-            {
-              "value": "Vegetation_growth_on_the_plug",
-              "text": "Vegetation growth on the plug"
+              "value": "Erosion_around_or_under_the_dam_structure",
+              "text": "Erosion around or under the dam structure"
             },
             {
               "value": "other",
-              "text": "Other"
+              "text": ""
             }
           ]
         },
         {
           "type": "text",
-          "name": "select_one_earthen_gully_plug_other",
-          "visibleIf": "{select_one_earthen_gully_plug} anyof ['other']",
-          "title": "Specify other."
-        },
-        {
-          "type": "checkbox",
-          "name": "select_one_drainage_soakage_channels",
-          "visibleIf": "{select_one_recharge_structure} = 'Drainage/soakage channels'",
-          "title": "Repair of drainage/soakage channels",
-          "choices": [
-            {
-              "value": "Blockages_due_to_sediment_or_debris",
-              "text": "Blockages due to sediment or debris"
-            },
-            {
-              "value": "Erosion_along_the_channel_sides",
-              "text": "Erosion along the channel sides"
-            },
-            {
-              "value": "Collapsed_sections_of_the_channel",
-              "text": "Collapsed sections of the channel"
-            },
-            {
-              "value": "Vegetation_overgrowth_reducing_flow_efficiency",
-              "text": "Vegetation overgrowth reducing flow efficiency"
-            },
-            {
-              "value": "other",
-              "text": "Other"
-            }
-          ]
-        },
-        {
-          "type": "text",
-          "name": "select_one_drainage_soakage_channels_other",
-          "visibleIf": "{select_one_drainage_soakage_channels} anyof ['other']",
-          "title": "Specify other."
-        },
-        {
-          "type": "checkbox",
-          "name": "select_one_recharge_pits",
-          "visibleIf": "{select_one_recharge_structure} = 'Recharge pits'",
-          "title": "Repair of recharge pits",
-          "choices": [
-            {
-              "value": "Sediment_accumulation_blocking_infiltration",
-              "text": "Sediment accumulation blocking infiltration"
-            },
-            {
-              "value": "Cracks_or_damages_in_the_lining",
-              "text": "Cracks or damages in the lining"
-            },
-            {
-              "value": "Blockages_in_filters_or_gravel_layers",
-              "text": "Blockages in filters or gravel layers"
-            },
-            {
-              "value": "Vegetation_or_debris_obstructing_the_pit",
-              "text": "Vegetation or debris obstructing the pit"
-            },
-            {
-              "value": "other",
-              "text": "Other"
-            }
-          ]
-        },
-        {
-          "type": "text",
-          "name": "select_one_recharge_pits_other",
-          "visibleIf": "{select_one_recharge_pits} anyof ['other']",
-          "title": "Specify other."
-        },
-        {
-          "type": "checkbox",
-          "name": "select_one_sokage_pits",
-          "visibleIf": "{select_one_recharge_structure} = 'Sokage pits'",
-          "title": "Repair of sokage pits",
-          "choices": [
-            {
-              "value": "Sediment_clogging_reducing_infiltration_rate",
-              "text": "Sediment clogging reducing infiltration rate"
-            },
-            {
-              "value": "Damage_to_pit_walls_or_filters",
-              "text": "Damage to pit walls or filters"
-            },
-            {
-              "value": "Vegetation_obstructing_flow_into_the_pit",
-              "text": "Vegetation obstructing flow into the pit"
-            },
-            {
-              "value": "Water_pooling_due_to_improper_drainage",
-              "text": "Water pooling due to improper drainage"
-            },
-            {
-              "value": "other",
-              "text": "Other"
-            }
-          ]
-        },
-        {
-          "type": "text",
-          "name": "select_one_sokage_pits_other",
-          "visibleIf": "{select_one_sokage_pits} anyof ['other']",
-          "title": "Specify other."
-        },
-        {
-          "type": "checkbox",
-          "name": "select_one_trench_cum_bund_network",
-          "visibleIf": "{select_one_recharge_structure} = 'Trench cum bund network'",
-          "title": "Repair of trench cum bund network",
-          "isRequired": true,
-          "choices": [
-            {
-              "value": "Sediments_in_trench",
-              "text": "Sediments in trench"
-            },
-            {
-              "value": "Water_leakage_in_Bund_due_to_breach",
-              "text": "Water leakage in Bund due to breach"
-            },
-            {
-              "value": "Erosion_on_bund",
-              "text": "Erosion on bund"
-            },
-            {
-              "value": "other",
-              "text": "Other"
-            }
-          ]
-        },
-        {
-          "type": "text",
-          "name": "select_one_trench_cum_bund_network_other",
-          "visibleIf": "{select_one_trench_cum_bund_network} anyof ['other']",
-          "title": "Specify other."
-        },
-        {
-          "type": "checkbox",
-          "name": "select_one_continuous_contour_trenches",
-          "visibleIf": "{select_one_recharge_structure} = 'Continuous contour trenches (CCT)'",
-          "title": "Repair of continuous contour trenches (CCT)",
-          "choices": [
-            {
-              "value": "Sediments_filling_trenches_reducing_capacity",
-              "text": "Sediments filling trenches reducing capacity"
-            },
-            {
-              "value": "Erosion_of_trench_edges",
-              "text": "Erosion of trench edges"
-            },
-            {
-              "value": "Vegetation_growth_obstructing_water_infiltration",
-              "text": "Vegetation growth obstructing water infiltration"
-            },
-            {
-              "value": "other",
-              "text": "Other"
-            }
-          ]
-        },
-        {
-          "type": "text",
-          "name": "select_one_continuous_contour_trenches_other",
-          "visibleIf": "{select_one_continuous_contour_trenches} anyof ['other']",
-          "title": "Specify other."
-        },
-        {
-          "type": "checkbox",
-          "name": "select_one_staggered_contour_trenches",
-          "visibleIf": "{select_one_recharge_structure} = 'Staggered Contour trenches(SCT)'",
-          "title": "Repair of staggered Contour trenches (SCT)",
-          "choices": [
-            {
-              "value": "Sediments_in_trenches_reducing_infiltration",
-              "text": "Sediments in trenches reducing infiltration"
-            },
-            {
-              "value": "Erosion_of_trench_edges_or_sides",
-              "text": "Erosion of trench edges or sides"
-            },
-            {
-              "value": "Poor_alignment_reducing_effectiveness",
-              "text": "Poor alignment reducing effectiveness"
-            },
-            {
-              "value": "other",
-              "text": "Other"
-            }
-          ]
-        },
-        {
-          "type": "text",
-          "name": "select_one_staggered_contour_trenches_other",
-          "visibleIf": "{select_one_staggered_contour_trenches} anyof ['other']",
-          "title": "Specify other."
-        },
-        {
-          "type": "checkbox",
-          "name": "select_one_water_absorption_trenches",
-          "visibleIf": "{select_one_recharge_structure} = 'Water absorption trenches(WAT)'",
-          "title": "Repair of water absorption trenches (WAT)",
-          "choices": [
-            {
-              "value": "Sediment_clogging_the_trenches",
-              "text": "Sediment clogging the trenches"
-            },
-            {
-              "value": "Erosion_along_trench_edges",
-              "text": "Erosion along trench edges"
-            },
-            {
-              "value": "Vegetation_obstructing_flow_into_the_trench",
-              "text": "Vegetation obstructing flow into the trench"
-            },
-            {
-              "value": "other",
-              "text": "Other"
-            }
-          ]
-        },
-        {
-          "type": "text",
-          "name": "select_one_water_absorption_trenches_other",
-          "visibleIf": "{select_one_water_absorption_trenches} anyof ['other']",
-          "title": "Specify other."
+          "name": "select_one_rock_fill_dam_other",
+          "visibleIf": "{select_one_rock_fill_dam} anyof ['other']",
+          "title": "Specify other"
         },
         {
           "type": "checkbox",
           "name": "select_one_loose_boulder_structure",
-          "visibleIf": "{select_one_recharge_structure} = 'Loose boulder structure'",
+          "visibleIf": "{TYPE_OF_WORK} = 'Loose boulder structure'",
           "title": "Repair of loose boulder structure",
           "choices": [
             "Dislodged_boulders",
@@ -452,7 +323,7 @@
             "Erosion_around_boulder_structure",
             {
               "value": "other",
-              "text": "Other"
+              "text": ""
             }
           ]
         },
@@ -460,135 +331,12 @@
           "type": "text",
           "name": "select_one_loose_boulder_structure_other",
           "visibleIf": "{select_one_loose_boulder_structure} anyof ['other']",
-          "title": "Specify other."
-        },
-        {
-          "type": "checkbox",
-          "name": "select_one_rock_fill_dam",
-          "visibleIf": "{select_one_recharge_structure} = 'Rock fill dam'",
-          "title": "Repair of rock fill dam",
-          "choices": [
-            "Sediment_accumulation_reducing_water_storage",
-            "Dislodged_or_loose_rocks",
-            "Erosion_around_or_under_the_dam_structure",
-            {
-              "value": "other",
-              "text": "Other"
-            }
-          ]
-        },
-        {
-          "type": "text",
-          "name": "select_one_rock_fill_dam_other",
-          "visibleIf": "{select_one_recharge_structure} = 'Rock fill dam'",
-          "title": "Specify other."
-        },
-        {
-          "type": "checkbox",
-          "name": "select_one_stone_bunding",
-          "visibleIf": "{select_one_recharge_structure} = 'Stone bunding'",
-          "title": "Repair of stone bunding",
-          "choices": [
-            {
-              "value": "Dislodged_stones_reducing_structure_stability",
-              "text": "Dislodged stones reducing structure stability"
-            },
-            {
-              "value": "Sediment_buildup_behind_the_bund",
-              "text": "Sediment buildup behind the bund"
-            },
-            {
-              "value": "Erosion_along_the_bund_edges",
-              "text": "Erosion along the bund edges"
-            },
-            {
-              "value": "other",
-              "text": "Other"
-            }
-          ]
-        },
-        {
-          "type": "text",
-          "name": "select_one_stone_bunding_other",
-          "visibleIf": "{select_one_stone_bunding} anyof ['other']",
-          "title": "Specify other."
-        },
-        {
-          "type": "checkbox",
-          "name": "select_one_diversion_drains",
-          "visibleIf": "{select_one_recharge_structure} = 'Diversion drains'",
-          "title": "Repair of diversion drains",
-          "choices": [
-            {
-              "value": "Blockages_due_to_sediment_or_debris",
-              "text": "Blockages due to sediment or debris"
-            },
-            {
-              "value": "Erosion_along_the_drain_edges",
-              "text": "Erosion along the drain edges"
-            },
-            {
-              "value": "Collapsed_or_damaged_drain_sections",
-              "text": "Collapsed or damaged drain sections"
-            },
-            {
-              "value": "other",
-              "text": "Other"
-            }
-          ]
-        },
-        {
-          "type": "text",
-          "name": "select_one_diversion_drains_other",
-          "visibleIf": "{select_one_diversion_drains} anyof ['other']",
-          "title": "Specify other."
-        },
-        {
-          "type": "checkbox",
-          "name": "select_one_bunding",
-          "visibleIf": "{select_one_recharge_structure} = 'Bunding:Contour bunds/ graded bunds'",
-          "title": "Repair of bunding:Contour bunds/ graded bunds",
-          "choices": [
-            {
-              "value": "Sediment_accumulation_reducing_water_retention_or_obstructing_flow",
-              "text": "Sediment accumulation reducing water retention or obstructing flow"
-            },
-            {
-              "value": "Cracks_breaches,_or_damage_to_the_bund_structure",
-              "text": "Cracks, breaches, or damage to the bund structure"
-            },
-            {
-              "value": "Erosion_along_bund_edges,_slopes,_or_base",
-              "text": "Erosion along bund edges, slopes, or base"
-            },
-            {
-              "value": "Improper_alignment_or_grading_disrupting_water_distribution",
-              "text": "Improper alignment or grading disrupting water distribution"
-            },
-            {
-              "value": "Vegetative_growth_weakening_bund_stability",
-              "text": "Vegetative growth weakening bund stability"
-            },
-            {
-              "value": "Weakening_of_the_structure_due_to_seepage_or_heavy_rainfall",
-              "text": "Weakening of the structure due to seepage or heavy rainfall"
-            },
-            {
-              "value": "other",
-              "text": "Other"
-            }
-          ]
-        },
-        {
-          "type": "text",
-          "name": "select_one_bunding_other",
-          "visibleIf": "{select_one_bunding} anyof ['other']",
-          "title": "Specify other."
+          "title": "Specify other"
         },
         {
           "type": "checkbox",
           "name": "select_one_model5_structure",
-          "visibleIf": "{select_one_recharge_structure} = '5% Model structure'",
+          "visibleIf": "{TYPE_OF_WORK} = '5% Model structure'",
           "title": "Repair of 5% Model structure",
           "choices": [
             {
@@ -605,7 +353,7 @@
             },
             {
               "value": "other",
-              "text": "Other"
+              "text": ""
             }
           ]
         },
@@ -613,12 +361,12 @@
           "type": "text",
           "name": "select_one_model5_structure_other",
           "visibleIf": "{select_one_model5_structure} anyof ['other']",
-          "title": "Specify other."
+          "title": "Specify other"
         },
         {
           "type": "checkbox",
-          "name": "select_one_model30_40_structure",
-          "visibleIf": "{select_one_recharge_structure} = '30-40 Model structure'",
+          "name": "select_one_Model30_40_structure",
+          "visibleIf": "{TYPE_OF_WORK} = '30-40 Model structure'",
           "title": "Repair of 30-40 Model structure",
           "choices": [
             {
@@ -635,27 +383,27 @@
             },
             {
               "value": "other",
-              "text": "Other"
+              "text": ""
             }
           ]
         },
         {
           "type": "text",
-          "name": "select_one_model30_40_structure_other",
-          "visibleIf": "{select_one_model30_40_structure} anyof ['other']",
-          "title": "Specify other."
+          "name": "select_one_Model30_40_structure_other",
+          "visibleIf": "{select_one_Model30_40_structure} anyof ['other']",
+          "title": "Specify other"
         },
         {
           "type": "html",
-          "name": "form_submission_note",
-          "html": "<div style='background-color: #ffebee; border: 1px solid #f44336; padding: 10px; margin: 10px 0; border-radius: 4px;'><span style='color: #f44336; font-weight: bold;'>DO NOT MODIFY ANYTHING BEYOND THIS POINT AND SUBMIT YOUR FORM DATA</span></div>"
+          "name": "pm_swb_rs_note_1",
+          "html": "<span style=\"font-size: large; font-weight: bold; color:red;\">DO NOT MODIFY ANYTHING BEYOND THIS POINT</span>"
         },
         {
           "type": "multipletext",
           "name": "GPS_point",
           "title": "GPS point of the marked area",
+          "description": "Takes a GPS point from the marker you placed in the application",
           "isRequired": true,
-          "readOnly": true,
           "items": [
             {
               "name": "latitude",
@@ -693,15 +441,14 @@
         },
         {
           "type": "text",
-          "name": "work_id",
-          "title": "Work ID",
-          "defaultValue": "AUTO-GENERATED",
+          "name": "user_latlon",
+          "title": "Current location of the user",
           "readOnly": true
         },
         {
           "type": "text",
-          "name": "user_latlon",
-          "title": "Current location of the user",
+          "name": "work_id",
+          "title": "Work ID",
           "readOnly": true
         }
       ]
