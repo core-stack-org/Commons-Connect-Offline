@@ -218,7 +218,7 @@
                   "text": "Saturation of works"
                 },
                 {
-                  "value": "Item 1",
+                  "value": "other",
                   "text": "Other"
                 }
               ]
@@ -226,7 +226,7 @@
             {
               "type": "text",
               "name": "MNREGA_INFORMATION-reason_low_work_other",
-              "visibleIf": "{MNREGA_INFORMATION-reason_low_work} allof ['Item 1']",
+              "visibleIf": "{MNREGA_INFORMATION-reason_low_work} allof ['other']",
               "title": "Specify other."
             },
             {
@@ -420,7 +420,6 @@
         {
           "type": "multipletext",
           "name": "GPS_point",
-          "visible": true,
           "title": "GPS point to be marked of the area",
           "description": "Take a GPS point",
           "isRequired": true,

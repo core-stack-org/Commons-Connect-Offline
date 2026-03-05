@@ -201,11 +201,26 @@
           "title": "Repair of farm ponds",
           "isRequired": true,
           "choices": [
-            "Removal of accumulated sediments",
-            "Repairing cracks or damage in embankments",
-            "Controlling seepage or leaks in the pond bed",
-            "Erosion control on embankments",
-            "Addressing excessive aquatic vegetation growth",
+            {
+              "value": "Removal_of_accumulated_sediments",
+              "text": "Removal of accumulated sediments"
+            },
+            {
+              "value": "Repairing_cracks_or_damage_in_embankments",
+              "text": "Repairing cracks or damage in embankments"
+            },
+            {
+              "value": "Controlling_seepage_or_leaks_in_the_pond_bed",
+              "text": "Controlling seepage or leaks in the pond bed"
+            },
+            {
+              "value": "Erosion_control_on_embankments",
+              "text": "Erosion control on embankments"
+            },
+            {
+              "value": "Addressing_excessive_aquatic_vegetation_growth",
+              "text": "Addressing excessive aquatic vegetation growth"
+            },
             "Other"
           ]
         },
@@ -222,10 +237,19 @@
           "title": "Repair of canal",
           "isRequired": true,
           "choices": [
-            "Stabilizing canal bank to prevent erosion",
-            "Lining repairs",
+            {
+              "value": "Stabilizing_canal_bank_to_prevent_erosion",
+              "text": "Stabilizing canal bank to prevent erosions"
+            },
+            {
+              "value": "Lining_repairs",
+              "text": "Lining repairs"
+            },
             "Desilting",
-            "Structural Repairs",
+            {
+              "value": "Structural_Repairs",
+              "text": "Structural Repairs"
+            },
             "Other"
           ]
         },
@@ -242,11 +266,26 @@
           "title": "Repair of community pond",
           "isRequired": true,
           "choices": [
-            "Removal of accumulated sediments",
-            "Shoreline erosion control",
-            "Repairing cracks or damage in embankments",
-            "Controlling excessive aquatic vegetation growth",
-            "Repair or cleaning of inlet/outlet structures",
+            {
+              "value": "Removal_of_accumulated_sediments",
+              "text": "Removal of accumulated sedimentss"
+            },
+            {
+              "value": "Shoreline_erosion_control",
+              "text": "Shoreline erosion control"
+            },
+            {
+              "value": "Repairing_cracks_or_damage_in_embankments",
+              "text": "Repairing cracks or damage in embankmentss"
+            },
+            {
+              "value": "Controlling_excessive_aquatic_vegetation_growth",
+              "text": "Controlling excessive aquatic vegetation growth"
+            },
+            {
+              "value": "Repair_or_cleaning_of_inlet_outlet_structures",
+              "text": "Repair or cleaning of inlet/outlet structures"
+            },
             "Other"
           ]
         },
@@ -263,9 +302,18 @@
           "title": "Repair of check dam",
           "isRequired": true,
           "choices": [
-            "Erosion on the check dam",
-            "Sediment accumulated in the check dam",
-            "Structural damage on the check dam",
+            {
+              "value": "Erosion_on_the_check_dam",
+              "text": "Erosion on the check dams"
+            },
+            {
+              "value": "Sediment_accumulated_in_the_check_dam",
+              "text": "Sediment accumulated in the check dam"
+            },
+            {
+              "value": "Structural_damage_on_the_check_dam",
+              "text": "Structural damage on the check dam"
+            },
             "Other"
           ]
         },
@@ -282,18 +330,36 @@
           "title": "Repair of percolation tank",
           "isRequired": true,
           "choices": [
-            "Sediment accumulation reducing infiltration capacity",
-            "Breach in embankments",
-            "Erosion on tank bund or inlet/outlet",
-            "Vegetation growth blocking water entry",
-            "Damage to spillway or outlet structure",
-            "Other"
+            {
+              "value": "Sediment_accumulation_reducing_infiltration_capacity",
+              "text": "Sediment accumulation reducing infiltration capacitys"
+            },
+            {
+              "value": "Breach_in_embankments",
+              "text": "Breach in embankments"
+            },
+            {
+              "value": "Erosion_on_tank_bund_or_inlet_outlet",
+              "text": "Erosion on tank bund or inlet/outlet"
+            },
+            {
+              "value": "Vegetation_growth_blocking_water_entry",
+              "text": "Vegetation growth blocking water entry"
+            },
+            {
+              "value": "Damage_to_spillway_or_outlet_structure",
+              "text": "Damage to spillway or outlet structure"
+            },
+            {
+              "value": "other",
+              "text": "Other"
+            }
           ]
         },
         {
           "type": "text",
           "name": "Repair_of_percolation_tank_other",
-          "visibleIf": "{Repair_of_percolation_tank} anyof ['Other']",
+          "visibleIf": "{Repair_of_percolation_tank} anyof ['other']",
           "title": "Specify other"
         },
         {
@@ -303,16 +369,28 @@
           "title": "Repair of trench cum bund network",
           "isRequired": true,
           "choices": [
-            "Sediments in trench",
-            "Water leakage in bund due to breach structural damage",
-            "Erosion on bund",
-            "Other"
+            {
+              "value": "Sediments_in_trench",
+              "text": "Sediments in trench"
+            },
+            {
+              "value": "Water_leakage_in_bund_due_to_breach_structural_damage",
+              "text": "Water leakage in bund due to breach structural damages"
+            },
+            {
+              "value": "Erosion_on_bund",
+              "text": "Erosion on bund"
+            },
+            {
+              "value": "other",
+              "text": "Other"
+            }
           ]
         },
         {
           "type": "text",
           "name": "Repair_of_trench_cum_bund_network_other",
-          "visibleIf": "{Repair_of_trench_cum_bund_network} anyof ['Other']",
+          "visibleIf": "{Repair_of_trench_cum_bund_network} anyof ['other']",
           "title": "Specify other"
         },
         {
@@ -322,17 +400,29 @@
           "title": "Repair of large water body",
           "isRequired": true,
           "choices": [
-            "Removal of accumulated sediments",
-            "Shoreline Erosion Control",
-            "Dam Repairs",
-            "Controlling excessive growth of aquatic vegetation",
-            "Other"
+            {
+              "value": "Removal_of_accumulated_sediments",
+              "text": "Removal of accumulated sediments"
+            },
+            {
+              "value": "Shoreline_Erosion_Control",
+              "text": "Shoreline Erosion Control"
+            },
+            {
+              "value": "Dam_Repairs",
+              "text": "Dam Repairs"
+            },
+            {
+              "value": "Controlling_excessive_growth_of_aquatic_vegetation",
+              "text": "Controlling excessive growth of aquatic vegetations"
+            },
+            "other"
           ]
         },
         {
           "type": "text",
           "name": "Repair_of_large_water_body_other",
-          "visibleIf": "{Repair_of_large_water_body} anyof ['Other']",
+          "visibleIf": "{Repair_of_large_water_body} anyof ['other']",
           "title": "Specify other"
         },
         {
@@ -342,17 +432,32 @@
           "title": "Repair of earthen gully plug",
           "isRequired": true,
           "choices": [
-            "Breaches in the earthen structure",
-            "Erosion at the base or sides",
-            "Loss of compactness in the soil structure",
-            "Vegetation growth on the plug",
-            "Other"
+            {
+              "value": "Breaches_in_the_earthen_structure",
+              "text": "Breaches in the earthen structures"
+            },
+            {
+              "value": "Erosion_at_the_base_or_sides",
+              "text": "Erosion at the base or sides"
+            },
+            {
+              "value": "Loss_of_compactness_in_the_soil_structure",
+              "text": "Loss of compactness in the soil structures"
+            },
+            {
+              "value": "Vegetation_growth_on_the_plug",
+              "text": "Vegetation growth on the plug"
+            },
+            {
+              "value": "other",
+              "text": "Other"
+            }
           ]
         },
         {
           "type": "text",
           "name": "Repair_of_earthen_gully_plug_other",
-          "visibleIf": "{Repair_of_earthen_gully_plug} anyof ['Other']",
+          "visibleIf": "{Repair_of_earthen_gully_plug} anyof ['other']",
           "title": "Specify other"
         },
         {
@@ -362,16 +467,22 @@
           "title": "Repair of loose boulder structure",
           "isRequired": true,
           "choices": [
-            "Dislodged boulders",
+            {
+              "value": "Dislodged_boulders",
+              "text": "Dislodged boulderss"
+            },
             "Grouting",
-            "Erosion around boulder structure",
-            "Other"
+            {
+              "value": "Erosion_around_boulder_structure",
+              "text": "Erosion around boulder structures"
+            },
+            "other"
           ]
         },
         {
           "type": "text",
           "name": "Repair_of_loose_boulder_structure_other",
-          "visibleIf": "{Repair_of_loose_boulder_structure} anyof ['Other']",
+          "visibleIf": "{Repair_of_loose_boulder_structure} anyof ['other']",
           "title": "Specify other"
         },
         {
@@ -381,17 +492,32 @@
           "title": "Repair of drainage/soakage channels",
           "isRequired": true,
           "choices": [
-            "Blockages due to sediment or debris",
-            "Erosion along the channel sides",
-            "Collapsed sections of the channel",
-            "Vegetation overgrowth reducing flow efficiency",
-            "Other"
+            {
+              "value": "Blockages_due_to_sediment_or_debris",
+              "text": "Blockages due to sediment or debris"
+            },
+            {
+              "value": "Erosion_along_the_channel_sides",
+              "text": "Erosion along the channel sides"
+            },
+            {
+              "value": "Collapsed_sections_of_the_channel",
+              "text": "Collapsed sections of the channels"
+            },
+            {
+              "value": "Vegetation_overgrowth_reducing_flow_efficiency",
+              "text": "Vegetation overgrowth reducing flow efficiency"
+            },
+            {
+              "value": "other",
+              "text": "Other"
+            }
           ]
         },
         {
           "type": "text",
           "name": "Repair_of_drainage_soakage_channels_other",
-          "visibleIf": "{Repair_of_drainage_soakage_channels} anyof ['Other']",
+          "visibleIf": "{Repair_of_drainage_soakage_channels} anyof ['other']",
           "title": "Specify other"
         },
         {
@@ -401,10 +527,22 @@
           "title": "Repair of recharge pits",
           "isRequired": true,
           "choices": [
-            "Sediment accumulation blocking infiltration",
-            "Cracks or damages in the lining",
-            "Blockages in filters or gravel layers",
-            "Vegetation or debris obstructing the pit",
+            {
+              "value": "Sediment_accumulation_blocking_infiltration",
+              "text": "Sediment accumulation blocking infiltration"
+            },
+            {
+              "value": "Cracks_or_damages_in_the_lining",
+              "text": "Cracks or damages in the linings"
+            },
+            {
+              "value": "Blockages_in_filters_or_gravel_layers",
+              "text": "Blockages in filters or gravel layers"
+            },
+            {
+              "value": "Vegetation_or_debris_obstructing_the_pit",
+              "text": "Vegetation or debris obstructing the pit"
+            },
             "Other"
           ]
         },
@@ -421,17 +559,29 @@
           "title": "Repair of soakage pits",
           "isRequired": true,
           "choices": [
-            "Sediment clogging reducing infiltration rate",
-            "Damage to pit walls or filters",
-            "Vegetation obstructing flow into the pit",
-            "Water pooling due to improper drainage",
-            "Other"
+            {
+              "value": "Sediment_clogging_reducing_infiltration_rate",
+              "text": "Sediment clogging reducing infiltration rates"
+            },
+            {
+              "value": "Damage_to_pit_walls_or_filters",
+              "text": "Damage to pit walls or filterss"
+            },
+            {
+              "value": "Vegetation_obstructing_flow_into_the_pit",
+              "text": "Vegetation obstructing flow into the pits"
+            },
+            {
+              "value": "Water_pooling_due_to_improper_drainage",
+              "text": "Water pooling due to improper drainages"
+            },
+            "other"
           ]
         },
         {
           "type": "text",
           "name": "Repair_of_soakage_pits_other",
-          "visibleIf": "{Repair_of_soakage_pits} anyof ['Other']",
+          "visibleIf": "{Repair_of_soakage_pits} anyof ['other']",
           "title": "Specify other"
         },
         {
@@ -441,16 +591,25 @@
           "title": "Repair of continuous contour trenches (CCT)",
           "isRequired": true,
           "choices": [
-            "Sediments filling trenches reducing capacity",
-            "Erosion of trench edges",
-            "Vegetation growth obstructing water infiltration",
-            "Other"
+            {
+              "value": "Sediments_filling_trenches_reducing_capacity",
+              "text": "Sediments filling trenches reducing capacitys"
+            },
+            {
+              "value": "Erosion_of_trench_edges",
+              "text": "Erosion of trench edgess"
+            },
+            {
+              "value": "Vegetation_growth_obstructing_water_infiltration",
+              "text": "Vegetation growth obstructing water infiltrations"
+            },
+            "other"
           ]
         },
         {
           "type": "text",
           "name": "Repair_of_Continuous_contour_trenches_other",
-          "visibleIf": "{Repair_of_Continuous_contour_trenches} anyof ['Other']",
+          "visibleIf": "{Repair_of_Continuous_contour_trenches} anyof ['other']",
           "title": "Specify other"
         },
         {
@@ -460,16 +619,25 @@
           "title": "Repair of staggered contour trenches (SCT)",
           "isRequired": true,
           "choices": [
-            "Sediments in trenches reducing infiltration",
-            "Erosion of trench edges or sides",
-            "Poor alignment reducing effectiveness",
-            "Other"
+            {
+              "value": "Sediments_in_trenches_reducing_infiltration",
+              "text": "Sediments in trenches reducing infiltration"
+            },
+            {
+              "value": "Erosion_of_trench_edges_or_sides",
+              "text": "Erosion of trench edges or sides"
+            },
+            {
+              "value": "Poor_alignment_reducing_effectiveness",
+              "text": "Poors alignment reducing effectivenes"
+            },
+            "other"
           ]
         },
         {
           "type": "text",
           "name": "Repair_of_Staggered_contour_trenches_other",
-          "visibleIf": "{Repair_of_Staggered_contour_trenches} anyof ['Other']",
+          "visibleIf": "{Repair_of_Staggered_contour_trenches} anyof ['other']",
           "title": "Specify other"
         },
         {
@@ -479,16 +647,25 @@
           "title": "Repair of water absorption trenches (WAT)",
           "isRequired": true,
           "choices": [
-            "Sediment clogging the trenches",
-            "Erosion along trench edges",
-            "Vegetation obstructing flow into the trench",
-            "Other"
+            {
+              "value": "Sediment_clogging_the_trenches",
+              "text": "Sediment clogging the trenches"
+            },
+            {
+              "value": "Erosion_along_trench_edges",
+              "text": "Erosion along trench edges"
+            },
+            {
+              "value": "Vegetation_obstructing_flow_into_the_trench",
+              "text": "Vegetations obstructing flow into the trench"
+            },
+            "other"
           ]
         },
         {
           "type": "text",
           "name": "Repair_of_Water_absorption_trenches_other",
-          "visibleIf": "{Repair_of_Water_absorption_trenches} anyof ['Other']",
+          "visibleIf": "{Repair_of_Water_absorption_trenches} anyof ['other']",
           "title": "Specify other"
         },
         {
@@ -498,16 +675,28 @@
           "title": "Repair of rock fill dam",
           "isRequired": true,
           "choices": [
-            "Sediment accumulation reducing water storage",
-            "Dislodged or loose rocks",
-            "Erosion around or under the dam structure",
-            "Other"
+            {
+              "value": "Sediment_accumulation_reducing_water_storage",
+              "text": "Sediment accumulation reducing water storage"
+            },
+            {
+              "value": "Dislodged_or_loose_rocks",
+              "text": "Dislodged or loose rocks"
+            },
+            {
+              "value": "Erosion_around_or_under_the_dam_structure",
+              "text": "Erosion around or under the dam structure"
+            },
+            {
+              "value": "other",
+              "text": "Other"
+            }
           ]
         },
         {
           "type": "text",
           "name": "Repair_of_rock_fill_dam_other",
-          "visibleIf": "{Repair_of_rock_fill_dam} anyof ['Other']",
+          "visibleIf": "{Repair_of_rock_fill_dam} anyof ['other']",
           "title": "Specify other"
         },
         {
@@ -517,16 +706,25 @@
           "title": "Repair of stone bunding",
           "isRequired": true,
           "choices": [
-            "Dislodged stones reducing structure stability",
-            "Sediment buildup behind the bund",
-            "Erosion along the bund edges",
-            "Other"
+            {
+              "value": "Dislodged_stones_reducing_structure_stability",
+              "text": "Dislodged stones reducing structure stability"
+            },
+            {
+              "value": "Sediment_buildup_behind_the_bund",
+              "text": "Sediment buildup behind the bund"
+            },
+            {
+              "value": "Erosion_along_the_bund_edges",
+              "text": "Erosion along the bund edges"
+            },
+            "other"
           ]
         },
         {
           "type": "text",
           "name": "Repair_of_stone_bunding_other",
-          "visibleIf": "{Repair_of_stone_bunding} anyof ['Other']",
+          "visibleIf": "{Repair_of_stone_bunding} anyof ['other']",
           "title": "Specify other"
         },
         {
@@ -536,16 +734,25 @@
           "title": "Repair of diversion drains",
           "isRequired": true,
           "choices": [
-            "Blockages due to sediment or debris",
-            "Erosion along the drain edges",
-            "Collapsed or damaged drain sections",
-            "Other"
+            {
+              "value": "Blockages_due_to_sediment_or_debris",
+              "text": "Blockages due to sediment or debris"
+            },
+            {
+              "value": "Erosion_along_the_drain_edges",
+              "text": "Erosion along the drain edges"
+            },
+            {
+              "value": "Collapsed_or_damaged_drain_sections",
+              "text": "Collapsed or damaged drain sections"
+            },
+            "other"
           ]
         },
         {
           "type": "text",
           "name": "Repair_of_diversion_drains_other",
-          "visibleIf": "{Repair_of_diversion_drains} anyof ['Other']",
+          "visibleIf": "{Repair_of_diversion_drains} anyof ['other']",
           "title": "Specify other"
         },
         {
@@ -555,19 +762,37 @@
           "title": "Repair of bunding:contour bunds / graded bunds",
           "isRequired": true,
           "choices": [
-            "Sediment accumulation reducing water retention or obstructing flow",
-            "Cracks, breaches, or damage to the bund structure",
-            "Erosion along bund edges, slopes, or base",
-            "Improper alignment or grading disrupting water distribution",
-            "Vegetative growth weakening bund stability",
-            "Weakening of the structure due to seepage or heavy rainfall",
-            "Other"
+            {
+              "value": "Sediment_accumulation_reducing_water_retention_or_obstructing_flow",
+              "text": "Sediment accumulation reducing water retention or obstructing flow"
+            },
+            {
+              "value": "Cracks_breaches_or_damage_to_the_bund_structure",
+              "text": "Cracks, breaches, or damage to the bund structure"
+            },
+            {
+              "value": "Erosion_along_bund_edges_slopes_or_base",
+              "text": "Erosion along bund edges, slopes, or base"
+            },
+            {
+              "value": "Improper_alignment_or_grading_disrupting_water_distribution",
+              "text": "Improper alignment or grading disrupting water distribution"
+            },
+            {
+              "value": "Vegetative_growth_weakening_bund_stability",
+              "text": "Vegetative growth weakening bund stability"
+            },
+            {
+              "value": "Weakening_of_the_structure_due_to_seepage_or_heavy_rainfall",
+              "text": "Weakening of the structure due to seepage or heavy rainfall"
+            },
+            "other"
           ]
         },
         {
           "type": "text",
           "name": "Repair_of_bunding_other",
-          "visibleIf": "{Repair_of_bunding} anyof ['Other']",
+          "visibleIf": "{Repair_of_bunding} anyof ['other']",
           "title": "Specify other"
         },
         {
@@ -577,17 +802,32 @@
           "title": "Repair of Farm bund",
           "isRequired": true,
           "choices": [
-            "Repairing cracks or breaches in the bund",
-            "Strengthening bund structure with additional soil or materials",
-            "Leveling and reshaping the bund for better water retention",
-            "Vegetative stabilization to prevent erosion",
-            "Other"
+            {
+              "value": "Repairing_cracks_or_breaches_in_the_bund",
+              "text": "Repairing cracks or breaches in the bund"
+            },
+            {
+              "value": "Strengthening_bund_structure_with_additional_soil_or_materials",
+              "text": "Strengthening bund structure with additional soil or materials"
+            },
+            {
+              "value": "Leveling_and_reshaping_the_bund_for_better_water_retention",
+              "text": "Leveling and reshaping the bund for better water retention"
+            },
+            {
+              "value": "Vegetative_stabilization_to_prevent_erosion",
+              "text": "Vegetative stabilization to prevent erosion"
+            },
+            {
+              "value": "other",
+              "text": "Other"
+            }
           ]
         },
         {
           "type": "text",
           "name": "Repair_of_farm_bund_other",
-          "visibleIf": "{Repair_of_farm_bund} anyof ['Other']",
+          "visibleIf": "{Repair_of_farm_bund} anyof ['other']",
           "title": "Specify other"
         },
         {
@@ -597,16 +837,28 @@
           "title": "Repair of 5% model structure",
           "isRequired": true,
           "choices": [
-            "Sediment accumulation reducing capacity",
-            "Breaches or leaks in the embankment",
-            "Erosion on sides or base",
-            "Other"
+            {
+              "value": "Sediment_accumulation_reducing_capacity",
+              "text": "Sediment accumulation reducing capacity"
+            },
+            {
+              "value": "Breaches_or_leaks_in_the_embankment",
+              "text": "Breaches or leaks in the embankment"
+            },
+            {
+              "value": "Erosion_on_sides_or_base",
+              "text": "Erosion on sides or base"
+            },
+            {
+              "value": "other",
+              "text": "Other"
+            }
           ]
         },
         {
           "type": "text",
           "name": "Repair_of_model5_structure_other",
-          "visibleIf": "{Repair_of_model5_structure} anyof ['Other']",
+          "visibleIf": "{Repair_of_model5_structure} anyof ['other']",
           "title": "Specify other"
         },
         {
@@ -616,16 +868,25 @@
           "title": "Repair of 30-40 model structure",
           "isRequired": true,
           "choices": [
-            "Sediment accumulation",
-            "Breaches in bunding or structure walls",
-            "Erosion along trenches or bunds",
-            "Other"
+            {
+              "value": "Sediment_accumulation",
+              "text": "Sediment accumulation"
+            },
+            {
+              "value": "Breaches_in_bunding_or_structure_walls",
+              "text": "Breaches in bunding or structure walls"
+            },
+            {
+              "value": "Erosion_along_trenches_or_bunds",
+              "text": "Erosion along trenches or bunds"
+            },
+            "other"
           ]
         },
         {
           "type": "text",
           "name": "Repair_of_30_40_model_structure_other",
-          "visibleIf": "{Repair_of_30_40_model_structure} anyof ['Other']",
+          "visibleIf": "{Repair_of_30_40_model_structure} anyof ['other']",
           "title": "Specify other"
         },
         {
@@ -672,7 +933,6 @@
         {
           "type": "multipletext",
           "name": "GPS_point",
-          "visible": true,
           "title": "GPS point to be marked of the area",
           "description": "Take a GPS point",
           "isRequired": true,

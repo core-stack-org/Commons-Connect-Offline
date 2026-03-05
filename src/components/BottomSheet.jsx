@@ -39,7 +39,8 @@ const Bottomsheet = () => {
         maintainSWB: 'maintenance_rs_swb',
         maintainWB: 'maintenance_water_structures',
         maintainGW: 'maintenance_recharge_st',
-        maintainAG: 'maintenance_irr'
+        maintainAG: 'maintenance_irr',
+        agrohorticulture : 'agrohorticulture'
     };
 
     const fetchFormSchema = async (formType) => {
