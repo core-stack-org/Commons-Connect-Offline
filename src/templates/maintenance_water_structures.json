@@ -61,6 +61,7 @@
         {
           "type": "radiogroup",
           "name": "TYPE_OF_WORK",
+          "visibleIf": "{demand_type} = 'Individual_demand' or {demand_type} = 'Community_demand'",
           "title": "Select the type of surface water structure repair work",
           "isRequired": true,
           "choices": [
@@ -83,8 +84,8 @@
           "title": "Repair of farm pond",
           "choices": [
             {
-              "value": "Removal_of_accumulated_sediments",
-              "text": "Removal of accumulated sediments"
+              "value": "De_sitling",
+              "text": "De sitling"
             },
             {
               "value": "Repairing_cracks_or_damage_in_embankments",
@@ -109,6 +110,32 @@
           ]
         },
         {
+          "type": "radiogroup",
+          "name": "select_one_soil_fp",
+          "visibleIf": "{select_one_farm_pond} anyof ['De_sitling']",
+          "title": "Type of Soil\n",
+          "choices": [
+            "Black",
+            "Red",
+            "Laterite",
+            "Alluvial",
+            "Sandy",
+            "Clay",
+            "Rocky"
+          ]
+        },
+        {
+          "type": "radiogroup",
+          "name": "Select_one_silt_fp",
+          "visibleIf": "{select_one_farm_pond} anyof ['De_sitling']",
+          "title": "Amount of Silt\n",
+          "choices": [
+            "Low",
+            "Moderate",
+            "High"
+          ]
+        },
+        {
           "type": "text",
           "name": "select_one_farm_pond_other",
           "visibleIf": "{select_one_farm_pond} anyof ['other']",
@@ -121,8 +148,8 @@
           "title": "Repair of community Pond",
           "choices": [
             {
-              "value": "Removal_of_accumulated_sediments",
-              "text": "Removal of accumulated sediments"
+              "value": "De_sitling",
+              "text": "De sitling"
             },
             {
               "value": "Shoreline_erosion_control",
@@ -153,14 +180,40 @@
           "title": "Specify other"
         },
         {
+          "type": "radiogroup",
+          "name": "select_one_soil_cp",
+          "visibleIf": "{select_one_community_pond} anyof ['De_sitling']",
+          "title": "Type of Soil\n",
+          "choices": [
+            "Black",
+            "Red",
+            "Laterite",
+            "Alluvial",
+            "Sandy",
+            "Clay",
+            "Rocky"
+          ]
+        },
+        {
+          "type": "radiogroup",
+          "name": "Select_one_silt_cp",
+          "visibleIf": "{select_one_community_pond} anyof ['De_sitling']",
+          "title": "Amount of Silt\n",
+          "choices": [
+            "Low",
+            "Moderate",
+            "High"
+          ]
+        },
+        {
           "type": "checkbox",
           "name": "select_one_repair_large_water_body",
           "visibleIf": "{TYPE_OF_WORK} = 'Large water body'",
           "title": "Repair of large water body",
           "choices": [
             {
-              "value": "Removal_of_accumulated_sediments",
-              "text": "Removal of accumulated sediments"
+              "value": "De_sitling",
+              "text": "De sitling"
             },
             {
               "value": "Shoreline_erosion_control",
@@ -185,6 +238,32 @@
           "name": "select_one_repair_large_water_body_other",
           "visibleIf": "{select_one_repair_large_water_body} anyof ['other']",
           "title": "Specify other"
+        },
+        {
+          "type": "radiogroup",
+          "name": "select_one_soil_lwb",
+          "visibleIf": "{select_one_repair_large_water_body} anyof ['De_sitling']",
+          "title": "Type of Soil\n",
+          "choices": [
+            "Black",
+            "Red",
+            "Laterite",
+            "Alluvial",
+            "Sandy",
+            "Clay",
+            "Rocky"
+          ]
+        },
+        {
+          "type": "radiogroup",
+          "name": "Select_one_silt_lwb",
+          "visibleIf": "{select_one_repair_large_water_body} anyof ['De_sitling']",
+          "title": "Amount of Silt\n",
+          "choices": [
+            "Low",
+            "Moderate",
+            "High"
+          ]
         },
         {
           "type": "checkbox",
@@ -215,6 +294,32 @@
           "title": "Specify other"
         },
         {
+          "type": "radiogroup",
+          "name": "select_one_soil_canal",
+          "visibleIf": "{select_one_repair_canal} anyof ['Desilting']",
+          "title": "Type of Soil\n",
+          "choices": [
+            "Black",
+            "Red",
+            "Laterite",
+            "Alluvial",
+            "Sandy",
+            "Clay",
+            "Rocky"
+          ]
+        },
+        {
+          "type": "radiogroup",
+          "name": "Select_one_silt_canal",
+          "visibleIf": "{select_one_repair_canal} anyof ['Desilting']",
+          "title": "Amount of Silt\n",
+          "choices": [
+            "Low",
+            "Moderate",
+            "High"
+          ]
+        },
+        {
           "type": "checkbox",
           "name": "select_one_check_dam",
           "visibleIf": "{TYPE_OF_WORK} = 'Check dam'",
@@ -225,8 +330,8 @@
               "text": "Erosion on the check dam"
             },
             {
-              "value": "Sediment_accumulated_in_the_check_dam",
-              "text": "Sediment accumulated in the check dam"
+              "value": "De_sitling",
+              "text": "De sitling"
             },
             {
               "value": "Structural_damage_on_the_check_dam",
@@ -245,14 +350,40 @@
           "title": "Specify other"
         },
         {
+          "type": "radiogroup",
+          "name": "select_one_soil_cd",
+          "visibleIf": "{select_one_check_dam} anyof ['De_sitling']",
+          "title": "Type of Soil\n",
+          "choices": [
+            "Black",
+            "Red",
+            "Laterite",
+            "Alluvial",
+            "Sandy",
+            "Clay",
+            "Rocky"
+          ]
+        },
+        {
+          "type": "radiogroup",
+          "name": "Select_one_silt_cd",
+          "visibleIf": "{select_one_check_dam} anyof ['De_sitling']",
+          "title": "Amount of Silt\n",
+          "choices": [
+            "Low",
+            "Moderate",
+            "High"
+          ]
+        },
+        {
           "type": "checkbox",
           "name": "select_one_percolation_tank",
           "visibleIf": "{TYPE_OF_WORK} = 'Percolation tank'",
           "title": "Repair of Percolation tank",
           "choices": [
             {
-              "value": "Sediment_accumulation_reducing_infiltration_capacity",
-              "text": "Sediment accumulation reducing infiltration capacity"
+              "value": "De_sitling",
+              "text": "De sitling"
             },
             {
               "value": "Breach_in_embankments",
@@ -283,14 +414,40 @@
           "title": "Specify other"
         },
         {
+          "type": "radiogroup",
+          "name": "select_one_soil_pt",
+          "visibleIf": "{select_one_percolation_tank} anyof ['De_sitling']",
+          "title": "Type of Soil\n",
+          "choices": [
+            "Black",
+            "Red",
+            "Laterite",
+            "Alluvial",
+            "Sandy",
+            "Clay",
+            "Rocky"
+          ]
+        },
+        {
+          "type": "radiogroup",
+          "name": "Select_one_silt_pt",
+          "visibleIf": "{select_one_percolation_tank} anyof ['De_sitling']",
+          "title": "Amount of Silt\n",
+          "choices": [
+            "Low",
+            "Moderate",
+            "High"
+          ]
+        },
+        {
           "type": "checkbox",
           "name": "select_one_rock_fill_dam",
           "visibleIf": "{TYPE_OF_WORK} = 'Rock fill dam'",
           "title": "Repair of rock fill dam",
           "choices": [
             {
-              "value": "Sediment_accumulation_reducing_water_storage",
-              "text": "Sediment accumulation reducing water storage"
+              "value": "De_sitling",
+              "text": "De sitling"
             },
             {
               "value": "Dislodged_or_loose_rocks",
@@ -311,6 +468,32 @@
           "name": "select_one_rock_fill_dam_other",
           "visibleIf": "{select_one_rock_fill_dam} anyof ['other']",
           "title": "Specify other"
+        },
+        {
+          "type": "radiogroup",
+          "name": "select_one_soil_rfd",
+          "visibleIf": "{select_one_rock_fill_dam} anyof ['De_sitling']",
+          "title": "Type of Soil\n",
+          "choices": [
+            "Black",
+            "Red",
+            "Laterite",
+            "Alluvial",
+            "Sandy",
+            "Clay",
+            "Rocky"
+          ]
+        },
+        {
+          "type": "radiogroup",
+          "name": "Select_one_silt_rfd",
+          "visibleIf": "{select_one_rock_fill_dam} anyof ['De_sitling']",
+          "title": "Amount of Silt\n",
+          "choices": [
+            "Low",
+            "Moderate",
+            "High"
+          ]
         },
         {
           "type": "checkbox",
@@ -340,8 +523,8 @@
           "title": "Repair of 5% Model structure",
           "choices": [
             {
-              "value": "Sediment_accumulation_reducing_capacity",
-              "text": "Sediment accumulation reducing capacity"
+              "value": "De_sitling",
+              "text": "De sitling"
             },
             {
               "value": "Breaches_or_leaks_in_the_embankment",
@@ -364,14 +547,40 @@
           "title": "Specify other"
         },
         {
+          "type": "radiogroup",
+          "name": "select_one_soil_model5",
+          "visibleIf": "{select_one_model5_structure} anyof ['De_sitling']",
+          "title": "Type of Soil\n",
+          "choices": [
+            "Black",
+            "Red",
+            "Laterite",
+            "Alluvial",
+            "Sandy",
+            "Clay",
+            "Rocky"
+          ]
+        },
+        {
+          "type": "radiogroup",
+          "name": "Select_one_silt_model5",
+          "visibleIf": "{select_one_model5_structure} anyof ['De_sitling']",
+          "title": "Amount of Silt\n",
+          "choices": [
+            "Low",
+            "Moderate",
+            "High"
+          ]
+        },
+        {
           "type": "checkbox",
           "name": "select_one_Model30_40_structure",
           "visibleIf": "{TYPE_OF_WORK} = '30-40 Model structure'",
           "title": "Repair of 30-40 Model structure",
           "choices": [
             {
-              "value": "Sediment_accumulation",
-              "text": "Sediment accumulation"
+              "value": "De_sitling",
+              "text": "De sitling"
             },
             {
               "value": "Breaches_in_bunding_or_structure_walls",
@@ -392,6 +601,32 @@
           "name": "select_one_Model30_40_structure_other",
           "visibleIf": "{select_one_Model30_40_structure} anyof ['other']",
           "title": "Specify other"
+        },
+        {
+          "type": "radiogroup",
+          "name": "select_one_soil_model30",
+          "visibleIf": "{select_one_Model30_40_structure} anyof ['De_sitling']",
+          "title": "Type of Soil\n",
+          "choices": [
+            "Black",
+            "Red",
+            "Laterite",
+            "Alluvial",
+            "Sandy",
+            "Clay",
+            "Rocky"
+          ]
+        },
+        {
+          "type": "radiogroup",
+          "name": "Select_one_silt_model30",
+          "visibleIf": "{select_one_Model30_40_structure} anyof ['De_sitling']",
+          "title": "Amount of Silt\n",
+          "choices": [
+            "Low",
+            "Moderate",
+            "High"
+          ]
         },
         {
           "type": "html",
