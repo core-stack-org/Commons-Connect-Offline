@@ -251,7 +251,7 @@
             },
             {
               "type": "radiogroup",
-              "name": "question1",
+              "name": "Well_usage-Select_one_silt",
               "visibleIf": "{Well_usage-repairs_type} anyof ['De sitling']",
               "title": "Amount of Silt",
               "choices": [
