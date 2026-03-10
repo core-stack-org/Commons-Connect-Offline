@@ -225,28 +225,40 @@
               "title": "Type of repairs needed in the well",
               "isRequired": true,
               "choices": [
-                {
-                  "value": "Repairing_cracks_or_damage_to_the_surface_seal_around_the_well_casing",
-                  "text": "Repairing cracks or damage to the surface seal around the well casing"
-                },
-                {
-                  "value": "Well_rehabilitation_like_Chemical_treatment_removing_material_that_clogs_the_Well",
-                  "text": "Well rehabilitation like Chemical treatment , removing material that clogs the Well"
-                },
-                {
-                  "value": "Repairing_handpumps_or_other_pumping_devices",
-                  "text": "Repairing handpumps or other pumping devices"
-                },
-                {
-                  "value": "Constructing_soil_bunds_around_the_well_to_prevent_surface_runoff",
-                  "text": "Constructing soil bunds/platform around the well to prevent surface runoff"
-                },
-                {
-                  "value": "other",
-                  "text": "Other"
-                }
+                "De sitling",
+                "Repairing cracks or damage to well walls",
+                "Deepening the well to enhance water availability",
+                "Repair or replacement of well cover or structure",
+                "Installing or repairing pumping mechanisms",
+                "Other"
               ],
               "minSelectedChoices": 1
+            },
+            {
+              "type": "radiogroup",
+              "name": "Well_usage-select_one_soil",
+              "visibleIf": "{Well_usage-repairs_type} anyof ['De sitling']",
+              "title": "Type of Soil",
+              "choices": [
+                "Black",
+                "Red",
+                "Laterite",
+                "Alluvial",
+                "Sandy",
+                "Clay",
+                "Rocky"
+              ]
+            },
+            {
+              "type": "radiogroup",
+              "name": "question1",
+              "visibleIf": "{Well_usage-repairs_type} anyof ['De sitling']",
+              "title": "Amount of Silt",
+              "choices": [
+                "Low",
+                "Moderate",
+                "High"
+              ]
             },
             {
               "type": "text",
@@ -316,7 +328,6 @@
         {
           "type": "multipletext",
           "name": "GPS_point",
-          "visible": true,
           "title": "GPS point to be marked of the area",
           "description": "Take a GPS point",
           "isRequired": true,
