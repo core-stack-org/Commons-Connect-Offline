@@ -77,7 +77,7 @@
           "title": "Who owns the Water structure in this settlement?",
           "isRequired": true,
           "choices": [
-            "Public",
+            "Community",
             "Private",
             "Shared among families",
             "Don't know",
