@@ -61,6 +61,7 @@
         {
           "type": "radiogroup",
           "name": "select_one_irrigation_structure",
+          "visibleIf": "{demand_type} = 'Individual_demand' or {demand_type} = 'Community_demand'",
           "title": "Select the type of repair maintenance required in this irrigation structure ?",
           "isRequired": true,
           "choices": [
@@ -78,8 +79,8 @@
           "title": "Select the type of repair maintenance required for farm pond?",
           "choices": [
             {
-              "value": "Removal_of_accumulated_sediments",
-              "text": "Removal of accumulated sediments"
+              "value": "De_sitling",
+              "text": "De sitling"
             },
             {
               "value": "Repairing_cracks_or_damage_in_embankments",
@@ -111,14 +112,40 @@
           "isRequired": true
         },
         {
+          "type": "radiogroup",
+          "name": "select_one_soil_fp",
+          "visibleIf": "{select_one_farm_pond} anyof ['De_sitling']",
+          "title": "Type of Soil\n",
+          "choices": [
+            "Black",
+            "Red",
+            "Laterite",
+            "Alluvial",
+            "Sandy",
+            "Clay",
+            "Rocky"
+          ]
+        },
+        {
+          "type": "radiogroup",
+          "name": "Select_one_silt_fp",
+          "visibleIf": "{select_one_farm_pond} anyof ['De_sitling']",
+          "title": "Amount of Silt\n",
+          "choices": [
+            "Low",
+            "Moderate",
+            "High"
+          ]
+        },
+        {
           "type": "checkbox",
           "name": "select_one_community_pond",
           "visibleIf": "({select_one_irrigation_structure} == 'Community Pond')",
           "title": "Select the type of repair maintenance required for community pond?",
           "choices": [
             {
-              "value": "Removal_of_accumulated_sediments",
-              "text": "Removal of accumulated sediments"
+              "value": "De_sitling",
+              "text": "De sitling"
             },
             {
               "value": "Shoreline_erosion_control",
@@ -146,14 +173,40 @@
           "isRequired": true
         },
         {
+          "type": "radiogroup",
+          "name": "select_one_soil_cp",
+          "visibleIf": "{select_one_community_pond} anyof ['De_sitling']",
+          "title": "Type of Soil\n",
+          "choices": [
+            "Black",
+            "Red",
+            "Laterite",
+            "Alluvial",
+            "Sandy",
+            "Clay",
+            "Rocky"
+          ]
+        },
+        {
+          "type": "radiogroup",
+          "name": "Select_one_silt_cp",
+          "visibleIf": "{select_one_community_pond} anyof ['De_sitling']",
+          "title": "Amount of Silt\n",
+          "choices": [
+            "Low",
+            "Moderate",
+            "High"
+          ]
+        },
+        {
           "type": "checkbox",
           "name": "select_one_well",
           "visibleIf": "({select_one_irrigation_structure} == 'Well')",
           "title": "Select the type of repair maintenance required for well?",
           "choices": [
             {
-              "value": "Cleaning_and_removal_of_silt_or_debris",
-              "text": "Cleaning and removal of silt or debris"
+              "value": "De_sitling",
+              "text": "De sitling"
             },
             {
               "value": "Repairing_cracks_or_damage_to_well_walls",
@@ -183,6 +236,32 @@
           "visibleIf": "{select_one_well} anyof ['other'] and {select_one_irrigation_structure} = 'Well'",
           "title": "Specify other",
           "isRequired": true
+        },
+        {
+          "type": "radiogroup",
+          "name": "select_one_soil_well",
+          "visibleIf": "{select_one_well} anyof ['De_sitling']",
+          "title": "Type of Soil\n",
+          "choices": [
+            "Black",
+            "Red",
+            "Laterite",
+            "Alluvial",
+            "Sandy",
+            "Clay",
+            "Rocky"
+          ]
+        },
+        {
+          "type": "radiogroup",
+          "name": "Select_one_silt_well",
+          "visibleIf": "{select_one_well} anyof ['De_sitling']",
+          "title": "Amount of Silt\n",
+          "choices": [
+            "Low",
+            "Moderate",
+            "High"
+          ]
         },
         {
           "type": "checkbox",
@@ -218,6 +297,32 @@
           "visibleIf": "{select_one_canal} anyof ['other'] and {select_one_irrigation_structure} = 'Canal'",
           "title": "Specify other",
           "isRequired": true
+        },
+        {
+          "type": "radiogroup",
+          "name": "select_one_soil_canal",
+          "visibleIf": "{select_one_canal} anyof ['Desiliting']",
+          "title": "Type of Soil\n",
+          "choices": [
+            "Black",
+            "Red",
+            "Laterite",
+            "Alluvial",
+            "Sandy",
+            "Clay",
+            "Rocky"
+          ]
+        },
+        {
+          "type": "radiogroup",
+          "name": "Select_one_silt_canal",
+          "visibleIf": "{select_one_canal} anyof ['Desiliting']",
+          "title": "Amount of Silt\n",
+          "choices": [
+            "Low",
+            "Moderate",
+            "High"
+          ]
         },
         {
           "type": "checkbox",
