@@ -209,7 +209,7 @@
               "type": "text",
               "name": "kitchen_gardens-ben_father_kitchen_gardens",
               "visibleIf": "{kitchen_gardens-demand_type_kitchen_garden} = 'Individual_demand'",
-              "title": "Beneficiary's father's name",
+              "title": "Beneficiary's father's/Husband name\n",
               "isRequired": true
             },
             {
