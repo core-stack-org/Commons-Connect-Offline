@@ -38,10 +38,21 @@
           "isRequired": true
         },
         {
+          "type": "radiogroup",
+          "name": "question1",
+          "visibleIf": "{demand_type} = 'Individual_demand'",
+          "title": "Gender\n",
+          "isRequired": true,
+          "choices": [
+            "Male",
+            "Female"
+          ]
+        },
+        {
           "type": "text",
           "name": "ben_father",
           "visibleIf": "{demand_type} = 'Individual_demand'",
-          "title": "Beneficiary's father's name",
+          "title": "Beneficiary's Father/Husband name\n",
           "isRequired": true
         },
         {

@@ -52,7 +52,7 @@
           "type": "text",
           "name": "ben_father",
           "visibleIf": "{demand_type} = 'Individual_demand'",
-          "title": "Beneficiary's father's name",
+          "title": "Beneficiary's Father's/Husband name\n",
           "isRequired": true
         },
         {
