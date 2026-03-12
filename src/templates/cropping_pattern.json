@@ -229,7 +229,7 @@
         {
           "type": "radiogroup",
           "name": "soil_degraded",
-          "visibleIf": "{Uncropped_barren_land} = 'No'",
+          "visibleIf": "{Uncropped_barren_land} = 'No' or {Uncropped_barren_land} = 'Yes'",
           "title": "Has the soil degraded over the last 3 years in this patch?",
           "isRequired": true,
           "choices": [
