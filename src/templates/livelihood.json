@@ -74,7 +74,7 @@
               "type": "text",
               "name": "Livestock-ben_father_livestock",
               "visibleIf": "{Livestock-livestock_demand} = 'Individual_demand'",
-              "title": "Beneficiary's father's name",
+              "title": "Beneficiary's father's/Husband name",
               "isRequired": true
             },
             {
