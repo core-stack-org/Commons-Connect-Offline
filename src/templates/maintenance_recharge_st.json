@@ -2,8 +2,14 @@
   "title": "Propose Maintenance On Existing Water Recharge Structures",
   "logoFit": "none",
   "logoPosition": "right",
-  "completedHtml": "<h3>Water Recharge Structure Maintenance proposal has been recorded!</h3>",
-  "loadingHtml": "<h3>Loading Form...</h3>",
+  "completedHtml": {
+  "default":"<h3>Water Recharge Structure Maintenance proposal has been recorded!</h3>",
+  "hi":"<h3>जल पुनर्भरण संरचना रखरखाव प्रस्ताव दर्ज कर लिया गया है!</h3>"
+  },
+  "loadingHtml": {
+  "default":"<h3>Loading Propose Maintenance On Existing Water Recharge Structures Form...</h3>",
+  "hi":"<h3>मौजूदा जल पुनर्भरण संरचनाओं पर रखरखाव का प्रस्ताव प्रपत्र लोड हो रहा है...</h3>",
+  },
   "pages": [
     {
       "name": "page1",
