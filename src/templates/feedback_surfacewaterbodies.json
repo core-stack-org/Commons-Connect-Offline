@@ -106,7 +106,7 @@
               },
               "inputType": "number",
               "placeholder": {
-              "depth":"Depth in feet post-monsoon",
+              "default":"Depth in feet post-monsoon",
               "hi":"मानसून के बाद गहराई (फीट में)"
               },
             },
