@@ -3,12 +3,12 @@
   "logoFit": "none",
   "logoPosition": "right",
   "completedHtml": {
-  "default":"<h3>Water Recharge Structure Maintenance proposal has been recorded!</h3>",
-  "hi":"<h3>जल पुनर्भरण संरचना रखरखाव प्रस्ताव दर्ज कर लिया गया है!</h3>"
+    "default": "<h3>Water Recharge Structure Maintenance proposal has been recorded!</h3>",
+    "hi": "<h3>जल पुनर्भरण संरचना रखरखाव प्रस्ताव दर्ज कर लिया गया है!</h3>"
   },
   "loadingHtml": {
-  "default":"<h3>Loading Propose Maintenance On Existing Water Recharge Structures Form...</h3>",
-  "hi":"<h3>मौजूदा जल पुनर्भरण संरचनाओं पर रखरखाव का प्रस्ताव प्रपत्र लोड हो रहा है...</h3>",
+    "default": "<h3>Loading Propose Maintenance On Existing Water Recharge Structures Form...</h3>",
+    "hi": "<h3>मौजूदा जल पुनर्भरण संरचनाओं पर रखरखाव का प्रस्ताव प्रपत्र लोड हो रहा है...</h3>"
   },
   "pages": [
     {
@@ -116,7 +116,7 @@
           "name": "past_repair",
           "visibleIf": "{demand_type} = 'Community_demand' or {demand_type} = 'Individual_demand'",
           "title": {
-            "defautl": "Any past repair or maintenance work done on this structure?",
+            "default": "Any past repair or maintenance work done on this structure?",
             "hi": "क्या इस संरचना पर पहले कोई मरम्मत या रखरखाव का काम किया गया है?"
           },
           "isRequired": true,
@@ -726,7 +726,10 @@
           "type": "text",
           "name": "select_one_recharge_pits_other",
           "visibleIf": "{select_one_recharge_pits} anyof ['other']",
-          "title": "Specify other",
+          "title":{
+          "default":"Specify other",
+          "hi":"अन्य, कृपया स्पष्ट करें"
+          },
           "isRequired": true
         },
         {
