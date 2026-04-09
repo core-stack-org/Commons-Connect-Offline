@@ -53,7 +53,10 @@
             "hi": "अभी इस जल स्रोत में पानी की गहराई लगभग कितनी है ?(फ़ीट में )"
           },
           "inputType": "number",
-          "placeholder": "Enter depth in feet"
+          "placeholder": {
+          "default":"Enter depth in feet",
+          "hi":"गहराई फ़ीट में डालें"
+          },
         },
         {
           "type": "radiogroup",
@@ -88,7 +91,11 @@
                 "hi": "मानसून"
               },
               "inputType": "number",
-              "placeholder": "Depth in feet during monsoon"
+              "placeholder": {
+              "default":"Depth in feet during monsoon",
+              "hi":"मानसून के दौरान गहराई (फीट में)"
+              },
+              
             },
             {
               "type": "text",
@@ -98,7 +105,10 @@
                 "hi": "मानसून के बाद होने वाली बारिश"
               },
               "inputType": "number",
-              "placeholder": "Depth in feet post-monsoon"
+              "placeholder": {
+              "depth":"Depth in feet post-monsoon",
+              "hi":"मानसून के बाद गहराई (फीट में)"
+              },
             },
             {
               "type": "text",
@@ -108,7 +118,10 @@
                 "hi": "गर्मी का मौसम"
               },
               "inputType": "number",
-              "placeholder": "Depth in feet during summer"
+              "placeholder":{
+              "default":"Depth in feet during summer",
+              "hi":"गर्मियों में गहराई (फीट में)"
+              },
             }
           ]
         },
@@ -187,8 +200,24 @@
                     "default": "Increased evaporation rates",
                     "hi": "वाष्पीकरण दर में वृद्धि"
                   }
+                },
+                {
+                  "value": "other",
+                  "text": {
+                    "default": "Other",
+                    "hi": "अन्य"
+                  }
                 }
               ]
+            },
+            {
+              "type": "text",
+              "name": "question4",
+              "visibleIf": "{question2} = 'Other'",
+              "title": {
+                "default": "Specify other\n",
+                "hi": "अन्य विवरण दे"
+              }
             },
             {
               "type": "radiogroup",

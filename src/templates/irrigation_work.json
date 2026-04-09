@@ -124,7 +124,10 @@
           "type": "radiogroup",
           "name": "TYPE_OF_WORK_ID",
           "visibleIf": "{demand_type_irrigation} = 'Community_demand' or {demand_type_irrigation} = 'Individual_demand'",
-          "title": "Select the type of Irrigation work in this settlement",
+          "title": {
+          "default":"Select the type of Irrigation work in this settlement",
+          "hi":"सिंचाई कार्य का प्रकार चुनें"
+          },
           "isRequired": true,
           "choices": [
             {
