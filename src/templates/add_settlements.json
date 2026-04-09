@@ -96,7 +96,10 @@
             "default": "Distance of the settlement from the block headquarters",
             "hi": "ब्लॉक मुख्यालय से बस्ती की दूरी कितनी है (किलोमीटर में)"
           },
-          "description": "In kilometers (kms)",
+          "description": {
+            "default": "In kilometers (kms)",
+            "hi": "किलोमीटर में"
+          },
           "validators": [
             {
               "type": "numeric",

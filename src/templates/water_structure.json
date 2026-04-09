@@ -888,7 +888,10 @@
           "type": "checkbox",
           "name": "Repair_of_community_pond",
           "visibleIf": "{select_one_water_structure} = 'Community Pond' and {select_one_maintenance} = 'Yes'",
-          "title": "Repair of community pond",
+          "title":{
+          "default":"Repair of community pond",
+          "hi":"सामुदायिक तालाब की मरम्मत"
+          },
           "isRequired": true,
           "choices": [
             {
@@ -1040,7 +1043,10 @@
           "type": "checkbox",
           "name": "Repair_of_check_dam",
           "visibleIf": "{select_one_water_structure} = 'Check dam' and {select_one_maintenance} = 'Yes'",
-          "title": "Repair of check dam",
+          "title": {
+          "default":"Repair of check dam",
+          "hi":"चेक डैम की मरम्मत"
+          },
           "isRequired": true,
           "choices": [
             {
@@ -1178,7 +1184,10 @@
           "type": "checkbox",
           "name": "Repair_of_percolation_tank",
           "visibleIf": "{select_one_water_structure} = 'Percolation tank' and {select_one_maintenance} = 'Yes'",
-          "title": "Repair of percolation tank",
+          "title": {
+          "default":"Repair of percolation tank",
+          "hi":"परकोलेशन टैंक की मरम्मत"
+          },
           "isRequired": true,
           "choices": [
             {
@@ -1330,7 +1339,10 @@
           "type": "checkbox",
           "name": "Repair_of_trench_cum_bund_network",
           "visibleIf": "{select_one_water_structure} = 'Trench cum bund network' and {select_one_maintenance} = 'Yes'",
-          "title": "Repair of trench cum bund network",
+          "title":{
+          "default":"Repair of trench cum bund network",
+          "hi":"खाई सह बांध नेटवर्क की मरम्मत"
+          },
           "isRequired": true,
           "choices": [
             {
@@ -1468,7 +1480,10 @@
           "type": "checkbox",
           "name": "Repair_of_large_water_body",
           "visibleIf": "{select_one_water_structure} = 'Large water body' and {select_one_maintenance} = 'Yes'",
-          "title": "Repair of large water body",
+          "title": {
+          "default":"Repair of large water body",
+          "hi":"बड़े जल स्रोत की मरम्मत"
+          },
           "isRequired": true,
           "choices": [
             {
@@ -1613,7 +1628,10 @@
           "type": "checkbox",
           "name": "Repair_of_earthen_gully_plug",
           "visibleIf": "{select_one_water_structure} = 'Earthen gully plug' and {select_one_maintenance} = 'Yes'",
-          "title": "Repair of earthen gully plug",
+          "title":{
+          "default":"Repair of earthen gully plug",
+          "hi":"मिट्टी के गली प्लग की मरम्मत"
+          },
           "isRequired": true,
           "choices": [
             {
@@ -1666,7 +1684,10 @@
           "type": "checkbox",
           "name": "Repair_of_loose_boulder_structure",
           "visibleIf": "{select_one_water_structure} = 'Loose boulder structure' and {select_one_maintenance} = 'Yes'",
-          "title": "Repair of loose boulder structure",
+          "title": {
+          "default":"Repair of loose boulder structure",
+          "hi":"लूज बोल्डर स्ट्रक्चर की मरम्मत"
+          },
           "isRequired": true,
           "choices": [
             {
@@ -1703,13 +1724,19 @@
           "type": "text",
           "name": "Repair_of_loose_boulder_structure_other",
           "visibleIf": "{Repair_of_loose_boulder_structure} anyof ['other']",
-          "title": "Specify other"
+          "title": {
+            "default": "Specify other",
+            "hi": "अन्य निर्दिष्ट करें"
+          }
         },
         {
           "type": "checkbox",
           "name": "Repair_of_drainage_soakage_channels",
           "visibleIf": "{select_one_water_structure} = 'Drainage/soakage channels' and {select_one_maintenance} = 'Yes'",
-          "title": "Repair of drainage/soakage channels",
+          "title": {
+          "default":"Repair of drainage/soakage channels",
+          "hi":"नाली /सोख्ता नाली की मरम्मत"
+          },
           "isRequired": true,
           "choices": [
             {
@@ -1854,7 +1881,10 @@
           "type": "checkbox",
           "name": "Repair_of_recharge_pits",
           "visibleIf": "{select_one_water_structure} = 'Recharge pits' and {select_one_maintenance} = 'Yes'",
-          "title": "Repair of recharge pits",
+          "title": {
+          "default":"Repair of recharge pits",
+          "hi":"रिचार्ज पिट्स की मरम्मत"
+          },
           "isRequired": true,
           "choices": [
             {
@@ -1999,7 +2029,10 @@
           "type": "checkbox",
           "name": "Repair_of_soakage_pits",
           "visibleIf": "{select_one_water_structure} = 'Soakage pits' and {select_one_maintenance} = 'Yes'",
-          "title": "Repair of soakage pits",
+          "title": {
+          "default":"Repair of soakage pits",
+          "hi":"सोख्ता गड्ढे की मरम्मत"
+          },
           "isRequired": true,
           "choices": [
             {
@@ -2144,7 +2177,10 @@
           "type": "checkbox",
           "name": "Repair_of_Continuous_contour_trenches",
           "visibleIf": "{select_one_water_structure} = 'Continuous contour trenches (CCT)' and {select_one_maintenance} = 'Yes'",
-          "title": "Repair of continuous contour trenches (CCT)",
+          "title":{
+          "default":"Repair of continuous contour trenches (CCT)",
+          "hi":"कन्टिन्यूवस कंटूर ट्रेंच (CCT ) की मरम्मत"
+          },
           "isRequired": true,
           "choices": [
             {
@@ -2282,7 +2318,10 @@
           "type": "checkbox",
           "name": "Repair_of_Staggered_contour_trenches",
           "visibleIf": "{select_one_water_structure} = 'Staggered Contour trenches (SCT)' and {select_one_maintenance} = 'Yes'",
-          "title": "Repair of staggered contour trenches (SCT)",
+          "title":{
+          "default":"Repair of staggered contour trenches (SCT)",
+          "hi":"स्टैगर्ड कंटूर ट्रेंच (SCT) की मरम्मत"
+          },
           "isRequired": true,
           "choices": [
             {
@@ -2420,7 +2459,10 @@
           "type": "checkbox",
           "name": "Repair_of_Water_absorption_trenches",
           "visibleIf": "{select_one_water_structure} = 'Water absorption trenches (WAT)' and {select_one_maintenance} = 'Yes'",
-          "title": "Repair of water absorption trenches (WAT)",
+          "title": {
+          "default":"Repair of water absorption trenches (WAT)",
+          "hi":"वॉटर ऑब्जॉप्सन ट्रेंच ((WAT) की मरम्मत"
+          },
           "isRequired": true,
           "choices": [
             {
@@ -2558,7 +2600,10 @@
           "type": "checkbox",
           "name": "Repair_of_rock_fill_dam",
           "visibleIf": "{select_one_water_structure} = 'Rock fill dam' and {select_one_maintenance} = 'Yes'",
-          "title": "Repair of rock fill dam",
+          "title": {
+          "default":"Repair of rock fill dam",
+          "hi":"रॉक फिल बांध की मरम्मत"
+          },
           "isRequired": true,
           "choices": [
             {
@@ -2696,7 +2741,10 @@
           "type": "checkbox",
           "name": "Repair_of_stone_bunding",
           "visibleIf": "{select_one_water_structure} = 'Stone bunding' and {select_one_maintenance} = 'Yes'",
-          "title": "Repair of stone bunding",
+          "title": {
+          "default":"Repair of stone bunding",
+          "hi":"पत्थर बांध की मरम्मत"
+          },
           "isRequired": true,
           "choices": [
             {
@@ -2733,7 +2781,10 @@
           "type": "text",
           "name": "Repair_of_stone_bunding_other",
           "visibleIf": "{Repair_of_stone_bunding} anyof ['other']",
-          "title": "Specify other"
+          "title": {
+            "default": "Specify other",
+            "hi": "अन्य निर्दिष्ट करें"
+          }
         },
         {
           "type": "radiogroup",
@@ -2831,7 +2882,10 @@
           "type": "checkbox",
           "name": "Repair_of_diversion_drains",
           "visibleIf": "{select_one_water_structure} = 'Diversion drains' and {select_one_maintenance} = 'Yes'",
-          "title": "Repair of diversion drains",
+          "title":{
+          "default":"Repair of diversion drains",
+          "hi":"डायवर्जन नालियों की मरम्मत"
+          },
           "isRequired": true,
           "choices": [
             {
@@ -2868,7 +2922,10 @@
           "type": "text",
           "name": "Repair_of_diversion_drains_other",
           "visibleIf": "{Repair_of_diversion_drains} anyof ['other']",
-          "title": "Specify other"
+          "title": {
+            "default": "Specify other",
+            "hi": "अन्य निर्दिष्ट करें"
+          }
         },
         {
           "type": "radiogroup",
@@ -2966,7 +3023,10 @@
           "type": "checkbox",
           "name": "Repair_of_bunding",
           "visibleIf": "{select_one_water_structure} = 'Bunding:Contour bunds/ graded bunds' and {select_one_maintenance} = 'Yes'",
-          "title": "Repair of bunding:contour bunds / graded bunds",
+          "title": {
+          "default":"Repair of bunding:contour bunds / graded bunds",
+          "hi":"मेड़बंदी: समोच्च बाँध/श्रेणीबद्ध बाँध की मरम्मत"
+          },
           "isRequired": true,
           "choices": [
             {
@@ -3125,7 +3185,10 @@
           "type": "checkbox",
           "name": "Repair_of_farm_bund",
           "visibleIf": "{select_one_water_structure} = 'Farm bund' and {select_one_maintenance} = 'Yes'",
-          "title": "Repair of Farm bund",
+          "title": {
+          "default":"Repair of Farm bund",
+          "hi":"खेत के मेड़ की मरम्मत"
+          },
           "isRequired": true,
           "choices": [
             {
@@ -3178,7 +3241,10 @@
           "type": "checkbox",
           "name": "Repair_of_model5_structure",
           "visibleIf": "{select_one_water_structure} = '5% model structure' and {select_one_maintenance} = 'Yes'",
-          "title": "Repair of 5% model structure",
+          "title": {
+          "default":"Repair of 5% model structure",
+          "hi":"5% मॉडल स्ट्रक्चर की मरम्मत"
+          },
           "isRequired": true,
           "choices": [
             {
@@ -3316,7 +3382,10 @@
           "type": "checkbox",
           "name": "Repair_of_30_40_model_structure",
           "visibleIf": "{select_one_water_structure} = '30-40 model structure' and {select_one_maintenance} = 'Yes'",
-          "title": "Repair of 30-40 model structure",
+          "title": {
+          "default":"Repair of 30-40 model structure",
+          "hi":"30-40 मॉडल स्ट्रक्चर की मरम्मत"
+          },
           "isRequired": true,
           "choices": [
             {
