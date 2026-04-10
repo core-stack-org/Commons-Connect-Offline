@@ -135,6 +135,7 @@
             "default": "Preferred Plant/ species for Plantation",
             "hi": "वृक्षारोपण के लिए पसंदीदा पौधा/प्रजाति"
           },
+          "isRequired": true,
           "choices": [
             {
               "value": "Mango",
@@ -520,6 +521,7 @@
             "default": "Which departments / schemes may be converged with?",
             "hi": "किन विभागों/योजनाओं का विलय किया जा सकता है?"
           },
+          "isRequired": true,
           "choices": [
             {
               "value": "Forest",

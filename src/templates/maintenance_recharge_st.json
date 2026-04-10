@@ -325,6 +325,7 @@
             "default": "Type of Soil",
             "hi": "मिट्टी का प्रकार"
           },
+          "isRequired": true,
           "choices": [
             {
               "value": "Black",
@@ -385,6 +386,7 @@
             "default": "Amount of Silt\n",
             "hi": "गाद का ढेर"
           },
+          "isRequired": true,
           "choices": [
             {
               "value": "Low",
@@ -480,6 +482,7 @@
             "default": "Type of Soil",
             "hi": "मिट्टी का प्रकार"
           },
+          "isRequired": true,
           "choices": [
             {
               "value": "Black",
@@ -540,6 +543,7 @@
             "default": "Amount of Silt\n",
             "hi": "गाद का ढेर"
           },
+          "isRequired": true,
           "choices": [
             {
               "value": "Low",
@@ -726,9 +730,9 @@
           "type": "text",
           "name": "select_one_recharge_pits_other",
           "visibleIf": "{select_one_recharge_pits} anyof ['other']",
-          "title":{
-          "default":"Specify other",
-          "hi":"अन्य, कृपया स्पष्ट करें"
+          "title": {
+            "default": "Specify other",
+            "hi": "अन्य, कृपया स्पष्ट करें"
           },
           "isRequired": true
         },
@@ -740,6 +744,7 @@
             "default": "Type of Soil",
             "hi": "मिट्टी का प्रकार"
           },
+          "isRequired": true,
           "choices": [
             {
               "value": "Black",
@@ -800,6 +805,7 @@
             "default": "Amount of Silt\n",
             "hi": "गाद का ढेर"
           },
+          "isRequired": true,
           "choices": [
             {
               "value": "Low",
@@ -888,6 +894,7 @@
             "default": "Type of Soil",
             "hi": "मिट्टी का प्रकार"
           },
+          "isRequired": true,
           "choices": [
             {
               "value": "Black",
@@ -948,6 +955,7 @@
             "default": "Amount of Silt\n",
             "hi": "गाद का ढेर"
           },
+          "isRequired": true,
           "choices": [
             {
               "value": "Low",
@@ -1029,6 +1037,7 @@
             "default": "Type of Soil",
             "hi": "मिट्टी का प्रकार"
           },
+          "isRequired": true,
           "choices": [
             {
               "value": "Black",
@@ -1089,6 +1098,7 @@
             "default": "Amount of Silt\n",
             "hi": "गाद का ढेर"
           },
+          "isRequired": true,
           "choices": [
             {
               "value": "Low",
@@ -1170,6 +1180,7 @@
             "default": "Type of Soil",
             "hi": "मिट्टी का प्रकार"
           },
+          "isRequired": true,
           "choices": [
             {
               "value": "Black",
@@ -1230,6 +1241,7 @@
             "default": "Amount of Silt\n",
             "hi": "गाद का ढेर"
           },
+          "isRequired": true,
           "choices": [
             {
               "value": "Low",
@@ -1311,6 +1323,7 @@
             "default": "Type of Soil",
             "hi": "मिट्टी का प्रकार"
           },
+          "isRequired": true,
           "choices": [
             {
               "value": "Black",
@@ -1371,6 +1384,7 @@
             "default": "Amount of Silt\n",
             "hi": "गाद का ढेर"
           },
+          "isRequired": true,
           "choices": [
             {
               "value": "Low",
@@ -1452,6 +1466,7 @@
             "default": "Type of Soil",
             "hi": "मिट्टी का प्रकार"
           },
+          "isRequired": true,
           "choices": [
             {
               "value": "Black",
@@ -1512,6 +1527,7 @@
             "default": "Amount of Silt\n",
             "hi": "गाद का ढेर"
           },
+          "isRequired": true,
           "choices": [
             {
               "value": "Low",
@@ -1593,6 +1609,7 @@
             "default": "Repair of rock fill dam",
             "hi": "रॉक फिल बांध की मरम्मत"
           },
+          "isRequired": true,
           "choices": [
             {
               "value": "De_sitling",
@@ -1642,6 +1659,7 @@
             "default": "Type of Soil",
             "hi": "मिट्टी का प्रकार"
           },
+          "isRequired": true,
           "choices": [
             {
               "value": "Black",
@@ -1702,6 +1720,7 @@
             "default": "Amount of Silt\n",
             "hi": "गाद का ढेर"
           },
+          "isRequired": true,
           "choices": [
             {
               "value": "Low",
@@ -1783,6 +1802,7 @@
             "default": "Type of Soil",
             "hi": "मिट्टी का प्रकार"
           },
+          "isRequired": true,
           "choices": [
             {
               "value": "Black",
@@ -1843,6 +1863,7 @@
             "default": "Amount of Silt\n",
             "hi": "गाद का ढेर"
           },
+          "isRequired": true,
           "choices": [
             {
               "value": "Low",
@@ -1924,6 +1945,7 @@
             "default": "Type of Soil",
             "hi": "मिट्टी का प्रकार"
           },
+          "isRequired": true,
           "choices": [
             {
               "value": "Black",
@@ -1984,6 +2006,7 @@
             "default": "Amount of Silt\n",
             "hi": "गाद का ढेर"
           },
+          "isRequired": true,
           "choices": [
             {
               "value": "Low",
@@ -2086,6 +2109,7 @@
             "default": "Type of Soil",
             "hi": "मिट्टी का प्रकार"
           },
+          "isRequired": true,
           "choices": [
             {
               "value": "Black",
@@ -2146,6 +2170,7 @@
             "default": "Amount of Silt\n",
             "hi": "गाद का ढेर"
           },
+          "isRequired": true,
           "choices": [
             {
               "value": "Low",
@@ -2227,6 +2252,7 @@
             "default": "Type of Soil",
             "hi": "मिट्टी का प्रकार"
           },
+          "isRequired": true,
           "choices": [
             {
               "value": "Black",
@@ -2287,6 +2313,7 @@
             "default": "Amount of Silt\n",
             "hi": "गाद का ढेर"
           },
+          "isRequired": true,
           "choices": [
             {
               "value": "Low",
@@ -2368,6 +2395,7 @@
             "default": "Type of Soil",
             "hi": "मिट्टी का प्रकार"
           },
+          "isRequired": true,
           "choices": [
             {
               "value": "Black",
@@ -2428,6 +2456,7 @@
             "default": "Amount of Silt\n",
             "hi": "गाद का ढेर"
           },
+          "isRequired": true,
           "choices": [
             {
               "value": "Low",

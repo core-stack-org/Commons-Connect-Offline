@@ -807,6 +807,7 @@
             "default": "Which departments / schemes may be converged with?",
             "hi": "किन विभागों/योजनाओं का विलय किया जा सकता है?"
           },
+          "isRequired": true,
           "choices": [
             {
               "value": "MGNREGA",
