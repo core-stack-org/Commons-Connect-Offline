@@ -684,7 +684,7 @@
               "visibleIf": "{fisheries-departments_convered_fisheries} anyof ['other']",
               "title": {
                 "default": "Specify other.",
-                "hi": "अन्य निर्दि"
+                "hi": "अन्य निर्दिष्ट"
               }
             }
           ]
