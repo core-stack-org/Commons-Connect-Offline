@@ -626,11 +626,8 @@
           "name": "Select_one_silt_lwb",
           "visibleIf": "{select_one_repair_large_water_body} anyof ['De_sitling']",
           "title": {
-            "title": {
               "default": "Amount of Silt\n",
               "hi": "गाद का ढेर"
-            },
-            "default": "Amount of Silt\n"
           },
           "isRequired": true,
           "choices": [
