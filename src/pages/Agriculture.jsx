@@ -475,7 +475,7 @@ const Agriculture = () => {
             <div className="flex items-center justify-center w-full">
               <button
                 className="px-6 py-3 text-sm font-medium flex items-center justify-center"
-                onClick={() => toggleFormsUrl("Maintain")}
+                onClick={() => toggleFormsUrl("maintainAG")}
                 disabled={!MainStore.isFeatureClicked}
                 style={{
                   backgroundColor: !MainStore.isFeatureClicked ? '#696969' : '#D6D5C9',

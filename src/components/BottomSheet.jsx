@@ -2,6 +2,7 @@ import { BottomSheet } from 'react-spring-bottom-sheet'
 import 'react-spring-bottom-sheet/dist/style.css'
 
 import 'survey-core/survey-core.css';
+import 'survey-core/i18n/hindi';
 import { Model } from "survey-core";
 import { Survey } from "survey-react-ui";
 
@@ -14,16 +15,20 @@ import SurfaceWaterBodies from './analyze/SurfaceWaterbodyAnalyze.jsx';
 import GroundwaterAnalyze from './analyze/GroundwaterAnalyze.jsx';
 import AgricultureAnalyze from './analyze/AgricultureAnalyze.jsx';
 import { useTranslation } from "react-i18next";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 
 const Bottomsheet = () => {
 
     const { t } = useTranslation();
+    const surveyModelRef = useRef(null);
     const MainStore = useMainStore((state) => state);
     const LayerStore = useLayersStore((state) => state)
     const [sheetBody, setSheetBody] = useState(<>Nothing Here</>);
     const [editBody, setEditBody] = useState(<>Nothing Here</>);
+    const [surveyLocale, setSurveyLocale] = useState('en');
+    const [showLocaleMenu, setShowLocaleMenu] = useState(false);
+
 
     const FORM_NAME_MAPPING = {
         settlement: 'add_settlements',
@@ -78,6 +83,7 @@ const Bottomsheet = () => {
                 if (cancelled) return; // Don't proceed if component unmounted
 
                 const survey = new Model(schema);
+                survey.locale = surveyLocale;        // set initial locale
 
                 survey.data = {
                     Settlements_id: crypto.randomUUID().slice(0, 15),
@@ -97,10 +103,11 @@ const Bottomsheet = () => {
                     beneficiary_settlement: MainStore.settlementName,
                     crop_Grid_id: MainStore.selectedResource?.id
                 };
-
+                
                 survey.onComplete.add(surveyComplete);
                 
                 if (!cancelled) {
+                    surveyModelRef.current = survey;
                     setSheetBody(<Survey model={survey} />);
                 }
             } catch (err) {
@@ -330,44 +337,6 @@ const Bottomsheet = () => {
                         })}
                     </div>
                 </div>
-    
-                {/* Enhanced NREGA Work Years Section */}
-                {/* <div className="bg-gray-50 rounded-xl p-6">
-                    <div className="flex items-center mb-6">
-                        <div className="w-1 h-6 bg-green-500 rounded-full mr-3"></div>
-                        <h2 className="text-lg font-medium text-gray-700">
-                            NREGA Work Years
-                        </h2>
-                    </div>
-    
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                        {MainStore.allNregaYears.map((year, idx) => {
-                            const isChecked = MainStore.selectNregaYears.includes(year);
-                            return (
-                                <label 
-                                    key={idx} 
-                                    className={`
-                                        flex items-center p-3 rounded-lg border cursor-pointer transition-all duration-200
-                                        ${isChecked 
-                                            ? 'bg-blue-50 border-blue-200 shadow-sm' 
-                                            : 'bg-white border-gray-200 hover:border-gray-300 hover:bg-gray-50'
-                                        }
-                                    `}
-                                >
-                                    <input
-                                        type="checkbox"
-                                        checked={isChecked}
-                                        onChange={() => handleYearAdd(year)}
-                                        className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 focus:ring-2 mr-3"
-                                    />
-                                    <span className={`text-sm font-medium ${isChecked ? 'text-blue-700' : 'text-gray-700'}`}>
-                                        {year}
-                                    </span>
-                                </label>
-                            );
-                        })}
-                    </div>
-                </div> */}
             </div>
         </>
     )
@@ -677,11 +646,46 @@ const Bottomsheet = () => {
         MainStore.setIsOpen(false)
     }
 
-
     const renderBody = () => {
         switch (true) {
           case MainStore.isForm && MainStore.formUrl !== "":
-           return sheetBody
+            return (
+                <>
+                    <div className="relative flex justify-end px-4 pt-2">
+                        <button
+                            className="text-sm border border-gray-300 rounded px-3 py-1 bg-white"
+                            onClick={() => setShowLocaleMenu(!showLocaleMenu)}
+                        >
+                            {surveyLocale === 'en' ? 'English' : '\u0939\u093f\u0928\u094d\u0926\u0940'}
+                        </button>
+                        {showLocaleMenu && (
+                            <div className="absolute top-8 right-4 z-50 bg-white border border-gray-300 rounded shadow-md">
+                                <div
+                                    className="px-4 py-2 text-sm cursor-pointer hover:bg-gray-100"
+                                    onClick={() => {
+                                        setSurveyLocale('en');
+                                        if (surveyModelRef.current) surveyModelRef.current.locale = 'en';
+                                        setShowLocaleMenu(false);
+                                    }}
+                                >
+                                    English
+                                </div>
+                                <div
+                                    className="px-4 py-2 text-sm cursor-pointer hover:bg-gray-100"
+                                    onClick={() => {
+                                        setSurveyLocale('hi');
+                                        if (surveyModelRef.current) surveyModelRef.current.locale = 'hi';
+                                        setShowLocaleMenu(false);
+                                    }}
+                                >
+                                    {'\u0939\u093f\u0928\u094d\u0926\u0940'}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                    {sheetBody}
+                </>
+            );
            
           case MainStore.isEditForm && MainStore.formEditType !== null:
            return editBody
@@ -712,7 +716,6 @@ const Bottomsheet = () => {
         }
     };
     
-
     return (
         <BottomSheet
         open={MainStore.isOpen || (MainStore.isResourceOpen && MainStore.currentScreen === "HomeScreen")}

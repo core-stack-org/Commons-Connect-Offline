@@ -1764,8 +1764,8 @@ const InfoBox = () => {
                 {/* Language Options - Scrollable */}
                 <div className="max-h-64 overflow-y-auto border border-gray-200 rounded-lg p-3 space-y-3 bg-gray-50">
                   {[
-                    { code: 'en', name: 'English', native: 'English', flag: '🇺🇸' },
-                    { code: 'hi', name: 'Hindi', native: 'हिन्दी', flag: '🇮🇳' },
+                    { code: 'en', name: 'English', native: 'English'},
+                    { code: 'hi', name: 'Hindi', native: 'हिन्दी'},
                   ].map((language) => (
                     <button
                       key={language.code}

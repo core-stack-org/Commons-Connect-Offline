@@ -1279,6 +1279,20 @@ const MapComponent = () => {
             if(currentStep > 0){
                 tempSettlementLayer.current.setVisible(true)
             }
+
+            if (currentStep === 2) {
+                if (WaterbodiesLayerRef.current === null) {
+                const waterBodyLayers = await getWebglVectorLayers(
+                    "swb",
+                    `surface_waterbodies_${districtName}_${blockName}`,
+                    true,
+                    true,
+                    MainStore.containerName
+                );
+                WaterbodiesLayerRef.current = waterBodyLayers;
+                }
+                mapRef.current.addLayer(WaterbodiesLayerRef.current);
+            }
         }
 
         else if(currentScreen === "Groundwater"){
