@@ -199,6 +199,9 @@ const MapComponent = () => {
 
     let LivelihoodRefs = [useRef(null)]
 
+    //?                   Site Suitability Raster, Terrain Mask Layer
+    let AgrohorticulureRefs = [useRef(null), useRef(null)];
+
     const initializeMap = async () => {
         if(MainStore.containerName !== null){
             console.log(MainStore.containerName)
@@ -579,17 +582,9 @@ const MapComponent = () => {
         });
 
         GroundWaterWorkLayer.setStyle(function (feature) {
-            // const status = feature.values_;
-            // if(status.work_type in iconsDetails.Recharge_Icons){
-            //     return new Style({
-            //         image: new Icon({ src: iconsDetails.Recharge_Icons[status.work_type] }),
-            //     })
-            // }
-            // else{
-                return new Style({
-                    image: new Icon({ src: RechargeIcon }),
-                })
-            //}
+            return new Style({
+                image: new Icon({ src: RechargeIcon }),
+            })
         });
 
         livelihoodLayer.setStyle(function (feature) {
@@ -1779,6 +1774,47 @@ const MapComponent = () => {
 
             mapRef.current.addLayer(assetsLayerRefs[0].current)
             mapRef.current.addLayer(LivelihoodRefs[0].current)
+        }
+        else if(currentScreen === "Agrohorticulture"){
+            layerCollection.getArray().slice().forEach(layer => {
+                if (layer !== baseLayerRef.current && layer !== AdminLayerRef.current) {
+                    layerCollection.remove(layer);
+                }
+            });
+            if(AgrohorticulureRefs[0].current === null){
+                const SiteSuitabilityLayer = await getImageLayer(
+                    "plantation",
+                    `${districtName.toLowerCase().replace(/\s+/g, "_")}_${blockName.toLowerCase().replace(/\s+/g, "_")}_site_suitability_raster`,
+                    true,
+                    "",
+                    MainStore.containerName
+                )
+                if (SiteSuitabilityLayer) {
+                    SiteSuitabilityLayer.setOpacity(0.4)
+                    AgrohorticulureRefs[0].current = SiteSuitabilityLayer
+                } else {
+                    console.error('❌ Failed to create CLART layer');
+                    toast.error('Failed to load CLART layer');
+                }
+            }
+            if(AgrohorticulureRefs[1].current === null){
+                const MaskedLayer = await getImageLayer(
+                    "terrain",
+                    `${districtName.toLowerCase().replace(/\s+/g, "_")}_${blockName.toLowerCase().replace(/\s+/g, "_")}_terrain_raster`,
+                    true,
+                    "",
+                    MainStore.containerName
+                )
+                if (MaskedLayer) {
+                    MaskedLayer.setOpacity(0.4)
+                    AgrohorticulureRefs[1].current = MaskedLayer
+                } else {
+                    console.error('❌ Failed to create CLART layer');
+                    toast.error('Failed to load CLART layer');
+                }
+            }
+            mapRef.current.addLayer(AgrohorticulureRefs[0].current)
+            mapRef.current.addLayer(AgrohorticulureRefs[1].current)
         }
     }
     

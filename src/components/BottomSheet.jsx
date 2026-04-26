@@ -85,6 +85,8 @@ const Bottomsheet = () => {
                 const survey = new Model(schema);
                 survey.locale = surveyLocale;        // set initial locale
 
+                console.log(MainStore.currentPlan)
+
                 survey.data = {
                     Settlements_id: crypto.randomUUID().slice(0, 15),
                     well_id: crypto.randomUUID().slice(0, 15),

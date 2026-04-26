@@ -1701,6 +1701,38 @@ const InfoBox = () => {
           </p>
         </>
       ),
+      Agrohorticulture: (
+            <>
+                <p className="text-gray-700 text-sm mb-4">
+                    {t("info_agrohorticulture_1")}
+                </p>
+                <h3 className="font-extrabold mt-1 mb-1 text-lg underline">
+                    {t("Site Suitability Legend")}
+                </h3>
+                <div className="mt-2 space-y-2">
+                    <div className="flex items-center">
+                        <div className="w-6 h-6 rounded mr-3" style={{ backgroundColor: "#2E7D32" }}></div>
+                        <span>{t("Very Good")}</span>
+                    </div>
+                    <div className="flex items-center">
+                        <div className="w-6 h-6 rounded mr-3" style={{ backgroundColor: "#66BB6A" }}></div>
+                        <span>{t("Good")}</span>
+                    </div>
+                    <div className="flex items-center">
+                        <div className="w-6 h-6 rounded mr-3" style={{ backgroundColor: "#FDD835" }}></div>
+                        <span>{t("Moderate")}</span>
+                    </div>
+                    <div className="flex items-center">
+                        <div className="w-6 h-6 rounded mr-3" style={{ backgroundColor: "#FF8F00" }}></div>
+                        <span>{t("Marginally Suitable")}</span>
+                    </div>
+                    <div className="flex items-center">
+                        <div className="w-6 h-6 rounded mr-3" style={{ backgroundColor: "#D32F2F" }}></div>
+                        <span>{t("Unsuitable")}</span>
+                    </div>
+                </div>
+            </>
+        ),
   };
 
 

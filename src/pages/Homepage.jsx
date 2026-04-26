@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import toast from 'react-hot-toast';
 import HamburgerMenu from '../components/HamburgerMenu.jsx';
 import { useTranslation } from "react-i18next";
+import OfflinePlanSheet from '../components/OfflinePlanSheet.jsx';
 
 const Homepage = () => {
     const [searchParams] = useSearchParams();
@@ -20,21 +21,20 @@ const Homepage = () => {
     useEffect(() => {
       if(MainStore.blockName === null){
         const transformName = (name) => {
-                    if (!name) return name;
-                    return name
-                        .replace(/[()]/g, "") // Remove all parentheses
-                        .replace(/[-\s]+/g, "_") // Replace dashes and spaces with "_"
-                        .replace(/_+/g, "_") // Collapse multiple underscores to one
-                        .replace(/^_|_$/g, "") // Remove leading/trailing underscores
-                        .toLowerCase();
-                };
+          if (!name) return name;
+          return name
+            .replace(/[()]/g, "")
+              .replace(/\s+/g, "_")
+              .replace(/_+/g, "_")
+              .replace(/^_|_$/g, "")
+              .toLowerCase()
+        };
         MainStore.setDistrictName(transformName(searchParams.get('dist_name')));
         MainStore.setBlockName(transformName(searchParams.get('block_name')));
         MainStore.setBlockId?.(searchParams.get('block_id'));
         MainStore.setZoomLat(searchParams.get('latitude'))
         MainStore.setZoomLong(searchParams.get('longitude'))
         MainStore.fetchPlans(searchParams.get('plans'))
-        //MainStore.fetchPlans(`${import.meta.env.VITE_API_URL}watershed/plans/?tehsil=${searchParams.get('block_id')}`)
         MainStore.setContainerName(searchParams.get('container_name'))
       }
       MainStore.setIsResourceOpen(false)
@@ -45,7 +45,6 @@ const Homepage = () => {
     const getPlanLabel = () => {
       const plan = MainStore.currentPlan?.plan ?? t("Select Plan");
     
-      // Helper function to capitalize each word
       const capitalizeWords = (str) => {
         return str.split(' ').map(word => 
           word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
@@ -91,22 +90,31 @@ const Homepage = () => {
         MainStore.setCurrentScreen('Livelihood');
         navigate('/livelihood');
       }
+      else if(section === "Agrohorticulture"){
+        MainStore.setCurrentScreen('Agrohorticulture');
+        navigate('/agrohoticulture');
+      }
     };
 
     return (
       <div>
         <HamburgerMenu open={isSideMenuOpen} onClose={() => setIsSideMenuOpen(false)} />
+
+        {/* OfflinePlanSheet — replaces the old inline dropdown */}
+        <OfflinePlanSheet
+          isOpen={isPlanOpen}
+          onClose={() => setIsPlanOpen(false)}
+        />
+
         {/* 1. Header + hamburger wrapper */}
         <div
           className="absolute top-4 left-0 w-full px-2 z-10 pointer-events-none"
         >
           <div className="relative w-full max-w-lg mx-auto flex items-center">
-            {/* Hamburger button: re-enable pointer events just for this */}
             <button
               className="pointer-events-auto p-2"
               onClick={() => setIsSideMenuOpen(true)}
             >
-              {/* simple SVG "hamburger" icon */}
               <svg
                 className="h-10 w-10 text-white"
                 xmlns="http://www.w3.org/2000/svg"
@@ -123,7 +131,6 @@ const Homepage = () => {
               </svg>
             </button>
       
-            {/* Title bubble (still purely decorative) */}
             <div
               className="flex-1 px-6 py-3 text-center rounded-full
                          bg-white/10 backdrop-blur-sm border border-white/20
@@ -169,27 +176,18 @@ const Homepage = () => {
                 onClick={() => MainStore.setIsInfoOpen(true)}
               >
                 <svg viewBox="-16 0 130 100" xmlns="http://www.w3.org/2000/svg">
-
-                <circle cx="50" cy="50" r="40" 
-                        fill="#592941" 
-                        stroke="#592941" 
-                        strokeWidth="2"/>
-
-                <circle cx="50" cy="50" r="36" 
-                        fill="#592941"/>
-
-                <circle cx="50" cy="35" r="4" fill="#FFFFFF"/>
-
-                <rect x="46" y="45" width="8" height="25" rx="4" fill="#FFFFFF"/>
-
-                <ellipse cx="42" cy="42" rx="8" ry="12" fill="#FFFFFF20"/>
-              </svg>
+                  <circle cx="50" cy="50" r="40" fill="#592941" stroke="#592941" strokeWidth="2"/>
+                  <circle cx="50" cy="50" r="36" fill="#592941"/>
+                  <circle cx="50" cy="35" r="4" fill="#FFFFFF"/>
+                  <rect x="46" y="45" width="8" height="25" rx="4" fill="#FFFFFF"/>
+                  <ellipse cx="42" cy="42" rx="8" ry="12" fill="#FFFFFF20"/>
+                </svg>
               </button>
             </div>
 
-            {/* Plan selector with dropdown */}
+            {/* Plan selector with bottom sheet */}
             <div className="relative" ref={planRef}>
-            <button
+              <button
                 onClick={() => setIsPlanOpen(prev => !prev)}
                 className="flex-1 px-3 py-2 rounded-xl shadow-sm text-sm"
                 style={{
@@ -201,31 +199,8 @@ const Homepage = () => {
               >
                 {getPlanLabel()}
               </button>
-
-                {isPlanOpen && (
-                <div
-                    className="absolute mt-2 left-0 w-58 bg-white rounded-xl shadow-lg
-                            overflow-y-auto max-h-48 z-11"
-                >
-                    {/* Replace this static list with your dynamic plans array if you have one */}
-                    {MainStore.plans !== null && MainStore.plans.map(plan => (
-                    <button
-                        key={plan.plan_id}
-                        className="w-full text-left px-4 py-2 hover:bg-gray-100 text-sm"
-                        onClick={() => {
-                        setIsPlanOpen(false);
-                        MainStore.setCurrentPlan(plan)
-                      }}
-                    >
-                        {plan.plan.split(' ').map(word => 
-                          word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-                        ).join(' ')}
-                    </button>
-                    ))}
-                </div>
-                )}
-
             </div>
+
             <button
               className="flex-1 px-3 py-2 rounded-xl shadow-sm text-sm h-9"
               style={{
@@ -297,7 +272,7 @@ const Homepage = () => {
                     shadow-lg
                   "
                 >
-                  {['Groundwater', 'Surface Waterbodies', 'Agriculture', 'Livelihood'].map(
+                  {['Groundwater', 'Surface Waterbodies', 'Agriculture', 'Livelihood', 'Agrohorticulture'].map(
                     (item) => (
                       <button
                         key={item}
