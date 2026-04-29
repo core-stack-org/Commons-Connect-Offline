@@ -13,7 +13,6 @@ import {
 import { Bar, Line } from "react-chartjs-2";
 import useMainStore from "../../store/MainStore";
 import { useTranslation } from "react-i18next";
-//import getOdkUrlForScreen from "../../action/getOdkUrl"
 
 ChartJS.register(
   CategoryScale,
@@ -32,6 +31,27 @@ const fmt = (v, d = 0) =>
     ? Number(v).toLocaleString("en-IN", { maximumFractionDigits: d })
     : "—";
 
+// "2017_2018" → "2017-18"  (for headings)
+const agrFullLabel = (key) => {
+  const [s, e] = key.split("_");
+  return `${s}-${e.slice(-2)}`;
+};
+
+// "2017_2018" → "17-18"  (for compact slider ticks)
+const agrShortLabel = (key) => {
+  const [s, e] = key.split("_");
+  return `${s.slice(-2)}-${e.slice(-2)}`;
+};
+
+// "2025-06-15" → "2024_2025", "2025-07-15" → "2025_2026"
+const getAgrYearKeyFromDate = (isoDate) => {
+  const [yearText, monthText] = isoDate.split("-");
+  const year = Number(yearText);
+  const month = Number(monthText);
+  const startYear = month >= 7 ? year : year - 1;
+  return `${startYear}_${startYear + 1}`;
+};
+
 const CAPSULE_KEYS = ["DeltaG", "Precipitation", "RunOff", "ET", "WellDepth"];
 
 const GroundwaterAnalyze = () => {
@@ -40,64 +60,52 @@ const GroundwaterAnalyze = () => {
   const { t } = useTranslation();
   const MainStore = useMainStore((s) => s);
 
-  /* Dynamically generate year labels from available data */
-  const YEAR_LABELS = useMemo(() => {
-    const years = new Set();
-    
-    // Extract years from yearlyData keys (e.g., "2017_2018" -> "2017")
+  /* Collect all agri-year keys ("2017_2018" …) from both data sources */
+  const YEAR_KEYS = useMemo(() => {
+    const keys = new Set();
+
     if (yearlyData) {
-      Object.keys(yearlyData).forEach(key => {
-        if (key.match(/^\d{4}_\d{4}$/)) {
-          const startYear = key.split('_')[0];
-          years.add(startYear);
-        }
+      Object.keys(yearlyData).forEach((key) => {
+        if (/^\d{4}_\d{4}$/.test(key)) keys.add(key);
       });
     }
-    
-    // Extract years from fortnightData keys (e.g., "2017-07-01" -> "2017")
+
+    // Synthesise agri-year keys from fortnight ISO dates when no yearly entry exists
     if (fortnightData) {
-      Object.keys(fortnightData).forEach(key => {
-        if (key.match(/^\d{4}-\d{2}-\d{2}$/)) {
-          const year = key.split('-')[0];
-          years.add(year);
+      Object.keys(fortnightData).forEach((key) => {
+        if (/^\d{4}-\d{2}-\d{2}$/.test(key)) {
+          keys.add(getAgrYearKeyFromDate(key));
         }
       });
     }
-    
-    return Array.from(years).sort();
+
+    return Array.from(keys).sort();
   }, [yearlyData, fortnightData]);
 
   /* slider index */
   const [idx, setIdx] = useState(0);
-  
-  /* Set slider to last year on initial load */
+
+  /* Default to latest year */
   useEffect(() => {
-    if (YEAR_LABELS.length > 0) {
-      setIdx(YEAR_LABELS.length - 1);
-    }
-  }, [YEAR_LABELS.length]);
+    if (YEAR_KEYS.length > 0) setIdx(YEAR_KEYS.length - 1);
+  }, [YEAR_KEYS.length]);
 
-  const yearFour = YEAR_LABELS[idx] || ""; // "2017" … "2025"
-
+  const selectedKey = YEAR_KEYS[idx] || "";          // "2017_2018"
 
   const annual = useMemo(() => {
-    const k = Object.keys(yearlyData || {}).find((key) =>
-      key.startsWith(yearFour)
-    );
     try {
-      return k ? JSON.parse(yearlyData[k] ?? "{}") : {};
+      return selectedKey ? JSON.parse(yearlyData?.[selectedKey] ?? "{}") : {};
     } catch {
       return {};
     }
-  }, [yearFour, yearlyData]);
-
+  }, [selectedKey, yearlyData]);
 
   const fort = useMemo(() => {
     if (!fortnightData) return { dates: [] };
     const out = { dates: [], prec: [], run: [], et: [], gw: [] };
 
     Object.entries(fortnightData)
-      .filter(([d]) => d.startsWith(yearFour))
+      .filter(([d]) => getAgrYearKeyFromDate(d) === selectedKey)
       .sort(([a], [b]) => a.localeCompare(b))
       .forEach(([d, js]) => {
         try {
@@ -110,7 +118,7 @@ const GroundwaterAnalyze = () => {
         } catch {}
       });
     return out;
-  }, [yearFour, fortnightData]);
+  }, [selectedKey, fortnightData]);
 
   const hasAnnual = Object.keys(annual).length > 0;
   const hasFort   = fort.dates.length > 0;
@@ -185,7 +193,7 @@ const GroundwaterAnalyze = () => {
 
       <div className="p-4 max-w-6xl mx-auto space-y-8 mt-4">
         <h2 className="text-center font-extrabold text-gray-700 mb-3 text-sm">
-            {t("info_gw_header_1")} {yearFour}
+            {t("info_gw_header_1")} {selectedKey ? agrFullLabel(selectedKey) : ""}
         </h2>
 
         {/* capsules */}
@@ -205,7 +213,7 @@ const GroundwaterAnalyze = () => {
           </div>
         ) : (
           <p className="text-center text-gray-500">
-            {t("info_blank")} {yearFour}
+            {t("info_blank")} {selectedKey ? agrFullLabel(selectedKey) : ""}
           </p>
         )}
 
@@ -214,42 +222,48 @@ const GroundwaterAnalyze = () => {
         </h2>
 
         {/* year slider */}
-        <div className="w-3/4 max-w-lg mx-auto">
-            {/* Year marks above slider */}
+        <div className="w-full max-w-md mx-auto pt-4 pb-8 px-4">
+            <div className="text-center mb-4">
+                <span className="text-2xl font-bold text-[#0f766e]">
+                    {selectedKey ? agrFullLabel(selectedKey) : ""}
+                </span>
+            </div>
+
             <div className="relative mb-2">
                 <div className="flex justify-between relative">
-                    {YEAR_LABELS.map((year, index) => (
-                        <div key={year} className="flex flex-col items-center relative">
-                            {/* Tick mark */}
-                            <div 
-                                className={`w-0.5 h-3 mb-1 transition-colors duration-200 ${
-                                    index === idx ? 'bg-[#0f766e]' : 'bg-gray-400'
-                                }`}
-                            />
-                            {/* Year label */}
-                            <span 
-                                className={`text-xs font-semibold transition-colors duration-200 ${
-                                    index === idx ? 'text-[#0f766e]' : 'text-gray-600'
-                                }`}
-                            >
-                                {year}
-                            </span>
-                        </div>
-                    ))}
+                    {YEAR_KEYS.map((key, index) => {
+                        const showLabel = index === 0 || index === YEAR_KEYS.length - 1 || index === idx;
+                        return (
+                            <div key={key} className="flex flex-col items-center relative flex-1">
+                                <div
+                                    className={`w-0.5 transition-all duration-200 ${
+                                        index === idx ? 'h-4 bg-[#0f766e]' : 'h-2 bg-gray-400'
+                                    }`}
+                                />
+                                {showLabel && (
+                                    <span
+                                        className={`text-xs font-medium mt-1 transition-colors duration-200 ${
+                                            index === idx ? 'text-[#0f766e] font-bold' : 'text-gray-500'
+                                        }`}
+                                    >
+                                        {agrShortLabel(key)}
+                                    </span>
+                                )}
+                            </div>
+                        );
+                    })}
                 </div>
             </div>
-            
-            {/* Slider */}
+
             <input
                 type="range"
                 min="0"
-                max={YEAR_LABELS.length - 1}
+                max={YEAR_KEYS.length - 1}
                 value={idx}
                 onChange={(e) => setIdx(Number(e.target.value))}
                 className="w-full accent-[#0f766e] h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider-custom"
             />
-            
-            {/* Add custom slider styles */}
+
             <style jsx>{`
                 .slider-custom::-webkit-slider-thumb {
                     appearance: none;
@@ -261,7 +275,6 @@ const GroundwaterAnalyze = () => {
                     border: 2px solid white;
                     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
                 }
-                
                 .slider-custom::-moz-range-thumb {
                     height: 20px;
                     width: 20px;
@@ -277,7 +290,7 @@ const GroundwaterAnalyze = () => {
         {/* Precip + Run-off chart */}
         <section>
           <h2 className="font-bold text-gray-700 mb-2">
-            {t("info_gw_header_2")} ({yearFour})
+            {t("info_gw_header_2")} ({selectedKey ? agrFullLabel(selectedKey) : ""})
           </h2>
           {hasFort ? (
             <div className="relative h-64">

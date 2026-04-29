@@ -74,7 +74,7 @@ const Homepage = () => {
       }
       setIsPlanningOpen(false);
       
-      if(section === "Groundwater"){
+      if(section === "Water balance"){
         MainStore.setCurrentScreen('Groundwater');
         navigate('/groundwater');
       }
@@ -214,21 +214,6 @@ const Homepage = () => {
             {t("NREGA Works")}
             </button>
           </div>
-
-          {MainStore.currentPlan && (
-            <div className="absolute left-17 top-12 z-10 pointer-events-auto">
-                <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 shadow-sm">
-                    <div
-                        className="w-4 h-4 rounded-full"
-                        style={{ backgroundColor: "#ffd60a" }}
-                    ></div>
-                    <span className="text-white text-xs font-medium">
-                        {t("Maintenance required")}
-                    </span>
-                </div>
-            </div>
-          )}
-
         </div>
 
       
@@ -272,7 +257,7 @@ const Homepage = () => {
                     shadow-lg
                   "
                 >
-                  {['Groundwater', 'Surface Waterbodies', 'Agriculture', 'Livelihood', 'Agrohorticulture'].map(
+                  {['Water Balance', 'Surface Waterbodies', 'Agriculture', 'Livelihood', 'Agrohorticulture'].map(
                     (item) => (
                       <button
                         key={item}

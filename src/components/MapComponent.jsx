@@ -463,13 +463,13 @@ const MapComponent = () => {
             MainStore.containerName
         )
 
-        const cropGridLayer = await getVectorLayers(
-            "crop_grid_layers",
-            "crop_grid",
-            true,
-            true,
-            MainStore.containerName
-        )
+        // const cropGridLayer = await getVectorLayers(
+        //     "crop_grid_layers",
+        //     "crop_grid",
+        //     true,
+        //     true,
+        //     MainStore.containerName
+        // )
 
         const AgricultureWorkLayer = await getVectorLayers(
             "works",
@@ -614,7 +614,7 @@ const MapComponent = () => {
         assetsLayerRefs[0].current = settlementLayer
         assetsLayerRefs[1].current = wellLayer
         assetsLayerRefs[2].current = waterStructureLayer
-        assetsLayerRefs[3].current = cropGridLayer
+        //assetsLayerRefs[3].current = cropGridLayer
         AgriLayersRefs[2].current = AgricultureWorkLayer
         groundwaterRefs[3].current = GroundWaterWorkLayer
         LivelihoodRefs[0].current = livelihoodLayer
@@ -1163,6 +1163,7 @@ const MapComponent = () => {
                     })
                 )
                 await assetsLayerRefs[currentStep].current.getSource().addFeature(tempFeature)
+                MainStore.setCurrentStep(1)
             }
 
             else if(currentStep === 1){
@@ -2094,45 +2095,34 @@ const MapComponent = () => {
     },[MainStore.isSubmissionSuccess])
 
     useEffect(() => {
-        if(groundwaterRefs[0].current !== null){
-            groundwaterRefs[0].current.setStyle(function (feature) {
-                const status = feature.values_;
-                let tempColor
+        if (groundwaterRefs[0].current !== null) {
+        groundwaterRefs[0].current.setStyle(function (feature) {
+            const status = feature.values_;
+            let tempColor;
 
-                if(MainStore.selectWellDepthYear === '2018_23'){
-                    if(status.Net2018_23 < -5){tempColor = "rgba(255, 0, 0, 0.5)"}
-                    else if(status.Net2018_23 >= -5 && status.Net2018_23 < -1){tempColor = "rgba(255, 255, 0, 0.5)"}
-                    else if(status.Net2018_23 >= -1 && status.Net2018_23 <= 1){tempColor = "rgba(0, 255, 0, 0.5)"}
-                    else {tempColor = "rgba(0, 0, 255, 0.5)"}
+            const netValue = status[`Net${MainStore.selectWellDepthYear}`];
+            if (netValue < -5) {
+            tempColor = "rgba(255, 0, 0, 0.5)";
+            } else if (netValue >= -5 && netValue < -1) {
+            tempColor = "rgba(255, 255, 0, 0.5)";
+            } else if (netValue >= -1 && netValue <= 1) {
+            tempColor = "rgba(0, 255, 0, 0.5)";
+            } else {
+            tempColor = "rgba(0, 0, 255, 0.5)";
+            }
 
-                    return new Style({
-                        stroke: new Stroke({
-                            color: "#1AA7EC",
-                            width: 1,
-                        }),
-                        fill: new Fill({
-                            color: tempColor,
-                        })
-                    });
-                } else{
-                    if(status.Net2017_22 < -5){tempColor = "rgba(255, 0, 0, 0.5)"}
-                    else if(status.Net2017_22 >= -5 && status.Net2017_22 < -1){tempColor = "rgba(255, 255, 0, 0.5)"}
-                    else if(status.Net2017_22 >= -1 && status.Net2017_22 <= 1){tempColor = "rgba(0, 255, 0, 0.5)"}
-                    else {tempColor = "rgba(0, 0, 255, 0.5)"}
-
-                    return new Style({
-                        stroke: new Stroke({
-                            color: "#1AA7EC",
-                            width: 1,
-                        }),
-                        fill: new Fill({
-                            color: tempColor,
-                        })
-                    });
-                }
+            return new Style({
+            stroke: new Stroke({
+                color: "#1AA7EC",
+                width: 1,
+            }),
+            fill: new Fill({
+                color: tempColor,
+            }),
             });
+        });
         }
-    },[MainStore.selectWellDepthYear])
+    }, [MainStore.selectWellDepthYear]);
 
     useEffect(() => {
         if(mapRef.current === null) return;
