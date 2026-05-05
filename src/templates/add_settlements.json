@@ -271,7 +271,8 @@
               "description": {
                 "default": "Cannot exceed the total number of households",
                 "hi": "घरों की कुल संख्या से अधिक नहीं हो सकती"
-              }
+              },
+              "isRequired": true
             },
             {
               "type": "text",
@@ -280,6 +281,7 @@
                 "default": "How many households have applied for NREGA Job cards in this settlement?",
                 "hi": "इस बस्ती में कितने परिवारों ने मनरेगा जॉब कार्ड के लिए आवेदन किया है ?"
               },
+              "isRequired": true,
               "validators": [
                 {
                   "type": "numeric",
@@ -295,6 +297,7 @@
                 "default": "How many households have NREGA job cards in this settlement?",
                 "hi": "बस्ती में कितने परिवारों के पास मनरेगा जॉब कार्ड है ?"
               },
+              "isRequired": true,
               "validators": [
                 {
                   "type": "numeric",
@@ -310,6 +313,7 @@
                 "default": "On average, how many work days did a NREGA card holder get in the previous year?",
                 "hi": "इस बस्ती के परिवारों को पिछले साल मनरेगा के तहत कितने दिनों का काम मिला था ?"
               },
+              "isRequired": true,
               "validators": [
                 {
                   "type": "numeric",
@@ -326,6 +330,7 @@
                 "default": "What were the reasons for low work uptake under NREGA?",
                 "hi": "नरेगा के अंतर्गत कम कार्य प्राप्ति के क्या कारण थे?"
               },
+              "isRequired": true,
               "choices": [
                 {
                   "value": "Migration",
@@ -373,6 +378,7 @@
                 "default": "What kind of work demands did the settlement proposed in the past ?",
                 "hi": "इसके पहले प्रस्तावित समझौते में किस तरह के कार्यों की मांग की गई थी ?"
               },
+              "isRequired": true,
               "choices": [
                 {
                   "value": "Farm_pond",
@@ -572,8 +578,7 @@
               "title": {
                 "default": "Specify other.",
                 "hi": "कृपया अन्य मुद्दा निर"
-              },
-              "isRequired": true
+              }
             },
             {
               "type": "checkbox",
@@ -582,6 +587,7 @@
                 "default": "What are the three main issues with NREGA?",
                 "hi": "मनरेगा में तीन मुख्य समस्याएं क्या है?"
               },
+              "isRequired": true,
               "choices": [
                 {
                   "value": "Delayed_reimbursements_for_expenses_made",

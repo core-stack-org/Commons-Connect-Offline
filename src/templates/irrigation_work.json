@@ -125,8 +125,8 @@
           "name": "TYPE_OF_WORK_ID",
           "visibleIf": "{demand_type_irrigation} = 'Community_demand' or {demand_type_irrigation} = 'Individual_demand'",
           "title": {
-          "default":"Select the type of Irrigation work in this settlement",
-          "hi":"सिंचाई कार्य का प्रकार चुनें"
+            "default": "Select the type of Irrigation work in this settlement",
+            "hi": "सिंचाई कार्य का प्रकार चुनें"
           },
           "isRequired": true,
           "choices": [
@@ -330,45 +330,6 @@
           ]
         },
         {
-          "type": "radiogroup",
-          "name": "land_ownership",
-          "visibleIf": "{demand_type_irrigation} = 'Community_demand' or {demand_type_irrigation} = 'Individual_demand'",
-          "title": {
-            "default": "Land Ownership / Status",
-            "hi": "भूमि स्वामित्व/स्थिति"
-          },
-          "choices": [
-            {
-              "value": "Private_land",
-              "text": {
-                "default": "Private land",
-                "hi": "निजी भूमि"
-              }
-            },
-            {
-              "value": "Community_land",
-              "text": {
-                "default": "Community land",
-                "hi": "सामुदायिक भूमि"
-              }
-            },
-            {
-              "value": "Panchayat_land",
-              "text": {
-                "default": "Panchayat land",
-                "hi": "पंचायत भूमि"
-              }
-            },
-            {
-              "value": "Forest_land",
-              "text": {
-                "default": "Forest land",
-                "hi": "वन भूमि"
-              }
-            }
-          ]
-        },
-        {
           "type": "checkbox",
           "name": "departments_converged",
           "visibleIf": "{demand_type_irrigation} = 'Community_demand' or {demand_type_irrigation} = 'Individual_demand'",
@@ -376,6 +337,7 @@
             "default": "Which departments / schemes may be converged with?",
             "hi": "किन विभागों/योजनाओं का विलय किया जा सकता है?"
           },
+          "isRequired": true,
           "choices": [
             {
               "value": "MGNREGA",
@@ -459,6 +421,7 @@
             "default": "What type of crops are grown in Kharif ?",
             "hi": "खरीफ़ के मौसम में किस प्रकार की फसलें उगाई जाती है ?"
           },
+          "isRequired": true,
           "choices": [
             {
               "value": "Paddy",
@@ -535,6 +498,7 @@
             "default": "What type of cropping pattern is practiced?",
             "hi": "किस प्रकार के फसल पैटर्न को अपनाया जाता है ?"
           },
+          "isRequired": true,
           "choices": [
             {
               "value": "Mono cropping",
@@ -592,7 +556,7 @@
             }
           ]
         },
-       {
+        {
           "type": "text",
           "name": "work_id",
           "title": {
@@ -601,7 +565,7 @@
           },
           "readOnly": true
         },
-       {
+        {
           "type": "text",
           "name": "block_name",
           "title": {

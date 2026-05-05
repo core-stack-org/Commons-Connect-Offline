@@ -13,6 +13,7 @@
   "pages": [
     {
       "name": "Add_well_page",
+      "description": "Well Information",
       "elements": [
         {
           "type": "text",
@@ -568,6 +569,7 @@
                 "default": "Type of Soil",
                 "hi": "मिट्टी का प्रकार"
               },
+              "isRequired": true,
               "choices": [
                 {
                   "value": "Black",
@@ -628,6 +630,7 @@
                 "default": "Amount of silt",
                 "hi": "गाद का ढेर"
               },
+              "isRequired": true,
               "choices": [
                 {
                   "value": "Low",

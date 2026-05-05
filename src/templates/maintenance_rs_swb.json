@@ -247,6 +247,15 @@
           ]
         },
         {
+          "type": "text",
+          "name": "select_one_farm_pond_other",
+          "visibleIf": "{select_one_farm_pond} anyof ['other']",
+          "title": {
+            "default": "Specify other",
+            "hi": "अन्य निर्दिष्ट करें"
+          }
+        },
+        {
           "type": "radiogroup",
           "name": "select_one_soil_fp",
           "visibleIf": "{select_one_farm_pond} anyof ['De_sitling']",
@@ -339,15 +348,6 @@
               }
             }
           ]
-        },
-        {
-          "type": "text",
-          "name": "select_one_farm_pond_other",
-          "visibleIf": "{select_one_farm_pond} anyof ['other']",
-          "title": {
-            "default": "Specify other",
-            "hi": "अन्य निर्दिष्ट करें"
-          }
         },
         {
           "type": "checkbox",
@@ -626,8 +626,8 @@
           "name": "Select_one_silt_lwb",
           "visibleIf": "{select_one_repair_large_water_body} anyof ['De_sitling']",
           "title": {
-              "default": "Amount of Silt\n",
-              "hi": "गाद का ढेर"
+            "default": "Amount of Silt\n",
+            "hi": "गाद का ढेर"
           },
           "isRequired": true,
           "choices": [

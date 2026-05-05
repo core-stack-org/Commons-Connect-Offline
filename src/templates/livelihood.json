@@ -1,5 +1,5 @@
 {
-  "title": "Livelihood Details Form",
+  "title": "Livelihood Details",
   "logoFit": "none",
   "logoPosition": "right",
   "completedHtml": {
@@ -237,6 +237,15 @@
                   }
                 }
               ]
+            },
+            {
+              "type": "text",
+              "name": "question1",
+              "visibleIf": "{Livestock-departments_converged} anyof ['other']",
+              "title": {
+                "default": "Specify other.",
+                "hi": "अन्य विवरण दें"
+              }
             }
           ]
         },
@@ -358,7 +367,8 @@
               "title": {
                 "default": "Name of Cluster Group / FPO / SHG",
                 "hi": "क्लस्टर समूह / परिवार संगठन / स्वयं सहायता समूह का नाम"
-              }
+              },
+              "isRequired": true
             },
             {
               "type": "text",
@@ -367,7 +377,8 @@
               "title": {
                 "default": "Total number of members in the cluster",
                 "hi": "क्लस्टर में सदस्यों की कुल संख्या"
-              }
+              },
+              "isRequired": true
             },
             {
               "type": "text",
@@ -436,6 +447,7 @@
                 "default": "Which departments / schemes may be converged with?",
                 "hi": "किन विभागों/योजनाओं का विलय किया जा सकता है?"
               },
+              "isRequired": true,
               "choices": [
                 {
                   "value": "Agri",

@@ -1,13 +1,13 @@
 {
-  "title": "Agrohorticulture Details Form",
+  "title": "Agrohorticulture",
   "logoFit": "none",
   "logoPosition": "right",
   "completedHtml": {
-    "default": "<h3>Agrohorticulture Details has been submitted successfully !</h3>",
+    "default": "<h3>Agrohorticulture  has been submitted successfully !</h3>",
     "hi": "<h3>कृषि-बागवानी संबंधी विवरण सफलतापूर्वक जमा कर दिया गया है!</h3>"
   },
   "loadingHtml": {
-    "default": "<h3>Loading Agrohorticulture Details Form...</h3>",
+    "default": "<h3>Loading Agrohorticulture Form...</h3>",
     "hi": "<h3>कृषि-बागवानी विवरण प्रपत्र लोड हो रहा है...</h3>"
   },
   "pages": [
@@ -83,7 +83,27 @@
         },
         {
           "type": "text",
-          "name": "beneficiary_name",
+          "name": "name_cluster",
+          "visibleIf": "{demand_type_plantations} = 'Cluster_demand'",
+          "title": {
+            "default": "Name of Cluster Group / FPO / SHG\n",
+            "hi": "क्लस्टर समूह / परिवार संगठन / स्वयं सहायता समूह का नाम"
+          },
+          "isRequired": true
+        },
+        {
+          "type": "text",
+          "name": "total_cluster",
+          "visibleIf": "{demand_type_plantations} = 'Cluster_demand'",
+          "title": {
+            "default": "Total number of members in the cluster\n",
+            "hi": "क्लस्टर में सदस्यों की कुल संख्या"
+          },
+          "isRequired": true
+        },
+        {
+          "type": "text",
+          "name": "question2",
           "visibleIf": "{demand_type_plantations} = 'Individual_demand'",
           "title": {
             "default": "Beneficiary's Name",
@@ -130,7 +150,7 @@
         {
           "type": "checkbox",
           "name": "select_multiple_species",
-          "visibleIf": "{select_one_y_n} = 'Yes'",
+          "visibleIf": "{demand_type_plantations} = 'Community_demand' or {demand_type_plantations} = 'Cluster_demand' or {demand_type_plantations} = 'Individual_demand'",
           "title": {
             "default": "Preferred Plant/ species for Plantation",
             "hi": "वृक्षारोपण के लिए पसंदीदा पौधा/प्रजाति"
@@ -235,19 +255,22 @@
         {
           "type": "text",
           "name": "crop_area",
-          "visibleIf": "{select_one_y_n} = 'Yes'",
+          "visibleIf": "{demand_type_plantations} = 'Community_demand' or {demand_type_plantations} = 'Cluster_demand' or {demand_type_plantations} = 'Individual_demand'",
           "title": {
             "default": "Total area of the plantation",
             "hi": "वृक्षारोपण का कुल क्षेत्रफल"
           },
-          "description": "Acres",
+          "description": {
+            "default": "Acres",
+            "hi": "एकड़"
+          },
           "isRequired": true,
           "inputType": "number"
         },
         {
           "type": "text",
           "name": "total_saplings",
-          "visibleIf": "{select_one_y_n} = 'Yes'",
+          "visibleIf": "{demand_type_plantations} = 'Community_demand' or {demand_type_plantations} = 'Cluster_demand' or {demand_type_plantations} = 'Individual_demand'",
           "title": {
             "default": "Total number of saplings needed",
             "hi": "आवश्यक पौधों की कुल संख्या"
@@ -258,7 +281,7 @@
         {
           "type": "checkbox",
           "name": "land_type",
-          "visibleIf": "{select_one_y_n} = 'Yes'",
+          "visibleIf": "{demand_type_plantations} = 'Community_demand' or {demand_type_plantations} = 'Cluster_demand' or {demand_type_plantations} = 'Individual_demand'",
           "title": {
             "default": "Land Type",
             "hi": "भूमि का प्रकार"
@@ -291,7 +314,7 @@
         {
           "type": "radiogroup",
           "name": "land_ownership",
-          "visibleIf": "{select_one_y_n} = 'Yes'",
+          "visibleIf": "{demand_type_plantations} = 'Community_demand' or {demand_type_plantations} = 'Cluster_demand' or {demand_type_plantations} = 'Individual_demand'",
           "title": {
             "default": "Land Ownership / Tenure",
             "hi": "भूमि स्वामित्व / कार्यकाल"
@@ -353,11 +376,12 @@
         {
           "type": "checkbox",
           "name": "current_land_use",
-          "visibleIf": "{select_one_y_n} = 'Yes'",
+          "visibleIf": "{demand_type_plantations} = 'Community_demand' or {demand_type_plantations} = 'Cluster_demand' or {demand_type_plantations} = 'Individual_demand'",
           "title": {
             "default": "Current Land Use",
             "hi": "वर्तमान भूमि उपयोग"
           },
+          "isRequired": true,
           "choices": [
             {
               "value": "Crop",
@@ -392,11 +416,12 @@
         {
           "type": "radiogroup",
           "name": "soil_type",
-          "visibleIf": "{select_one_y_n} = 'Yes'",
+          "visibleIf": "{demand_type_plantations} = 'Community_demand' or {demand_type_plantations} = 'Cluster_demand' or {demand_type_plantations} = 'Individual_demand'",
           "title": {
             "default": "Soil Type\n",
             "hi": "मिट्टी का प्रकार"
           },
+          "isRequired": true,
           "choices": [
             {
               "value": "Sandy",
@@ -438,11 +463,12 @@
         {
           "type": "radiogroup",
           "name": "water_availability",
-          "visibleIf": "{select_one_y_n} = 'Yes'",
+          "visibleIf": "{demand_type_plantations} = 'Community_demand' or {demand_type_plantations} = 'Cluster_demand' or {demand_type_plantations} = 'Individual_demand'",
           "title": {
             "default": "Water Availability",
             "hi": "पानी की उपलब्धता"
           },
+          "isRequired": true,
           "choices": [
             {
               "value": "Seasonal",
@@ -470,11 +496,12 @@
         {
           "type": "radiogroup",
           "name": "agro_model",
-          "visibleIf": "{select_one_y_n} = 'Yes'",
+          "visibleIf": "{demand_type_plantations} = 'Community_demand' or {demand_type_plantations} = 'Cluster_demand' or {demand_type_plantations} = 'Individual_demand'",
           "title": {
             "default": "Preferred agroforestry model",
             "hi": "पसंदीदा कृषि वानिकी मॉडल"
           },
+          "isRequired": true,
           "choices": [
             {
               "value": "Boundary_plantation",
@@ -516,7 +543,7 @@
         {
           "type": "checkbox",
           "name": "departments_converged",
-          "visibleIf": "{select_one_y_n} = 'Yes'",
+          "visibleIf": "{demand_type_plantations} = 'Community_demand' or {demand_type_plantations} = 'Cluster_demand' or {demand_type_plantations} = 'Individual_demand'",
           "title": {
             "default": "Which departments / schemes may be converged with?",
             "hi": "किन विभागों/योजनाओं का विलय किया जा सकता है?"

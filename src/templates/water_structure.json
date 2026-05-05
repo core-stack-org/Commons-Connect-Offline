@@ -1646,6 +1646,7 @@
             "default": "Repair of earthen gully plug",
             "hi": "मिट्टी के गली प्लग की मरम्मत"
           },
+          "isRequired": true,
           "choices": [
             {
               "value": "Breaches_in_the_earthen_structure",
@@ -3608,7 +3609,6 @@
             "hi": "जल श्रोत कितनी पुरानी है?"
           },
           "description": {
-            "default": "In year",
             "hi": "वर्षों में"
           },
           "validators": [

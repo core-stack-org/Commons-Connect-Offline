@@ -192,8 +192,7 @@
           "title": {
             "default": "Specify other",
             "hi": "अन्य निर्दिष्ट करें"
-          },
-          "isRequired": true
+          }
         },
         {
           "type": "radiogroup",
@@ -342,8 +341,7 @@
           "title": {
             "default": "Specify other",
             "hi": "अन्य निर्दिष्ट करें"
-          },
-          "isRequired": true
+          }
         },
         {
           "type": "radiogroup",
@@ -499,8 +497,7 @@
           "title": {
             "default": "Specify other",
             "hi": "अन्य निर्दिष्ट करें"
-          },
-          "isRequired": true
+          }
         },
         {
           "type": "radiogroup",
@@ -649,8 +646,7 @@
           "title": {
             "default": "Specify other",
             "hi": "अन्य निर्दिष्ट करें"
-          },
-          "isRequired": true
+          }
         },
         {
           "type": "radiogroup",
@@ -799,8 +795,7 @@
           "title": {
             "default": "Specify other",
             "hi": "अन्य निर्दिष्ट करें"
-          },
-          "isRequired": true
+          }
         },
         {
           "type": "html",
