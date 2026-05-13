@@ -8,6 +8,7 @@ import {
   add_Well_Form, 
   add_Water_Structures_Form,
   add_crop_info,
+  agrohorticulture,
   propose_recharge_structure, 
   propose_irrigation_structure, 
   propose_livelihood,
@@ -59,6 +60,7 @@ const InfoBox = () => {
     "cropping" : "Crop Information",
     "recharge" : "Recharge Structure",
     "livelihood" : "Livelihood",
+    "agrohorticulture" : "Agrohorticulture",
     "irrigation" : "Irrigation Structure",
     "feedbackAgri" : "Feedback Agriculture",
     "feedbackGW" : "Feedback Groundwater",
@@ -217,7 +219,7 @@ const InfoBox = () => {
 
           let tempString = xmlString.serializeToString(xmlDoc);
           
-          const response = await fetch(`${import.meta.env.VITE_API_URL}/sync_offline_data/resource/settlement/`, {
+          const response = await fetch(`${import.meta.env.VITE_API_URL}sync_offline_data/resource/settlement/`, {
             method : "POST",
             headers: {
                 'Content-Type': 'application/xml',
@@ -312,7 +314,7 @@ const InfoBox = () => {
           }
           let tempString = xmlString.serializeToString(xmlDoc);
 
-          const response = await fetch(`${import.meta.env.VITE_API_URL}/sync_offline_data/resource/well/`, {
+          const response = await fetch(`${import.meta.env.VITE_API_URL}sync_offline_data/resource/well/`, {
             method : "POST",
             headers: {
                 'Content-Type': 'application/xml',
@@ -394,7 +396,7 @@ const InfoBox = () => {
           console.log(xmlDoc)
           let tempString = xmlString.serializeToString(xmlDoc);
 
-          const response = await fetch(`${import.meta.env.VITE_API_URL}/sync_offline_data/resource/water_structures/`, {
+          const response = await fetch(`${import.meta.env.VITE_API_URL}sync_offline_data/resource/water_structures/`, {
             method : "POST",
             headers: {
                 'Content-Type': 'application/xml',
@@ -472,7 +474,7 @@ const InfoBox = () => {
           })
           let tempString = xmlString.serializeToString(xmlDoc);
 
-          const response = await fetch(`${import.meta.env.VITE_API_URL}/sync_offline_data/resource/cropping_pattern/`, {
+          const response = await fetch(`${import.meta.env.VITE_API_URL}sync_offline_data/resource/cropping_pattern/`, {
             method : "POST",
             headers: {
                 'Content-Type': 'application/xml',
@@ -805,6 +807,81 @@ const InfoBox = () => {
         })
 
         tempSyncItems = tempSyncItems.filter(item => item !== "livelihood")
+      }
+      else if(item === "agrohorticulture"){
+        let xmlString = new XMLSerializer();
+        let remainingData = []
+
+        formData["agrohorticulture"].map(async(item, idx) => {
+          
+          let xmlParser = new DOMParser();
+          let xmlroot = xmlParser.parseFromString(agrohorticulture, "text/xml");
+          let xmlDoc = xmlroot.documentElement;
+
+          let itemKeys = Object.keys(item)
+
+          itemKeys.forEach((label) => {
+            if (label === "GPS_point") {
+              let newElement = xmlroot.createElement(label);
+              let childElement = xmlroot.createElement("point_mapsappearance");
+              childElement.textContent = `${item[label]["latitude"]} ${item[label]["longitude"]}`;
+              newElement.appendChild(childElement);
+              xmlDoc.appendChild(newElement);
+            }
+            else if (item[label] !== null && Array.isArray(item[label])) {
+              let newElement = xmlroot.createElement(label);
+              newElement.textContent = item[label].join(" ");
+              xmlDoc.appendChild(newElement);
+            }
+            else if (item[label] !== null && typeof item[label] === "object") {
+              const tempKeys = Object.keys(item[label]);
+              if (tempKeys && tempKeys.length > 0) {
+                let newElement = xmlroot.createElement(label);
+                tempKeys.forEach((tempItem) => {
+                  let childElement = xmlroot.createElement(tempItem);
+                  childElement.textContent = `${item[label][tempItem]}`;
+                  newElement.appendChild(childElement);
+                });
+                xmlDoc.appendChild(newElement);
+              }
+            }
+            else {
+              if (item[label] !== null) {
+                let newElement = xmlroot.createElement(label);
+                newElement.textContent = `${item[label]}`;
+                xmlDoc.appendChild(newElement);
+              }
+            }
+          });
+
+          let tempString = xmlString.serializeToString(xmlDoc);
+          console.log(tempString)
+
+          const response = await fetch(`${import.meta.env.VITE_API_URL}sync_offline_data/work/agrohorticulture/`, {
+            method : "POST",
+            headers: {
+                'Content-Type': 'application/xml',
+            },
+            body: tempString
+          })
+
+          let result = await response.json()
+          if(result.sync_status){
+            toast.success("Your Agrohorticulture submission synced successfully to ODK.");
+          }
+          else{
+            remainingData.push(item)
+          }
+
+          if(idx === formData["agrohorticulture"].length - 1){
+            tempFormData['agrohorticulture'] = remainingData
+            setFormData(tempFormData)
+            const arrayString = JSON.stringify(tempFormData);
+            localStorage.setItem(currentPlan.id, arrayString);
+          }
+
+        })
+        tempSyncItems = tempSyncItems.filter(item => item !== "agrohorticulture")
       }
       else if(item === "maintainSWB"){
         let xmlString = new XMLSerializer();
@@ -1401,6 +1478,29 @@ const InfoBox = () => {
         const payload = {
           layer_name: "waterbody_layer",
           resource_type: "waterbody",
+          plan_id: MainStore.currentPlan.id,
+          plan_name: MainStore.currentPlan.plan,
+          district_name: MainStore.districtName,
+          block_name: MainStore.blockName,
+        }
+
+        try {
+          await fetch(`${import.meta.env.VITE_API_URL}add_resources/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+          })
+          
+        } catch(err) {
+          console.error(err)
+        }
+      }
+      else if(item === "cropping"){
+        const payload = {
+          layer_name: "cropping_layer",
+          resource_type: "cropping",
           plan_id: MainStore.currentPlan.id,
           plan_name: MainStore.currentPlan.plan,
           district_name: MainStore.districtName,

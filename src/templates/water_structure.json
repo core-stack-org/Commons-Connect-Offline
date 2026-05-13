@@ -3603,7 +3603,7 @@
         },
         {
           "type": "text",
-          "name": "age_water_structure",
+          "name": "age_ws",
           "title": {
             "default": "What is the age of the water structure?",
             "hi": "जल श्रोत कितनी पुरानी है?"
@@ -3614,7 +3614,7 @@
           "validators": [
             {
               "type": "expression",
-              "expression": "{age_water_structure} > 1000 and {age_water_structure} < 9999"
+              "expression": "{age_ws} > 1000 and {age_ws} < 9999"
             }
           ],
           "inputType": "number"

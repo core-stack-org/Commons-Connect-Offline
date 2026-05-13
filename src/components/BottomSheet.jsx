@@ -17,6 +17,7 @@ import AgricultureAnalyze from './analyze/AgricultureAnalyze.jsx';
 import { useTranslation } from "react-i18next";
 import { useState, useEffect, useRef } from 'react';
 
+import { looksBroken, fixMojibake } from "../action/getEncoding.js";
 
 const Bottomsheet = () => {
 
@@ -91,6 +92,7 @@ const Bottomsheet = () => {
                     Settlements_id: crypto.randomUUID().slice(0, 15),
                     well_id: crypto.randomUUID().slice(0, 15),
                     waterbodies_id: crypto.randomUUID().slice(0, 15),
+                    crop_Grid_id : crypto.randomUUID().slice(0, 15),
                     corresponding_work_id: MainStore.selectedResource?.work_id || 
                                           MainStore.selectedResource?.wb_id || 
                                           MainStore.selectedResource?.UID || "",
@@ -103,7 +105,6 @@ const Bottomsheet = () => {
                     },
                     block_name: MainStore.blockName,
                     beneficiary_settlement: MainStore.settlementName,
-                    crop_Grid_id: MainStore.selectedResource?.id
                 };
                 
                 survey.onComplete.add(surveyComplete);
@@ -234,42 +235,63 @@ const Bottomsheet = () => {
         "LULCLayer" : "setLULCLayer"
     }
 
+    const getCategoryFillColor = (works) => {
+        if (works.length === 0) return "#00000000";
+        const expr = ["match", ["get", "itemColor"]];
+        works.forEach((id) => {
+            expr.push(id);
+            expr.push(nregaDetails.NumToColorMapping[id]);
+        });
+        expr.push("#00000000");
+        return expr;
+    };
+
+    const buildNregaStyle = (works, years) => {
+        let fillColor = getCategoryFillColor(works);
+
+        if (years.length > 0) {
+            const yearMatch = ["match", ["get", "workYear"]];
+            years.forEach((y) => {
+                yearMatch.push(y, true);
+            });
+            yearMatch.push(false);
+            fillColor = ["case", yearMatch, fillColor, "#00000000"];
+        }
+
+        return {
+            "shape-points": 12,
+            "shape-radius": 8,
+            "shape-fill-color": fillColor,
+        };
+    };
+
+    const handleYearAdd = (tempYear) => {
+        let active_years;
+
+        if (tempYear === "all") {
+            active_years = MainStore.selectNregaYears.length === MainStore.allNregaYears.length
+                ? []
+                : [...MainStore.allNregaYears];
+        } else if (MainStore.selectNregaYears.includes(tempYear)) {
+            active_years = MainStore.selectNregaYears.filter((year) => year !== tempYear);
+        } else {
+            active_years = [...MainStore.selectNregaYears, tempYear];
+        }
+
+        MainStore.setNregaYears(active_years);
+        MainStore.setNregaStyle(buildNregaStyle(MainStore.nregaWorks, active_years));
+    };
+
     const handleWorkdAdd = (work) => {
-        let checked = MainStore.nregaWorks.includes(nregaDetails.workToNumMapping[work])
-        let tempWorks
-        
-        if(!checked){
-            tempWorks = [...MainStore.nregaWorks]
-            tempWorks.push(nregaDetails.workToNumMapping[work])
-        }
-        else{
-            tempWorks = MainStore.nregaWorks.filter((y) => y != nregaDetails.workToNumMapping[work]);
-        }
+        const workNum = nregaDetails.workToNumMapping[work];
+        const isSelected = MainStore.nregaWorks.includes(workNum);
+        const tempWorks = isSelected
+            ? MainStore.nregaWorks.filter((w) => w !== workNum)
+            : [...MainStore.nregaWorks, workNum];
 
-        MainStore.setNregaWorks(tempWorks)
-
-        let styleFillColor = ['match', ['get', 'itemColor']]
-        
-        tempWorks.map((item, idx) => {
-            styleFillColor.push(item);
-            styleFillColor.push(nregaDetails.NumToColorMapping[item])
-        })
-
-        styleFillColor.push('#00000000')
-
-        if (tempWorks.length === 0) {
-            styleFillColor = '#00000000'
-        }
-
-        let tempNregaStyle =  {
-            filter: MainStore.nregaStyle.filter,
-            'shape-points': MainStore.nregaStyle['shape-points'],
-            'shape-radius': MainStore.nregaStyle['shape-radius'],
-            'shape-fill-color': styleFillColor
-        }
-
-        MainStore.setNregaStyle(tempNregaStyle);
-    }
+        MainStore.setNregaWorks(tempWorks);
+        MainStore.setNregaStyle(buildNregaStyle(tempWorks, MainStore.selectNregaYears));
+    };
 
     const nregaBody = (
         <>
@@ -339,6 +361,59 @@ const Bottomsheet = () => {
                         })}
                     </div>
                 </div>
+
+                {/* NREGA Work Years Section */}
+                {MainStore.allNregaYears.length > 0 && (
+                    <div className="bg-gray-50 rounded-2xl p-5 mb-4">
+                        <div className="flex items-center justify-between mb-3">
+                            <div className="flex items-center">
+                                <div className="w-1 h-5 bg-green-500 rounded-full mr-3"></div>
+                                <h2 className="text-base font-semibold text-gray-700">
+                                    {t("NREGA Work Years")}
+                                </h2>
+                            </div>
+                            <button
+                                onClick={() => handleYearAdd("all")}
+                                className={`
+                                    text-xs font-semibold px-3 py-1.5 rounded-full border transition-all duration-200
+                                    ${MainStore.selectNregaYears.length === MainStore.allNregaYears.length
+                                        ? "bg-green-100 border-green-400 text-green-700"
+                                        : "bg-white border-gray-300 text-gray-500 hover:border-green-400 hover:text-green-600"
+                                    }
+                                `}
+                            >
+                                {MainStore.selectNregaYears.length === MainStore.allNregaYears.length
+                                    ? t("nrega_deselect_all")
+                                    : t("nrega_select_all")}
+                            </button>
+                        </div>
+                        <p className="text-xs text-gray-400 mb-4">
+                            {MainStore.selectNregaYears.length === 0
+                                ? t("nrega_all_years_shown")
+                                : t("nrega_year_filter_hint")}
+                        </p>
+                        <div className="flex flex-wrap gap-2">
+                            {MainStore.allNregaYears.map((year, idx) => {
+                                const isChecked = MainStore.selectNregaYears.includes(year);
+                                return (
+                                    <button
+                                        key={idx}
+                                        onClick={() => handleYearAdd(year)}
+                                        className={`
+                                            px-4 py-2 rounded-full text-sm font-medium border transition-all duration-200
+                                            ${isChecked
+                                                ? "bg-green-500 border-green-500 text-white shadow-sm"
+                                                : "bg-white border-gray-200 text-gray-600 hover:border-green-400 hover:text-green-600"
+                                            }
+                                        `}
+                                    >
+                                        {year}
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    </div>
+                )}
             </div>
         </>
     )
@@ -652,6 +727,7 @@ const Bottomsheet = () => {
             if(MainStore.formEditType === "settlement"){compareKey = "Settlements_id"}
             else if(MainStore.formEditType === "well"){compareKey = "well_id"}
             else if(MainStore.formEditType === "waterstructure"){compareKey = "waterbodies_id"}
+            else if(MainStore.formEditType === "cropping"){compareKey = "crop_Grid_id"}
             else if(MainStore.formEditType === "recharge"){compareKey = "Corresponding_Work_ID"}
 
             submissions[MainStore.formEditType].map((item, idx) => {

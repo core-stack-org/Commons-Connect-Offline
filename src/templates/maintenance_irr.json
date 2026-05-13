@@ -197,7 +197,7 @@
         {
           "type": "radiogroup",
           "name": "select_one_soil_fp",
-          "visibleIf": "{select_one_farm_pond} anyof ['De_sitling']",
+          "visibleIf": "{select_one_farm_pond} anyof ['De_sitling'] and {select_one_irrigation_structure} = 'Farm pond'",
           "title": {
             "default": "Type of Soil",
             "hi": "मिट्टी का प्रकार"
@@ -258,7 +258,7 @@
         {
           "type": "radiogroup",
           "name": "Select_one_silt_fp",
-          "visibleIf": "{select_one_farm_pond} anyof ['De_sitling']",
+          "visibleIf": "{select_one_farm_pond} anyof ['De_sitling'] and {select_one_irrigation_structure} = 'Farm pond'",
           "title": {
             "default": "Amount of Silt\n",
             "hi": "गाद का ढेर"
@@ -312,7 +312,7 @@
               }
             },
             {
-              "value": "Repair_or_cleaning_of_inlet_outlet_structures",
+              "value": "Repairing_cracks_or_damage_in_embankments",
               "text": {
                 "default": "Repair or cleaning of inlet outlet structures",
                 "hi": "तटबंधों में दरारों या टूट की मरम्मत"
@@ -324,6 +324,10 @@
                 "default": "Controlling excessive aquatic vegetation growth",
                 "hi": "अधिक जलीय पौधों की वृद्धि को रोकना "
               }
+            },
+            {
+              "value": "Repair_or_cleaning_of_inlet_outlet_structures",
+              "text": "Repair or cleaning of inlet/outlet structures"
             },
             {
               "value": "other",
@@ -346,7 +350,7 @@
         {
           "type": "radiogroup",
           "name": "select_one_soil_cp",
-          "visibleIf": "{select_one_community_pond} anyof ['De_sitling']",
+          "visibleIf": "{select_one_community_pond} anyof ['De_sitling'] and {select_one_irrigation_structure} = 'Community Pond'",
           "title": {
             "default": "Type of Soil",
             "hi": "मिट्टी का प्रकार"
@@ -407,7 +411,7 @@
         {
           "type": "radiogroup",
           "name": "Select_one_silt_cp",
-          "visibleIf": "{select_one_community_pond} anyof ['De_sitling']",
+          "visibleIf": "{select_one_community_pond} anyof ['De_sitling'] and {select_one_irrigation_structure} = 'Community Pond'",
           "title": {
             "default": "Amount of Silt\n",
             "hi": "गाद का ढेर"
@@ -502,7 +506,7 @@
         {
           "type": "radiogroup",
           "name": "select_one_soil_well",
-          "visibleIf": "{select_one_well} anyof ['De_sitling']",
+          "visibleIf": "{select_one_well} anyof ['De_sitling'] and {select_one_irrigation_structure} = 'Well'",
           "title": {
             "default": "Type of Soil",
             "hi": "मिट्टी का प्रकार"
@@ -563,7 +567,7 @@
         {
           "type": "radiogroup",
           "name": "Select_one_silt_well",
-          "visibleIf": "{select_one_well} anyof ['De_sitling']",
+          "visibleIf": "{select_one_well} anyof ['De_sitling'] and {select_one_irrigation_structure} = 'Well'",
           "title": {
             "default": "Amount of Silt\n",
             "hi": "गाद का ढेर"
@@ -651,7 +655,7 @@
         {
           "type": "radiogroup",
           "name": "select_one_soil_canal",
-          "visibleIf": "{select_one_canal} anyof ['Desiliting']",
+          "visibleIf": "{select_one_canal} anyof ['Desiliting'] and {select_one_irrigation_structure} = 'Canal'",
           "title": {
             "default": "Type of Soil",
             "hi": "मिट्टी का प्रकार"
@@ -712,7 +716,7 @@
         {
           "type": "radiogroup",
           "name": "Select_one_silt_canal",
-          "visibleIf": "{select_one_canal} anyof ['Desiliting']",
+          "visibleIf": "{select_one_canal} anyof ['Desiliting'] and {select_one_irrigation_structure} = 'Canal'",
           "title": {
             "default": "Amount of Silt\n",
             "hi": "गाद का ढेर"

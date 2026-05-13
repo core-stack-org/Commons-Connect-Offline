@@ -522,14 +522,14 @@
           "isRequired": true,
           "choices": [
             {
-              "value": "Overuse of fertilizers",
+              "value": "Overuse_of_fertilizers",
               "text": {
                 "default": "Overuse of fertilizers",
                 "hi": "उर्वरकों का अत्यधिक उपयोग"
               }
             },
             {
-              "value": "Heavy rains causing erosion",
+              "value": "Heavy_rains_causing_erosion",
               "text": {
                 "default": "Heavy rains causing erosion",
                 "hi": "भारी बारिश के कारण कटाव"

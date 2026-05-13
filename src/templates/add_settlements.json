@@ -91,7 +91,7 @@
         },
         {
           "type": "text",
-          "name": "distance_settlement_block",
+          "name": "distance_settlement",
           "title": {
             "default": "Distance of the settlement from the block headquarters",
             "hi": "ब्लॉक मुख्यालय से बस्ती की दूरी कितनी है (किलोमीटर में)"
@@ -340,21 +340,21 @@
                   }
                 },
                 {
-                  "value": "Poor wages",
+                  "value": "Poor_wages",
                   "text": {
                     "default": "Poor wages",
                     "hi": "कम वेतन"
                   }
                 },
                 {
-                  "value": "Saturation of works",
+                  "value": "Saturation_works",
                   "text": {
                     "default": "Saturation of works",
                     "hi": "कार्यों की संतृप्ति"
                   }
                 },
                 {
-                  "value": "Other",
+                  "value": "other",
                   "text": {
                     "default": "Other",
                     "hi": "अन्य"
@@ -749,7 +749,8 @@
           "title": {
             "default": "Current location of the user",
             "hi": "उपयोगकर्ता का वर्तमान स्थान"
-          }
+          },
+          "readOnly": true
         }
       ]
     }

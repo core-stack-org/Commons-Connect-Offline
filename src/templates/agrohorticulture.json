@@ -122,14 +122,14 @@
           "isRequired": true,
           "choices": [
             {
-              "value": "Male",
+              "value": "male",
               "text": {
                 "default": "Male",
                 "hi": "पुरुष"
               }
             },
             {
-              "value": "Female",
+              "value": "female",
               "text": {
                 "default": "Female",
                 "hi": "महिला"

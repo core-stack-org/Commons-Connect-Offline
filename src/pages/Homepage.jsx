@@ -68,31 +68,27 @@ const Homepage = () => {
     'bg-[#D6D5C9] text-[#592941] hover:bg-[#cac8bb] transition-colors';
 
     const handleSelect = (section) => {
-      if(!MainStore.currentPlan){
-        toast.error(t('select_plan'));
-        return
+      if (!MainStore.currentPlan) {
+        toast.error(t("select_plan"));
+        return;
       }
       setIsPlanningOpen(false);
-      
-      if(section === "Water balance"){
-        MainStore.setCurrentScreen('Groundwater');
-        navigate('/groundwater');
-      }
-      else if(section === "Surface Waterbodies"){
-        MainStore.setCurrentScreen('SurfaceWater');
-        navigate('/surfaceWater');
-      }
-      else if(section === "Agriculture"){
-        MainStore.setCurrentScreen('Agriculture');
-        navigate('/agriculture');
-      }
-      else if(section === "Livelihood"){
-        MainStore.setCurrentScreen('Livelihood');
-        navigate('/livelihood');
-      }
-      else if(section === "Agrohorticulture"){
-        MainStore.setCurrentScreen('Agrohorticulture');
-        navigate('/agrohoticulture');
+
+      if (section === "Water Balance") {
+        MainStore.setCurrentScreen("Groundwater");
+        navigate("/groundwater");
+      } else if (section === "Surface Waterbodies") {
+        MainStore.setCurrentScreen("SurfaceWater");
+        navigate("/surfaceWater");
+      } else if (section === "Agriculture") {
+        MainStore.setCurrentScreen("Agriculture");
+        navigate("/agriculture");
+      } else if (section === "Livelihood") {
+        MainStore.setCurrentScreen("Livelihood");
+        navigate("/livelihood");
+      } else if (section === "Agrohorticulture") {
+        MainStore.setCurrentScreen("Agrohorticulture");
+        navigate("/agrohoticulture");
       }
     };
 
@@ -257,7 +253,7 @@ const Homepage = () => {
                     shadow-lg
                   "
                 >
-                  {['Water Balance', 'Surface Waterbodies', 'Agriculture', 'Livelihood', 'Agrohorticulture'].map(
+                  {["Water Balance", 'Surface Waterbodies', 'Agriculture', 'Livelihood', 'Agrohorticulture'].map(
                     (item) => (
                       <button
                         key={item}

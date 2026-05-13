@@ -25,7 +25,7 @@
         },
         {
           "type": "panel",
-          "name": "panel1",
+          "name": "Livestock",
           "title": {
             "default": "Livestock",
             "hi": "पशु"
@@ -240,7 +240,7 @@
             },
             {
               "type": "text",
-              "name": "question1",
+              "name": "Livestock-departments_converged_other",
               "visibleIf": "{Livestock-departments_converged} anyof ['other']",
               "title": {
                 "default": "Specify other.",
@@ -401,28 +401,28 @@
               "isRequired": true,
               "choices": [
                 {
-                  "value": "Item 1",
+                  "value": "Seeds",
                   "text": {
                     "default": "Seeds",
                     "hi": "बीज"
                   }
                 },
                 {
-                  "value": "Item 2",
+                  "value": "Saplings",
                   "text": {
                     "default": "Saplings",
                     "hi": "पौधे"
                   }
                 },
                 {
-                  "value": "Item 3",
+                  "value": "organic_inputs",
                   "text": {
                     "default": "Compost/organic inputs",
                     "hi": "खाद/जैविक इनपुट"
                   }
                 },
                 {
-                  "value": "Item 4",
+                  "value": "other",
                   "text": {
                     "default": "Other",
                     "hi": "अन्य"
@@ -433,7 +433,7 @@
             {
               "type": "text",
               "name": "kitchen_gardens-support_apart_labour_other",
-              "visibleIf": "{kitchen_gardens-support_apart_labour} anyof ['Item 4']",
+              "visibleIf": "{kitchen_gardens-support_apart_labour} anyof ['other']",
               "title": {
                 "default": "Specify other.",
                 "hi": "अन्य निर्दिष्ट करें."
@@ -441,7 +441,7 @@
             },
             {
               "type": "checkbox",
-              "name": "kitchen_gardens-departments_convered_kg",
+              "name": "kitchen_gardens-departments_converged_kg",
               "visibleIf": "{kitchen_gardens-demand_type_kitchen_garden} = 'Community_demand' or {kitchen_gardens-demand_type_kitchen_garden} = 'Individual_demand' or {kitchen_gardens-demand_type_kitchen_garden} = 'Cluster_demand'",
               "title": {
                 "default": "Which departments / schemes may be converged with?",
@@ -495,8 +495,8 @@
             },
             {
               "type": "text",
-              "name": "kitchen_gardens-departments_convered_kg_other",
-              "visibleIf": "{kitchen_gardens-departments_convered_kg} anyof ['other']",
+              "name": "kitchen_gardens-departments_converged_kg_other",
+              "visibleIf": "{kitchen_gardens-departments_converged_kg} anyof ['other']",
               "title": {
                 "default": "Specify other.",
                 "hi": "अन्य निर्दिष्ट करें."
@@ -652,7 +652,7 @@
             },
             {
               "type": "checkbox",
-              "name": "fisheries-departments_convered_fisheries",
+              "name": "fisheries-departments_converged_fisheries",
               "visibleIf": "{fisheries-demand_type_fisheries} = 'Community_demand' or {fisheries-demand_type_fisheries} = 'Individual_demand'",
               "title": {
                 "default": "Which departments / schemes may be converged with?",
@@ -692,8 +692,8 @@
             },
             {
               "type": "text",
-              "name": "fisheries-departments_convered_fisheries_other",
-              "visibleIf": "{fisheries-departments_convered_fisheries} anyof ['other']",
+              "name": "fisheries-departments_converged_fisheries_other",
+              "visibleIf": "{fisheries-departments_converged_fisheries} anyof ['other']",
               "title": {
                 "default": "Specify other.",
                 "hi": "अन्य निर्दिष्ट"

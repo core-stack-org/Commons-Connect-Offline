@@ -410,7 +410,7 @@
           "elements": [
             {
               "type": "radiogroup",
-              "name": "water_used",
+              "name": "Well_usage-Is_water_from_well_used",
               "title": {
                 "default": "Is the water from the well used?",
                 "hi": "क्या कुएं का पानी इस्तेमाल किया जाता है?"
@@ -435,8 +435,8 @@
             },
             {
               "type": "radiogroup",
-              "name": "select_one_well_used",
-              "visibleIf": "{water_used} = 'Yes'",
+              "name": "Well_usage-select_one_well_used",
+              "visibleIf": "{Well_usage-Is_water_from_well_used} = 'Yes'",
               "title": {
                 "default": "Well used for",
                 "hi": "कुएं का प्रयोग किस लिए किया जाता है ?"
@@ -476,7 +476,7 @@
             {
               "type": "text",
               "name": "Well_usage-select_one_well_used_other",
-              "visibleIf": "{select_one_well_used} = 'other'",
+              "visibleIf": "{Well_usage-select_one_well_used} = 'other'",
               "title": {
                 "default": "Specify Other",
                 "hi": "अन्य निर्दिष"
@@ -484,9 +484,9 @@
             },
             {
               "type": "radiogroup",
-              "name": "is_maintenance_required",
+              "name": "Well_usage-is_maintenance_required",
               "title": {
-                "default": "Does the well required maintenance?",
+                "default": "Does the well require maintenance?",
                 "hi": "क्या कुएं के देखभाल की जरुरत है?"
               },
               "isRequired": true,
@@ -510,7 +510,7 @@
             {
               "type": "checkbox",
               "name": "Well_usage-repairs_type",
-              "visibleIf": "{is_maintenance_required} = 'Yes'",
+              "visibleIf": "{Well_usage-is_maintenance_required} = 'Yes'",
               "title": {
                 "default": "Type of repairs needed in the well",
                 "hi": "कुंआ मरम्मत के प्रकार"
@@ -711,7 +711,7 @@
             },
             {
               "type": "radiogroup",
-              "name": "question3",
+              "name": "Well_usage-select_one_pollutants_groundwater",
               "title": {
                 "default": "Are there any noticeable pollutants or contamination in the groundwater?",
                 "hi": "क्या भूजल में गंदगी या मैलेपन पर आपका ध्यान गया है ? "

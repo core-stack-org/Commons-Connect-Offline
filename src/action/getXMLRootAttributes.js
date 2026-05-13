@@ -46,6 +46,9 @@ export const propose_livelihood = `
         version="2.0.5">
   </data>`;
 
+export const agrohorticulture = `
+  <data xmlns:jr="http://openrosa.org/javarosa" xmlns:orx="http://openrosa.org/xforms" id="Agrohorticulture" version="1.0.4">
+  </data>`;
 
 export const propose_maintainence_recharge_structure = `
   <data xmlns:jr="http://openrosa.org/javarosa"
