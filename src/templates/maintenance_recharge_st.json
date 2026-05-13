@@ -310,7 +310,7 @@
         {
           "type": "text",
           "name": "select_one_check_dam_other",
-          "visibleIf": "{select_one_check_dam} anyof ['other']",
+          "visibleIf": "{select_one_check_dam} anyof ['other'] and {select_one_recharge_structure} = 'Check dam'",
           "title": {
             "default": "Specify other",
             "hi": "अन्य निर्दिष्ट करें"
@@ -319,7 +319,7 @@
         {
           "type": "radiogroup",
           "name": "select_one_soil_cd",
-          "visibleIf": "{select_one_check_dam} anyof ['De_sitling']",
+          "visibleIf": "{select_one_check_dam} anyof ['De_sitling'] and {select_one_recharge_structure} = 'Check dam'",
           "title": {
             "default": "Type of Soil",
             "hi": "मिट्टी का प्रकार"
@@ -380,7 +380,7 @@
         {
           "type": "radiogroup",
           "name": "Select_one_silt_cd",
-          "visibleIf": "{select_one_check_dam} anyof ['De_sitling']",
+          "visibleIf": "{select_one_check_dam} anyof ['De_sitling'] and {select_one_recharge_structure} = 'Check dam'",
           "title": {
             "default": "Amount of Silt\n",
             "hi": "गाद का ढेर"
@@ -466,7 +466,7 @@
         {
           "type": "text",
           "name": "select_one_percolation_tank_other",
-          "visibleIf": "{select_one_percolation_tank} anyof ['other']",
+          "visibleIf": "{select_one_percolation_tank} anyof ['other'] and {select_one_recharge_structure} = 'Percolation tank'",
           "title": {
             "default": "Specify other",
             "hi": "अन्य निर्दिष्ट करें"
@@ -475,7 +475,7 @@
         {
           "type": "radiogroup",
           "name": "select_one_soil_pt",
-          "visibleIf": "{select_one_percolation_tank} anyof ['De_sitling']",
+          "visibleIf": "{select_one_percolation_tank} anyof ['De_sitling'] and {select_one_recharge_structure} = 'Percolation tank'",
           "title": {
             "default": "Type of Soil",
             "hi": "मिट्टी का प्रकार"
@@ -536,7 +536,7 @@
         {
           "type": "radiogroup",
           "name": "Select_one_silt_pt",
-          "visibleIf": "{select_one_percolation_tank} anyof ['De_sitling']",
+          "visibleIf": "{select_one_percolation_tank} anyof ['De_sitling'] and {select_one_recharge_structure} = 'Percolation tank'",
           "title": {
             "default": "Amount of Silt\n",
             "hi": "गाद का ढेर"
@@ -615,7 +615,7 @@
         {
           "type": "text",
           "name": "select_one_earthen_gully_plug_other",
-          "visibleIf": "{select_one_earthen_gully_plug} anyof ['other']",
+          "visibleIf": "{select_one_earthen_gully_plug} anyof ['other'] and {select_one_recharge_structure} = 'Earthen gully plug'",
           "title": {
             "default": "Specify other",
             "hi": "अन्य निर्दिष्ट करें"
@@ -670,7 +670,7 @@
         {
           "type": "text",
           "name": "select_one_drainage_soakage_channels_other",
-          "visibleIf": "{select_one_drainage_soakage_channels} anyof ['other']",
+          "visibleIf": "{select_one_drainage_soakage_channels} anyof ['other'] and {select_one_recharge_structure} = 'Drainage/soakage channels'",
           "title": {
             "default": "Specify other",
             "hi": "अन्य निर्दिष्ट करें"
@@ -725,7 +725,7 @@
         {
           "type": "text",
           "name": "select_one_recharge_pits_other",
-          "visibleIf": "{select_one_recharge_pits} anyof ['other']",
+          "visibleIf": "{select_one_recharge_pits} anyof ['other'] and {select_one_recharge_structure} = 'Recharge pits'",
           "title": {
             "default": "Specify other",
             "hi": "अन्य, कृपया स्पष्ट करें"
@@ -734,7 +734,7 @@
         {
           "type": "radiogroup",
           "name": "select_one_soil_rp",
-          "visibleIf": "{select_one_recharge_pits} anyof ['De_sitling']",
+          "visibleIf": "{select_one_recharge_pits} anyof ['De_sitling'] and {select_one_recharge_structure} = 'Recharge pits'",
           "title": {
             "default": "Type of Soil",
             "hi": "मिट्टी का प्रकार"
@@ -795,7 +795,7 @@
         {
           "type": "radiogroup",
           "name": "Select_one_silt_rp",
-          "visibleIf": "{select_one_recharge_pits} anyof ['De_sitling']",
+          "visibleIf": "{select_one_recharge_pits} anyof ['De_sitling'] and {select_one_recharge_structure} = 'Recharge pits'",
           "title": {
             "default": "Amount of Silt\n",
             "hi": "गाद का ढेर"
@@ -874,7 +874,7 @@
         {
           "type": "text",
           "name": "select_one_sokage_pits_other",
-          "visibleIf": "{select_one_sokage_pits} anyof ['other']",
+          "visibleIf": "{select_one_sokage_pits} anyof ['other'] and {select_one_recharge_structure} = 'Sokage pits'",
           "title": {
             "default": "Specify other",
             "hi": "अन्य निर्दिष्ट करें"
@@ -883,7 +883,7 @@
         {
           "type": "radiogroup",
           "name": "select_one_soil_sp",
-          "visibleIf": "{select_one_sokage_pits} anyof ['De_sitling']",
+          "visibleIf": "{select_one_sokage_pits} anyof ['De_sitling'] and {select_one_recharge_structure} = 'Sokage pits'",
           "title": {
             "default": "Type of Soil",
             "hi": "मिट्टी का प्रकार"
@@ -944,7 +944,7 @@
         {
           "type": "radiogroup",
           "name": "Select_one_silt_sp",
-          "visibleIf": "{select_one_sokage_pits} anyof ['De_sitling']",
+          "visibleIf": "{select_one_sokage_pits} anyof ['De_sitling'] and {select_one_recharge_structure} = 'Sokage pits'",
           "title": {
             "default": "Amount of Silt\n",
             "hi": "गाद का ढेर"
@@ -1016,7 +1016,7 @@
         {
           "type": "text",
           "name": "select_one_trench_cum_bund_network_other",
-          "visibleIf": "{select_one_trench_cum_bund_network} anyof ['other']",
+          "visibleIf": "{select_one_trench_cum_bund_network} anyof ['other'] and {select_one_recharge_structure} = 'Trench cum bund network'",
           "title": {
             "default": "Specify other",
             "hi": "अन्य निर्दिष्ट करें"
@@ -1025,7 +1025,7 @@
         {
           "type": "radiogroup",
           "name": "select_one_soil_trench",
-          "visibleIf": "{select_one_trench_cum_bund_network} anyof ['De_sitling']",
+          "visibleIf": "{select_one_trench_cum_bund_network} anyof ['De_sitling'] and {select_one_recharge_structure} = 'Trench cum bund network'",
           "title": {
             "default": "Type of Soil",
             "hi": "मिट्टी का प्रकार"
@@ -1086,7 +1086,7 @@
         {
           "type": "radiogroup",
           "name": "Select_one_silt_trench",
-          "visibleIf": "{select_one_trench_cum_bund_network} anyof ['De_sitling']",
+          "visibleIf": "{select_one_trench_cum_bund_network} anyof ['De_sitling'] and {select_one_recharge_structure} = 'Trench cum bund network'",
           "title": {
             "default": "Amount of Silt\n",
             "hi": "गाद का ढेर"
@@ -1158,7 +1158,7 @@
         {
           "type": "text",
           "name": "select_one_continuous_contour_trenches_other",
-          "visibleIf": "{select_one_continuous_contour_trenches} anyof ['other']",
+          "visibleIf": "{select_one_continuous_contour_trenches} anyof ['other'] and {select_one_recharge_structure} = 'Continuous contour trenches (CCT)'",
           "title": {
             "default": "Specify other",
             "hi": "अन्य निर्दिष्ट करें"
@@ -1167,7 +1167,7 @@
         {
           "type": "radiogroup",
           "name": "select_one_soil_cct",
-          "visibleIf": "{select_one_continuous_contour_trenches} anyof ['De_sitling']",
+          "visibleIf": "{select_one_continuous_contour_trenches} anyof ['De_sitling'] and {select_one_recharge_structure} = 'Continuous contour trenches (CCT)'",
           "title": {
             "default": "Type of Soil",
             "hi": "मिट्टी का प्रकार"
@@ -1228,7 +1228,7 @@
         {
           "type": "radiogroup",
           "name": "Select_one_silt_cct",
-          "visibleIf": "{select_one_continuous_contour_trenches} anyof ['De_sitling']",
+          "visibleIf": "{select_one_continuous_contour_trenches} anyof ['De_sitling'] and {select_one_recharge_structure} = 'Continuous contour trenches (CCT)'",
           "title": {
             "default": "Amount of Silt\n",
             "hi": "गाद का ढेर"
@@ -1300,7 +1300,7 @@
         {
           "type": "text",
           "name": "select_one_staggered_contour_trenches_other",
-          "visibleIf": "{select_one_staggered_contour_trenches} anyof ['other']",
+          "visibleIf": "{select_one_staggered_contour_trenches} anyof ['other'] and {select_one_recharge_structure} = 'Staggered Contour trenches(SCT)'",
           "title": {
             "default": "Specify other",
             "hi": "अन्य निर्दिष्ट करें"
@@ -1309,7 +1309,7 @@
         {
           "type": "radiogroup",
           "name": "select_one_soil_sct",
-          "visibleIf": "{select_one_staggered_contour_trenches} anyof ['De_sitling']",
+          "visibleIf": "{select_one_staggered_contour_trenches} anyof ['De_sitling'] and {select_one_recharge_structure} = 'Staggered Contour trenches(SCT)'",
           "title": {
             "default": "Type of Soil",
             "hi": "मिट्टी का प्रकार"
@@ -1370,7 +1370,7 @@
         {
           "type": "radiogroup",
           "name": "Select_one_silt_sct",
-          "visibleIf": "{select_one_staggered_contour_trenches} anyof ['De_sitling']",
+          "visibleIf": "{select_one_staggered_contour_trenches} anyof ['De_sitling'] and {select_one_recharge_structure} = 'Staggered Contour trenches(SCT)'",
           "title": {
             "default": "Amount of Silt\n",
             "hi": "गाद का ढेर"
@@ -1442,7 +1442,7 @@
         {
           "type": "text",
           "name": "select_one_water_absorption_trenches_other",
-          "visibleIf": "{select_one_water_absorption_trenches} anyof ['other']",
+          "visibleIf": "{select_one_water_absorption_trenches} anyof ['other'] and {select_one_recharge_structure} = 'Water absorption trenches(WAT)'",
           "title": {
             "default": "Specify other",
             "hi": "अन्य निर्दिष्ट करें"
@@ -1451,7 +1451,7 @@
         {
           "type": "radiogroup",
           "name": "select_one_soil_wat",
-          "visibleIf": "{select_one_water_absorption_trenches} anyof ['De_sitling']",
+          "visibleIf": "{select_one_water_absorption_trenches} anyof ['De_sitling'] and {select_one_recharge_structure} = 'Water absorption trenches(WAT)'",
           "title": {
             "default": "Type of Soil",
             "hi": "मिट्टी का प्रकार"
@@ -1512,7 +1512,7 @@
         {
           "type": "radiogroup",
           "name": "Select_one_silt_wat",
-          "visibleIf": "{select_one_water_absorption_trenches} anyof ['De_sitling']",
+          "visibleIf": "{select_one_water_absorption_trenches} anyof ['De_sitling'] and {select_one_recharge_structure} = 'Water absorption trenches(WAT)'",
           "title": {
             "default": "Amount of Silt\n",
             "hi": "गाद का ढेर"
@@ -1584,7 +1584,7 @@
         {
           "type": "text",
           "name": "select_one_loose_boulder_structure_other",
-          "visibleIf": "{select_one_loose_boulder_structure} anyof ['other']",
+          "visibleIf": "{select_one_loose_boulder_structure} anyof ['other'] and {select_one_recharge_structure} = 'Loose boulder structure'",
           "title": {
             "default": "Specify other",
             "hi": "अन्य निर्दिष्ट करें"
@@ -1633,7 +1633,7 @@
         {
           "type": "text",
           "name": "select_one_rock_fill_dam_other",
-          "visibleIf": "{select_one_rock_fill_dam} anyof ['other']",
+          "visibleIf": "{select_one_rock_fill_dam} anyof ['other'] and {select_one_recharge_structure} = 'Rock fill dam'",
           "title": {
             "default": "Specify other",
             "hi": "अन्य निर्दिष्ट करें"
@@ -1643,7 +1643,7 @@
         {
           "type": "radiogroup",
           "name": "select_one_soil_rfd",
-          "visibleIf": "{select_one_rock_fill_dam} anyof ['De_sitling']",
+          "visibleIf": "{select_one_rock_fill_dam} anyof ['De_sitling'] and {select_one_recharge_structure} = 'Rock fill dam'",
           "title": {
             "default": "Type of Soil",
             "hi": "मिट्टी का प्रकार"
@@ -1704,7 +1704,7 @@
         {
           "type": "radiogroup",
           "name": "Select_one_silt_rfd",
-          "visibleIf": "{select_one_rock_fill_dam} anyof ['De_sitling']",
+          "visibleIf": "{select_one_rock_fill_dam} anyof ['De_sitling'] and {select_one_recharge_structure} = 'Rock fill dam'",
           "title": {
             "default": "Amount of Silt\n",
             "hi": "गाद का ढेर"
@@ -1776,7 +1776,7 @@
         {
           "type": "text",
           "name": "select_one_stone_bunding_other",
-          "visibleIf": "{select_one_stone_bunding} anyof ['other']",
+          "visibleIf": "{select_one_stone_bunding} anyof ['other'] and {select_one_recharge_structure} = 'Stone bunding'",
           "title": {
             "default": "Specify other",
             "hi": "अन्य निर्दिष्ट करें"
@@ -1785,7 +1785,7 @@
         {
           "type": "radiogroup",
           "name": "select_one_soil_sb",
-          "visibleIf": "{select_one_stone_bunding} anyof ['De_sitling']",
+          "visibleIf": "{select_one_stone_bunding} anyof ['De_sitling'] and {select_one_recharge_structure} = 'Stone bunding'",
           "title": {
             "default": "Type of Soil",
             "hi": "मिट्टी का प्रकार"
@@ -1846,7 +1846,7 @@
         {
           "type": "radiogroup",
           "name": "Select_one_silt_sb",
-          "visibleIf": "{select_one_stone_bunding} anyof ['De_sitling']",
+          "visibleIf": "{select_one_stone_bunding} anyof ['De_sitling'] and {select_one_recharge_structure} = 'Stone bunding'",
           "title": {
             "default": "Amount of Silt\n",
             "hi": "गाद का ढेर"
@@ -1918,7 +1918,7 @@
         {
           "type": "text",
           "name": "select_one_diversion_drains_other",
-          "visibleIf": "{select_one_diversion_drains} anyof ['other']",
+          "visibleIf": "{select_one_diversion_drains} anyof ['other'] and {select_one_recharge_structure} = 'Diversion drains'",
           "title": {
             "default": "Specify other",
             "hi": "अन्य निर्दिष्ट करें"
@@ -1927,7 +1927,7 @@
         {
           "type": "radiogroup",
           "name": "select_one_soil_dd",
-          "visibleIf": "{select_one_diversion_drains} anyof ['De_sitling']",
+          "visibleIf": "{select_one_diversion_drains} anyof ['De_sitling'] and {select_one_recharge_structure} = 'Diversion drains'",
           "title": {
             "default": "Type of Soil",
             "hi": "मिट्टी का प्रकार"
@@ -1988,7 +1988,7 @@
         {
           "type": "radiogroup",
           "name": "Select_one_silt_dd",
-          "visibleIf": "{select_one_diversion_drains} anyof ['De_sitling']",
+          "visibleIf": "{select_one_diversion_drains} anyof ['De_sitling'] and {select_one_recharge_structure} = 'Diversion drains'",
           "title": {
             "default": "Amount of Silt\n",
             "hi": "गाद का ढेर"
@@ -2081,7 +2081,7 @@
         {
           "type": "text",
           "name": "select_one_bunding_other",
-          "visibleIf": "{select_one_bunding} anyof ['other']",
+          "visibleIf": "{select_one_bunding} anyof ['other'] and {select_one_recharge_structure} = 'Bunding:Contour bunds/ graded bunds'",
           "title": {
             "default": "Specify other",
             "hi": "अन्य निर्दिष्ट करें"
@@ -2090,7 +2090,7 @@
         {
           "type": "radiogroup",
           "name": "select_one_soil_bunding",
-          "visibleIf": "{select_one_bunding} anyof ['De_sitling']",
+          "visibleIf": "{select_one_bunding} anyof ['De_sitling'] and {select_one_recharge_structure} = 'Bunding:Contour bunds/ graded bunds'",
           "title": {
             "default": "Type of Soil",
             "hi": "मिट्टी का प्रकार"
@@ -2151,7 +2151,7 @@
         {
           "type": "radiogroup",
           "name": "Select_one_silt_bunding",
-          "visibleIf": "{select_one_bunding} anyof ['De_sitling']",
+          "visibleIf": "{select_one_bunding} anyof ['De_sitling'] and {select_one_recharge_structure} = 'Bunding:Contour bunds/ graded bunds'",
           "title": {
             "default": "Amount of Silt\n",
             "hi": "गाद का ढेर"
@@ -2223,7 +2223,7 @@
         {
           "type": "text",
           "name": "select_one_model5_structure_other",
-          "visibleIf": "{select_one_model5_structure} anyof ['other']",
+          "visibleIf": "{select_one_model5_structure} anyof ['other'] and {select_one_recharge_structure} = '5% model structure'",
           "title": {
             "default": "Specify other",
             "hi": "अन्य निर्दिष्ट करें"
@@ -2232,7 +2232,7 @@
         {
           "type": "radiogroup",
           "name": "select_one_soil_model5",
-          "visibleIf": "{select_one_model5_structure} anyof ['De_sitling']",
+          "visibleIf": "{select_one_model5_structure} anyof ['De_sitling'] and {select_one_recharge_structure} = '5% model structure'",
           "title": {
             "default": "Type of Soil",
             "hi": "मिट्टी का प्रकार"
@@ -2293,7 +2293,7 @@
         {
           "type": "radiogroup",
           "name": "Select_one_silt_model5",
-          "visibleIf": "{select_one_model5_structure} anyof ['De_sitling']",
+          "visibleIf": "{select_one_model5_structure} anyof ['De_sitling'] and {select_one_recharge_structure} = '5% model structure'",
           "title": {
             "default": "Amount of Silt\n",
             "hi": "गाद का ढेर"
@@ -2365,7 +2365,7 @@
         {
           "type": "text",
           "name": "select_one_model30_40_structure_other",
-          "visibleIf": "{select_one_model30_40_structure} anyof ['other']",
+          "visibleIf": "{select_one_model30_40_structure} anyof ['other'] and {select_one_recharge_structure} = '30-40 model structure'",
           "title": {
             "default": "Specify other",
             "hi": "अन्य निर्दिष्ट करें"
@@ -2374,7 +2374,7 @@
         {
           "type": "radiogroup",
           "name": "select_one_soil_model30",
-          "visibleIf": "{select_one_model30_40_structure} anyof ['De_sitling']",
+          "visibleIf": "{select_one_model30_40_structure} anyof ['De_sitling'] and {select_one_recharge_structure} = '30-40 model structure'",
           "title": {
             "default": "Type of Soil",
             "hi": "मिट्टी का प्रकार"
@@ -2435,7 +2435,7 @@
         {
           "type": "radiogroup",
           "name": "Select_one_silt_mode30",
-          "visibleIf": "{select_one_model30_40_structure} anyof ['De_sitling']",
+          "visibleIf": "{select_one_model30_40_structure} anyof ['De_sitling'] and {select_one_recharge_structure} = '30-40 model structure'",
           "title": {
             "default": "Amount of Silt\n",
             "hi": "गाद का ढेर"

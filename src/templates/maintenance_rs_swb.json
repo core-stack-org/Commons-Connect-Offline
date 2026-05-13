@@ -247,15 +247,6 @@
           ]
         },
         {
-          "type": "text",
-          "name": "select_one_farm_pond_other",
-          "visibleIf": "{select_one_farm_pond} anyof ['other']",
-          "title": {
-            "default": "Specify other",
-            "hi": "अन्य निर्दिष्ट करें"
-          }
-        },
-        {
           "type": "radiogroup",
           "name": "select_one_soil_fp",
           "visibleIf": "{select_one_farm_pond} anyof ['De_sitling'] and {TYPE_OF_WORK} = 'Farm pond'",

@@ -103,7 +103,7 @@
         },
         {
           "type": "text",
-          "name": "question2",
+          "name": "beneficiary_name",
           "visibleIf": "{demand_type_plantations} = 'Individual_demand'",
           "title": {
             "default": "Beneficiary's Name",

@@ -3586,14 +3586,14 @@
           },
           "choices": [
             {
-              "value": "Yes_visible_on_map",
+              "value": "Yes_visible",
               "text": {
                 "default": "Yes, visible on map",
                 "hi": "हाँ, मानचित्र पर दिखाई दे रहा है"
               }
             },
             {
-              "value": "No_I_am_marking_it_myself",
+              "value": "No_making_it",
               "text": {
                 "default": "No, I am marking it myself",
                 "hi": "नहीं, मैं इसे स्वयं चिह्नित कर रहा हूँ"

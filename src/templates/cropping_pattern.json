@@ -513,7 +513,7 @@
         },
         {
           "type": "checkbox",
-          "name": "select_one_reason_degradation",
+          "name": "select_one_reason_degradation_1",
           "visibleIf": "{soil_degraded} = 'Yes'",
           "title": {
             "default": "If degraded, what are the reasons for degradation?",

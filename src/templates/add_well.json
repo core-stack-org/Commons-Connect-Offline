@@ -518,42 +518,42 @@
               "isRequired": true,
               "choices": [
                 {
-                  "value": "Desilting",
+                  "value": "De_sitling",
                   "text": {
                     "default": "Desilting",
                     "hi": "डी सिटलिंग"
                   }
                 },
                 {
-                  "value": "Repairing cracks or damage to well walls",
+                  "value": "Repairing_cracks_or_damage_to_well_walls",
                   "text": {
                     "default": "Repairing cracks or damage to well walls",
                     "hi": "कुएं की दीवारों में दरारें या नुकसान की मरम्मत,"
                   }
                 },
                 {
-                  "value": "Deepening the well to enhance water availability",
+                  "value": "Deepening_the_well_to_enhance_water_availability",
                   "text": {
                     "default": "Deepening the well to enhance water availability",
                     "hi": "पानी की उपलब्धता बढ़ाने के लिए कुएं को गहरा करना"
                   }
                 },
                 {
-                  "value": "Repair or replacement of well cover or structure",
+                  "value": "Repair_or_replacement_of_well_cover_or_structure",
                   "text": {
                     "default": "Repair or replacement of well cover or structure",
                     "hi": "कुएं के कवर या स्ट्रक्चर की मरम्मत या बदलना"
                   }
                 },
                 {
-                  "value": "Installing or repairing pumping mechanisms",
+                  "value": "Installing_or_repairing_pumping_mechanisms",
                   "text": {
                     "default": "Installing or repairing pumping mechanisms",
                     "hi": "पंपिंग मैकेनिज्म लगाना या मरम्मत करना"
                   }
                 },
                 {
-                  "value": "Other",
+                  "value": "other",
                   "text": {
                     "default": "Other",
                     "hi": "अन्य"
@@ -564,7 +564,7 @@
             {
               "type": "radiogroup",
               "name": "Well_usage-select_one_soil",
-              "visibleIf": "{Well_usage-repairs_type} anyof ['Desilting']",
+              "visibleIf": "{Well_usage-repairs_type} anyof ['De_sitling']",
               "title": {
                 "default": "Type of Soil",
                 "hi": "मिट्टी का प्रकार"
@@ -625,7 +625,7 @@
             {
               "type": "radiogroup",
               "name": "Well_usage-Select_one_silt",
-              "visibleIf": "{Well_usage-repairs_type} anyof ['Desilting']",
+              "visibleIf": "{Well_usage-repairs_type} anyof ['De_sitling']",
               "title": {
                 "default": "Amount of silt",
                 "hi": "गाद का ढेर"
@@ -673,14 +673,14 @@
               },
               "choices": [
                 {
-                  "value": "Significant deterioration",
+                  "value": "Significant deterioration (e.g., murky, bad taste, discoloration)",
                   "text": {
                     "default": "Significant deterioration (e.g., murky, bad taste, discoloration)",
                     "hi": "बहुत गंदा (जैसे, धुंधलापन, खराब स्वाद, रंग उड़ना)"
                   }
                 },
                 {
-                  "value": "Minor deterioration",
+                  "value": "Minor deterioration (e.g., slight change in clarity or taste)",
                   "text": {
                     "default": "Minor deterioration (e.g., slight change in clarity or taste)",
                     "hi": "मामूली गंदा (जैसे, स्पष्टता या स्वाद में मामूली परिवर्तन)"
@@ -694,14 +694,14 @@
                   }
                 },
                 {
-                  "value": "Minor improvement",
+                  "value": "Minor improvement (e.g., clearer water, better taste)",
                   "text": {
                     "default": "Minor improvement (e.g., clearer water, better taste)",
                     "hi": "मामूली सुधार (जैसे, साफ पानी, कड़वा स्वाद)"
                   }
                 },
                 {
-                  "value": "Significant improvement",
+                  "value": "Significant improvement (e.g., clear water, restored natural color and taste)",
                   "text": {
                     "default": "Significant improvement (e.g., clear water, restored natural color and taste)",
                     "hi": "बहुत सुधार (जैसे, साफ़ पानी, प्राकृतिक रंग और स्वाद )"
@@ -718,35 +718,35 @@
               },
               "choices": [
                 {
-                  "value": "Visible pollutants",
+                  "value": "Yes, visible pollutants (e.g., oil slick)",
                   "text": {
                     "default": "Yes, visible pollutants (e.g., oil slick)",
                     "hi": "हाँ, ध्यान देने लायक गंदगी (जैसे, तेल की परत)"
                   }
                 },
                 {
-                  "value": "Chemical contamination",
+                  "value": "Yes, chemical contamination (e.g., unpleasant odor, unusual color)",
                   "text": {
                     "default": "Yes, chemical contamination (e.g., unpleasant odor, unusual color)",
                     "hi": "हां, रासायनिक गंदगी (जैसे, गंध, असामान्य रंग)"
                   }
                 },
                 {
-                  "value": "Agricultural runoff",
+                  "value": "Yes, agricultural runoff (e.g., fertilizers, pesticides)",
                   "text": {
                     "default": "Yes, agricultural runoff (e.g., fertilizers, pesticides)",
                     "hi": "हाँ, कृषि अपवाह (जैसे, उर्वरक, कीटनाशक)"
                   }
                 },
                 {
-                  "value": "No pollutants",
+                  "value": "No, no noticeable pollutants or contamination",
                   "text": {
                     "default": "No, no noticeable pollutants or contamination",
                     "hi": "नहीं, कोई गंदगी या मैलापन नहीं है"
                   }
                 },
                 {
-                  "value": "Unsure",
+                  "value": "Unsure/Not sure",
                   "text": {
                     "default": "Unsure / Not sure",
                     "hi": "अनिश्चित/निश्चित नहीं"
