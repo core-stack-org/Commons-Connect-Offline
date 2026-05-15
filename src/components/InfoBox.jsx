@@ -47,9 +47,6 @@ const InfoBox = () => {
 
   const [selectedItems, setSelectedItems] = useState([]);
   const [isSyncing, setIsSyncing] = useState(false);
-  const [syncProgress, setSyncProgress] = useState(0);
-  const [syncSuccess, setSyncSuccess] = useState(false);
-  const [syncError, setSyncError] = useState('');
 
   const [selectedFormType, setSelectedFormType] = useState('');
 
@@ -68,7 +65,7 @@ const InfoBox = () => {
     "maintainSWB" : "Maintainence SurfaceWaterbodies",
     "maintainWB" : "Maintainence Waterbodies",
     "maintainGW" : "Maintainence Recharge",
-    "Maintain" : "Maintainence Irrigation"
+    "maintainAG" : "Maintainence Irrigation"
   }
 
   const getCardTitle = (item, type) => {
@@ -133,26 +130,97 @@ const InfoBox = () => {
     });
   };
 
-  const handleSyncData = () => {
-    let tempFormData = formData
-    let tempSyncItems = selectedItems
-
-    selectedItems.forEach((item) =>{
-      if(item === "settlement"){
-
+  const syncFormItem = async (formType, item, index, totalItems) => {
+      try {
         let xmlString = new XMLSerializer();
+        let xmlParser = new DOMParser();
+        let xmlroot, xmlDoc, endpoint;
 
-        let remainingData = []
+        // Select appropriate XML template and endpoint based on form type
+        switch (formType) {
+          case "settlement":
+            xmlroot = xmlParser.parseFromString(add_Settlement_Form, "text/xml");
+            xmlDoc = xmlroot.documentElement;
+            endpoint = `${import.meta.env.VITE_API_URL}sync_offline_data/resource/settlement/`;
+            break;
+          case "well":
+            xmlroot = xmlParser.parseFromString(add_Well_Form, "text/xml");
+            xmlDoc = xmlroot.documentElement;
+            endpoint = `${import.meta.env.VITE_API_URL}sync_offline_data/resource/well/`;
+            break;
+          case "waterstructure":
+            xmlroot = xmlParser.parseFromString(add_Water_Structures_Form, "text/xml");
+            xmlDoc = xmlroot.documentElement;
+            endpoint = `${import.meta.env.VITE_API_URL}sync_offline_data/resource/water_structures/`;
+            break;
+          case "cropping":
+            xmlroot = xmlParser.parseFromString(add_crop_info, "text/xml");
+            xmlDoc = xmlroot.documentElement;
+            endpoint = `${import.meta.env.VITE_API_URL}sync_offline_data/resource/cropping_pattern/`;
+            break;
+          case "recharge":
+            xmlroot = xmlParser.parseFromString(propose_recharge_structure, "text/xml");
+            xmlDoc = xmlroot.documentElement;
+            endpoint = `${import.meta.env.VITE_API_URL}sync_offline_data/work/recharge_st/`;
+            break;
+          case "irrigation":
+            xmlroot = xmlParser.parseFromString(propose_irrigation_structure, "text/xml");
+            xmlDoc = xmlroot.documentElement;
+            endpoint = `${import.meta.env.VITE_API_URL}sync_offline_data/work/irrigation_st/`;
+            break;
+          case "livelihood":
+            xmlroot = xmlParser.parseFromString(propose_livelihood, "text/xml");
+            xmlDoc = xmlroot.documentElement;
+            endpoint = `${import.meta.env.VITE_API_URL}sync_offline_data/work/livelihood/`;
+            break;
+          case "agrohorticulture":
+            xmlroot = xmlParser.parseFromString(agrohorticulture, "text/xml");
+            xmlDoc = xmlroot.documentElement;
+            endpoint = `${import.meta.env.VITE_API_URL}sync_offline_data/work/agrohorticulture/`;
+            break;
+          case "maintainSWB":
+            xmlroot = xmlParser.parseFromString(propose_maintainence_swb, "text/xml");
+            xmlDoc = xmlroot.documentElement;
+            endpoint = `${import.meta.env.VITE_API_URL}sync_offline_data/work/propose_maintenance_rs_swb/`;
+            break;
+          case "maintainGW":
+            xmlroot = xmlParser.parseFromString(propose_maintainence_recharge_structure, "text/xml");
+            xmlDoc = xmlroot.documentElement;
+            endpoint = `${import.meta.env.VITE_API_URL}sync_offline_data/work/propose_maintenance_recharge_st/`;
+            break;
+          case "maintainWB":
+            xmlroot = xmlParser.parseFromString(propose_maintainence_water_structure, "text/xml");
+            xmlDoc = xmlroot.documentElement;
+            endpoint = `${import.meta.env.VITE_API_URL}sync_offline_data/work/propose_maintenance_ws_swb/`;
+            break;
+          case "maintainAG":
+            xmlroot = xmlParser.parseFromString(propose_maintainence_irrigation_structure, "text/xml");
+            xmlDoc = xmlroot.documentElement;
+            endpoint = `${import.meta.env.VITE_API_URL}sync_offline_data/work/propose_maintenance_irrigation_st/`;
+            break;
+          case "feedbackSWB":
+            xmlroot = xmlParser.parseFromString(feedback_surface_waterbodies, "text/xml");
+            xmlDoc = xmlroot.documentElement;
+            endpoint = `${import.meta.env.VITE_API_URL}sync_offline_data/feedback/swb_feedback/`;
+            break;
+          case "feedbackGW":
+            xmlroot = xmlParser.parseFromString(feedback_groundwater, "text/xml");
+            xmlDoc = xmlroot.documentElement;
+            endpoint = `${import.meta.env.VITE_API_URL}sync_offline_data/feedback/gw_feedback/`;
+            break;
+          case "feedbackAgri":
+            xmlroot = xmlParser.parseFromString(feedback_agriculture, "text/xml");
+            xmlDoc = xmlroot.documentElement;
+            endpoint = `${import.meta.env.VITE_API_URL}sync_offline_data/feedback/agri_feedback/`;
+            break;
+          default:
+            return false;
+        }
 
-        formData["settlement"].map(async(item, idx) => {
-          
-          let xmlParser = new DOMParser();
-          let xmlroot = xmlParser.parseFromString(add_Settlement_Form, "text/xml");
-          let xmlDoc = xmlroot.documentElement;
+        let itemKeys = Object.keys(item);
 
-          let itemKeys = Object.keys(item)
-
-          // Create a parent element for MNREGA_INFORMATION if needed
+        // Handle form-specific XML generation
+        if (formType === "settlement") {
           let mnregaParent = xmlroot.createElement("MNREGA_INFORMATION");
           let hasMNREGAData = false;
 
@@ -211,53 +279,10 @@ const InfoBox = () => {
             }
           });
 
-          // Append MNREGA_INFORMATION parent only if it had children
           if (hasMNREGAData) {
             xmlDoc.appendChild(mnregaParent);
           }
-
-
-          let tempString = xmlString.serializeToString(xmlDoc);
-          
-          const response = await fetch(`${import.meta.env.VITE_API_URL}sync_offline_data/resource/settlement/`, {
-            method : "POST",
-            headers: {
-                'Content-Type': 'application/xml',
-            },
-            body: tempString
-          })
-
-          let result = await response.json()
-
-          if(result.sync_status){
-            toast.success("Your settlement submission synced successfully to ODK.");
-          }
-          else{
-            remainingData.push(item)
-          }
-          if(idx === formData["settlement"].length - 1){
-            tempFormData['settlement'] = remainingData
-            setFormData(tempFormData)
-            const arrayString = JSON.stringify(tempFormData);
-            localStorage.setItem(currentPlan.id, arrayString);
-          }
-        })
-
-        tempSyncItems = tempSyncItems.filter(item => item !== "settlement")
-      }
-      else if(item === "well"){
-        let xmlString = new XMLSerializer();
-        let remainingData = []
-
-        formData["well"].map(async(item, idx) => {
-          
-          let xmlParser = new DOMParser();
-          let xmlroot = xmlParser.parseFromString(add_Well_Form, "text/xml");
-          let xmlDoc = xmlroot.documentElement;
-
-          let itemKeys = Object.keys(item)
-
-          // Create a parent element for Well_usage if needed
+        } else if (formType === "well") {
           let wellUsageParent = xmlroot.createElement("Well_usage");
           let hasWellUsageData = false;
 
@@ -308,229 +333,16 @@ const InfoBox = () => {
             }
           });
 
-          // Append Well_usage parent only if it had children
           if (hasWellUsageData) {
             xmlDoc.appendChild(wellUsageParent);
           }
-          let tempString = xmlString.serializeToString(xmlDoc);
-
-          const response = await fetch(`${import.meta.env.VITE_API_URL}sync_offline_data/resource/well/`, {
-            method : "POST",
-            headers: {
-                'Content-Type': 'application/xml',
-            },
-            body: tempString
-          })
-
-          let result = await response.json()
-          if(result.sync_status){
-            toast.success("Your Well submission synced successfully to ODK.");
-          }
-          else{
-            remainingData.push(item)
-          }
-
-          if(idx === formData["well"].length - 1){
-            tempFormData['well'] = remainingData
-            setFormData(tempFormData)
-            const arrayString = JSON.stringify(tempFormData);
-            localStorage.setItem(currentPlan.id, arrayString);
-          }
-
-        })
-        tempSyncItems = tempSyncItems.filter(item => item !== "well")
-      }
-      else if(item === "waterstructure"){
-        let xmlString = new XMLSerializer();
-        let remainingData = []
-
-        formData["waterstructure"].map(async(item, idx) => {
-          
-          let xmlParser = new DOMParser();
-          let xmlroot = xmlParser.parseFromString(add_Water_Structures_Form, "text/xml");
-          let xmlDoc = xmlroot.documentElement;
-
-          let itemKeys = Object.keys(item)
-
-          console.log(item)
-          
-          itemKeys.forEach((label) => {
-            if(label === "GPS_point"){
-              let newElement = xmlroot.createElement(label)
-              let childElement = xmlroot.createElement("point_mapappearance")
-              childElement.textContent = `${item[label]["latitude"]} ${item[label]["longitude"]}`;
-              newElement.appendChild(childElement)
-              xmlDoc.appendChild(newElement)
-            }
-            else if(item[label] !== null && Array.isArray(item[label])){
-              let newElement = xmlroot.createElement(label)
-              let contentString = "";
-              item[label].forEach((content) => {
-                  if(contentString.length === 0){contentString = content;}
-                  else{contentString = contentString + " " + content;}
-              })
-              newElement.textContent = contentString;
-              xmlDoc.appendChild(newElement);
-            }
-            else if (item[label] !== null && typeof (item[label]) === "object"){
-              const tempKeys = Object.keys(item[label])
-              if(tempKeys !== null || tempKeys.length !== 0){
-                  let newElement = xmlroot.createElement(item)
-                  tempKeys.map((tempItem) => {
-                  let childElement = xmlroot.createElement(tempItem)
-                      childElement.textContent = `${item[label][tempItem]}`
-                      newElement.appendChild(childElement)
-                  })
-                  xmlDoc.appendChild(newElement)
-              }
-            }
-            else {
-              if(item[label] !== null){
-                let newElement = xmlroot.createElement(label)
-                newElement.textContent = `${item[label]}`
-                xmlDoc.appendChild(newElement)
-              }
-            }
-          })
-
-          console.log(xmlDoc)
-          let tempString = xmlString.serializeToString(xmlDoc);
-
-          const response = await fetch(`${import.meta.env.VITE_API_URL}sync_offline_data/resource/water_structures/`, {
-            method : "POST",
-            headers: {
-                'Content-Type': 'application/xml',
-            },
-            body: tempString
-          })
-
-          let result = await response.json()
-          if(result.sync_status){
-            toast.success("Your Waterstructure submission synced successfully to ODK.");
-          }
-          else{
-            remainingData.push(item)
-          }
-
-          if(idx === formData["waterstructure"].length - 1){
-            tempFormData['waterstructure'] = remainingData
-            setFormData(tempFormData)
-            const arrayString = JSON.stringify(tempFormData);
-            localStorage.setItem(currentPlan.id, arrayString);
-          }
-        })
-
-        tempSyncItems = tempSyncItems.filter(item => item !== "waterstructure")
-      }
-      else if(item === "cropping"){
-        let xmlString = new XMLSerializer();
-        let remainingData = []
-
-        formData["cropping"].map(async(item, idx) => {
-          
-          let xmlParser = new DOMParser();
-          let xmlroot = xmlParser.parseFromString(add_crop_info, "text/xml");
-          let xmlDoc = xmlroot.documentElement;
-
-          let itemKeys = Object.keys(item)
-          
-          itemKeys.forEach((label) => {
-            if(label === "GPS_point"){
-              let newElement = xmlroot.createElement(label)
-              let childElement = xmlroot.createElement("point_mapappearance")
-              childElement.textContent = `${item[label]["latitude"]} ${item[label]["longitude"]}`;
-              newElement.appendChild(childElement)
-              xmlDoc.appendChild(newElement)
-            }
-            else if(item[label] !== null && Array.isArray(item[label])){
-              let newElement = xmlroot.createElement(label)
-              let contentString = "";
-              item[label].forEach((content) => {
-                  if(contentString.length === 0){contentString = content;}
-                  else{contentString = contentString + " " + content;}
-              })
-              newElement.textContent = contentString;
-              xmlDoc.appendChild(newElement);
-            }
-            else if (item[label] !== null && typeof (item[label]) === "object"){
-              const tempKeys = Object.keys(item[label])
-              if(tempKeys !== null || tempKeys.length !== 0){
-                  let newElement = xmlroot.createElement(item)
-                  tempKeys.map((tempItem) => {
-                  let childElement = xmlroot.createElement(tempItem)
-                      childElement.textContent = `${item[label][tempItem]}`
-                      newElement.appendChild(childElement)
-                  })
-                  xmlDoc.appendChild(newElement)
-              }
-            }
-            else {
-              if(item[label] !== null){
-                let newElement = xmlroot.createElement(label)
-                newElement.textContent = `${item[label]}`
-                xmlDoc.appendChild(newElement)
-              }
-            }
-          })
-          let tempString = xmlString.serializeToString(xmlDoc);
-
-          const response = await fetch(`${import.meta.env.VITE_API_URL}sync_offline_data/resource/cropping_pattern/`, {
-            method : "POST",
-            headers: {
-                'Content-Type': 'application/xml',
-            },
-            body: tempString
-          })
-
-          let result = await response.json()
-          if(result.sync_status){
-            toast.success("Your Cropping submission synced successfully to ODK.");
-          }
-          else{
-            remainingData.push(item)
-          }
-
-          if(idx === formData["cropping"].length - 1){
-            tempFormData['cropping'] = remainingData
-            setFormData(tempFormData)
-            const arrayString = JSON.stringify(tempFormData);
-            localStorage.setItem(currentPlan.id, arrayString);
-          }
-        })
-
-        tempSyncItems = tempSyncItems.filter(item => item !== "cropping")
-      }
-      else if(item === "recharge"){
-        let xmlString = new XMLSerializer();
-        let remainingData = []
-
-        formData["recharge"].map(async(item, idx) => {
-          
-          let xmlParser = new DOMParser();
-          let xmlroot = xmlParser.parseFromString(propose_recharge_structure, "text/xml");
-          let xmlDoc = xmlroot.documentElement;
-
-          let itemKeys = Object.keys(item)
-          console.log(item)
-        
+        } else if (formType === "recharge") {
           const structureKeys = new Set([
-            "Check_dam",
-            "Percolation_tank",
-            "Earthen_gully_plug",
-            "Drainage_channels",
-            "Recharge_pits",
-            "Soakage_pits",
-            "Trench_cum_bund_network",
-            "Continuous_contour_trenches",
-            "Staggered_contour_trenches",
-            "Water_absorption_trenches",
-            "Loose_boulder_structure",
-            "Rock_fill_dam",
-            "Model_structure1",
-            "Model_structure2",
-            "Stone_bunding",
-            "Diversion_drains",
-            "Bunding"
+            "Check_dam", "Percolation_tank", "Earthen_gully_plug", "Drainage_channels",
+            "Recharge_pits", "Soakage_pits", "Trench_cum_bund_network", "Continuous_contour_trenches",
+            "Staggered_contour_trenches", "Water_absorption_trenches", "Loose_boulder_structure",
+            "Rock_fill_dam", "Model_structure1", "Model_structure2", "Stone_bunding",
+            "Diversion_drains", "Bunding"
           ]);
 
           itemKeys.forEach((label) => {
@@ -581,47 +393,7 @@ const InfoBox = () => {
             newElement.textContent = `${value}`;
             xmlDoc.appendChild(newElement);
           });
-          let tempString = xmlString.serializeToString(xmlDoc);
-
-          console.log(xmlDoc)
-
-          const response = await fetch(`${import.meta.env.VITE_API_URL}sync_offline_data/work/recharge_st/`, {
-            method : "POST",
-            headers: {
-                'Content-Type': 'application/xml',
-            },
-            body: tempString
-          })
-
-          let result = await response.json()
-          if(result.sync_status){
-            toast.success("Your Recharge Structure submission synced successfully to ODK.");
-          }
-          else{
-            remainingData.push(item)
-          }
-
-          if(idx === formData["recharge"].length - 1){
-            tempFormData['recharge'] = remainingData
-            setFormData(tempFormData)
-            const arrayString = JSON.stringify(tempFormData);
-            localStorage.setItem(currentPlan.id, arrayString);
-          }
-        })
-
-        tempSyncItems = tempSyncItems.filter(item => item !== "recharge")
-      }
-      else if(item === "irrigation"){
-        let xmlString = new XMLSerializer();
-        let remainingData = []
-
-        formData["irrigation"].map(async(item, idx) => {
-          
-          let xmlParser = new DOMParser();
-          let xmlroot = xmlParser.parseFromString(propose_irrigation_structure, "text/xml");
-          let xmlDoc = xmlroot.documentElement;
-
-          let itemKeys = Object.keys(item)
+        } else if (formType === "irrigation") {
           const groupedParentKeys = new Set(["Farm_pond", "Well", "Canal", "Community_pond", "Farm_bund"]);
           
           itemKeys.forEach((label) => {
@@ -638,7 +410,7 @@ const InfoBox = () => {
                 parentEl.appendChild(childEl);
               });
               xmlDoc.appendChild(parentEl);
-              return; // prevent falling through to other branches
+              return;
             }
             if (label === "GPS_point") {
               const newElement = xmlroot.createElement(label);
@@ -672,48 +444,7 @@ const InfoBox = () => {
               }
             }
           });
-          let tempString = xmlString.serializeToString(xmlDoc);
-
-          const response = await fetch(`${import.meta.env.VITE_API_URL}sync_offline_data/work/irrigation_st/`, {
-            method : "POST",
-            headers: {
-                'Content-Type': 'application/xml',
-            },
-            body: tempString
-          })
-
-          let result = await response.json()
-          if(result.sync_status){
-            toast.success("Your Recharge Structure submission synced successfully to ODK.");
-          }
-          else{
-            remainingData.push(item)
-          }
-
-          if(idx === formData["irrigation"].length - 1){
-            tempFormData['irrigation'] = remainingData
-            setFormData(tempFormData)
-            const arrayString = JSON.stringify(tempFormData);
-            localStorage.setItem(currentPlan.id, arrayString);
-          }
-        })
-
-        tempSyncItems = tempSyncItems.filter(item => item !== "irrigation")
-      }
-      else if(item === "livelihood"){
-        let xmlString = new XMLSerializer();
-        let remainingData = []
-
-        formData["livelihood"].map(async(item, idx) => {
-          
-          let xmlParser = new DOMParser();
-          let xmlroot = xmlParser.parseFromString(propose_livelihood, "text/xml");
-          let xmlDoc = xmlroot.documentElement;
-
-          let itemKeys = Object.keys(item)
-          
-          console.log(item)
-
+        } else if (formType === "livelihood") {
           const dashedParentsRegex = /^(Livestock|fisheries|plantations|kitchen_gardens)-(.*)$/;
           const dashedParentCache = Object.create(null);
 
@@ -779,47 +510,8 @@ const InfoBox = () => {
               }
             }
           });
-          console.log(xmlDoc)
-          let tempString = xmlString.serializeToString(xmlDoc);
-
-          const response = await fetch(`${import.meta.env.VITE_API_URL}sync_offline_data/work/livelihood/`, {
-            method : "POST",
-            headers: {
-                'Content-Type': 'application/xml',
-            },
-            body: tempString
-          })
-
-          let result = await response.json()
-          if(result.sync_status){
-            toast.success("Your Livelihood submission synced successfully to ODK.");
-          }
-          else{
-            remainingData.push(item)
-          }
-
-          if(idx === formData["livelihood"].length - 1){
-            tempFormData['livelihood'] = remainingData
-            setFormData(tempFormData)
-            const arrayString = JSON.stringify(tempFormData);
-            localStorage.setItem(currentPlan.id, arrayString);
-          }
-        })
-
-        tempSyncItems = tempSyncItems.filter(item => item !== "livelihood")
-      }
-      else if(item === "agrohorticulture"){
-        let xmlString = new XMLSerializer();
-        let remainingData = []
-
-        formData["agrohorticulture"].map(async(item, idx) => {
-          
-          let xmlParser = new DOMParser();
-          let xmlroot = xmlParser.parseFromString(agrohorticulture, "text/xml");
-          let xmlDoc = xmlroot.documentElement;
-
-          let itemKeys = Object.keys(item)
-
+        } else {
+          // Generic handling for other form types
           itemKeys.forEach((label) => {
             if (label === "GPS_point") {
               let newElement = xmlroot.createElement(label);
@@ -853,744 +545,188 @@ const InfoBox = () => {
               }
             }
           });
+        }
 
-          let tempString = xmlString.serializeToString(xmlDoc);
-          console.log(tempString)
+        let tempString = xmlString.serializeToString(xmlDoc);
 
-          const response = await fetch(`${import.meta.env.VITE_API_URL}sync_offline_data/work/agrohorticulture/`, {
-            method : "POST",
-            headers: {
-                'Content-Type': 'application/xml',
-            },
-            body: tempString
-          })
+        const response = await fetch(endpoint, {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/xml',
+          },
+          body: tempString
+        });
 
-          let result = await response.json()
-          if(result.sync_status){
-            toast.success("Your Agrohorticulture submission synced successfully to ODK.");
-          }
-          else{
-            remainingData.push(item)
-          }
+        let result = await response.json();
 
-          if(idx === formData["agrohorticulture"].length - 1){
-            tempFormData['agrohorticulture'] = remainingData
-            setFormData(tempFormData)
-            const arrayString = JSON.stringify(tempFormData);
-            localStorage.setItem(currentPlan.id, arrayString);
-          }
-
-        })
-        tempSyncItems = tempSyncItems.filter(item => item !== "agrohorticulture")
+        if (result.sync_status) {
+          toast.success(`${submissionNameMapping[formType]} (${index + 1}/${totalItems}) synced successfully`);
+          return true; // Success
+        } else {
+          toast.error(`Failed to sync ${submissionNameMapping[formType]} (${index + 1}/${totalItems})`);
+          return false; // Failed - should be retained
+        }
+      } catch (error) {
+        console.error("Sync error:", error);
+        toast.error(`Error syncing data: ${error.message}`);
+        return false; // Failed - should be retained
       }
-      else if(item === "maintainSWB"){
-        let xmlString = new XMLSerializer();
-        let remainingData = []
+  };
 
-        formData["maintainSWB"].map(async(item, idx) => {
-          
-          let xmlParser = new DOMParser();
-          let xmlroot = xmlParser.parseFromString(propose_maintainence_swb, "text/xml");
-          let xmlDoc = xmlroot.documentElement;
+  const handleSyncData = async () => {
+    if (selectedItems.length === 0) {
+      toast.error("Please select at least one item to sync");
+      return;
+    }
 
-          let itemKeys = Object.keys(item)
-          
-          itemKeys.forEach((label) => {
-            if(label === "GPS_point"){
-              let newElement = xmlroot.createElement(label)
-              let childElement = xmlroot.createElement("point_mapsappearance")
-              childElement.textContent = `${item[label]["latitude"]} ${item[label]["longitude"]}`;
-              newElement.appendChild(childElement)
-              xmlDoc.appendChild(newElement)
-            }
-            else if(item[label] !== null && Array.isArray(item[label])){
-              let newElement = xmlroot.createElement(label)
-              let contentString = "";
-              item[label].forEach((content) => {
-                  if(contentString.length === 0){contentString = content;}
-                  else{contentString = contentString + " " + content;}
-              })
-              newElement.textContent = contentString;
-              xmlDoc.appendChild(newElement);
-            }
-            else if (item[label] !== null && typeof (item[label]) === "object"){
-              const tempKeys = Object.keys(item[label])
-              if(tempKeys !== null || tempKeys.length !== 0){
-                  let newElement = xmlroot.createElement(item)
-                  tempKeys.map((tempItem) => {
-                  let childElement = xmlroot.createElement(tempItem)
-                      childElement.textContent = `${item[label][tempItem]}`
-                      newElement.appendChild(childElement)
-                  })
-                  xmlDoc.appendChild(newElement)
-              }
-            }
-            else {
-              if(item[label] !== null){
-                let newElement = xmlroot.createElement(label)
-                newElement.textContent = `${item[label]}`
-                xmlDoc.appendChild(newElement)
-              }
-            }
-          })
-          let tempString = xmlString.serializeToString(xmlDoc);
+    setIsSyncing(true); // START LOADING
+    let tempFormData = { ...formData };
 
-          const response = await fetch(`${import.meta.env.VITE_API_URL}sync_offline_data/work/propose_maintenance_rs_swb/`, {
-            method : "POST",
-            headers: {
-                'Content-Type': 'application/xml',
-            },
-            body: tempString
-          })
+    try {
+      // Process each form type
+      for (const formType of selectedItems) {
+        if (!formData[formType] || formData[formType].length === 0) {
+          continue;
+        }
 
-          let result = await response.json()
-          if(result.sync_status){
-            toast.success("Your Maintainence submission synced successfully to ODK.");
+        let remainingData = [];
+        const totalItems = formData[formType].length;
+
+        // Process each item in the form type
+        for (let idx = 0; idx < totalItems; idx++) {
+          const item = formData[formType][idx];
+          const syncSuccess = await syncFormItem(formType, item, idx, totalItems);
+
+          if (!syncSuccess) {
+            remainingData.push(item); // Keep failed items
           }
-          else{
-            remainingData.push(item)
-          }
+        }
 
-          if(idx === formData["maintainSWB"].length - 1){
-            tempFormData['maintainSWB'] = remainingData
-            setFormData(tempFormData)
-            const arrayString = JSON.stringify(tempFormData);
-            localStorage.setItem(currentPlan.id, arrayString);
-          }
-        })
-
-        tempSyncItems = tempSyncItems.filter(item => item !== "maintainSWB")
+        // Update form data with only the items that failed to sync
+        tempFormData[formType] = remainingData;
       }
-      else if(item === "maintainGW"){
-        let xmlString = new XMLSerializer();
-        let remainingData = []
 
-        formData["maintainGW"].map(async(item, idx) => {
-          
-          let xmlParser = new DOMParser();
-          let xmlroot = xmlParser.parseFromString(propose_maintainence_recharge_structure, "text/xml");
-          let xmlDoc = xmlroot.documentElement;
+      // Update the state and localStorage with the updated form data
+      setFormData(tempFormData);
+      localStorage.setItem(currentPlan.id, JSON.stringify(tempFormData));
 
-          let itemKeys = Object.keys(item)
-          
-          itemKeys.forEach((label) => {
-            if(label === "GPS_point"){
-              let newElement = xmlroot.createElement(label)
-              let childElement = xmlroot.createElement("point_mapsappearance")
-              childElement.textContent = `${item[label]["latitude"]} ${item[label]["longitude"]}`;
-              newElement.appendChild(childElement)
-              xmlDoc.appendChild(newElement)
-            }
-            else if(item[label] !== null && Array.isArray(item[label])){
-              let newElement = xmlroot.createElement(label)
-              let contentString = "";
-              item[label].forEach((content) => {
-                  if(contentString.length === 0){contentString = content;}
-                  else{contentString = contentString + " " + content;}
-              })
-              newElement.textContent = contentString;
-              xmlDoc.appendChild(newElement);
-            }
-            else if (item[label] !== null && typeof (item[label]) === "object"){
-              const tempKeys = Object.keys(item[label])
-              if(tempKeys !== null || tempKeys.length !== 0){
-                  let newElement = xmlroot.createElement(item)
-                  tempKeys.map((tempItem) => {
-                  let childElement = xmlroot.createElement(tempItem)
-                      childElement.textContent = `${item[label][tempItem]}`
-                      newElement.appendChild(childElement)
-                  })
-                  xmlDoc.appendChild(newElement)
-              }
-            }
-            else {
-              if(item[label] !== null){
-                let newElement = xmlroot.createElement(label)
-                newElement.textContent = `${item[label]}`
-                xmlDoc.appendChild(newElement)
-              }
-            }
-          })
-          let tempString = xmlString.serializeToString(xmlDoc);
+      // Make the add_resources/add_works API calls
+      for (const item of selectedItems) {
+        try {
+          let payload = {};
 
-          const response = await fetch(`${import.meta.env.VITE_API_URL}sync_offline_data/work/propose_maintenance_recharge_st/`, {
-            method : "POST",
-            headers: {
-                'Content-Type': 'application/xml',
-            },
-            body: tempString
-          })
-
-          let result = await response.json()
-          if(result.sync_status){
-            toast.success("Your Maintainence submission synced successfully to ODK.");
-          }
-          else{
-            remainingData.push(item)
-          }
-
-          if(idx === formData["maintainGW"].length - 1){
-            tempFormData['maintainGW'] = remainingData
-            setFormData(tempFormData)
-            const arrayString = JSON.stringify(tempFormData);
-            localStorage.setItem(currentPlan.id, arrayString);
-          }
-        })
-
-        tempSyncItems = tempSyncItems.filter(item => item !== "maintainGW")
-      }
-      else if(item === "maintainWB"){
-        let xmlString = new XMLSerializer();
-        let remainingData = []
-
-        formData["maintainWB"].map(async(item, idx) => {
-          
-          let xmlParser = new DOMParser();
-          let xmlroot = xmlParser.parseFromString(propose_maintainence_water_structure, "text/xml");
-          let xmlDoc = xmlroot.documentElement;
-
-          let itemKeys = Object.keys(item)
-          console.log(item)
-          itemKeys.forEach((label) => {
-            if(label === "GPS_point"){
-              let newElement = xmlroot.createElement(label)
-              let childElement = xmlroot.createElement("point_mapsappearance")
-              childElement.textContent = `${item[label]["latitude"]} ${item[label]["longitude"]}`;
-              newElement.appendChild(childElement)
-              xmlDoc.appendChild(newElement)
-            }
-            else if(item[label] !== null && Array.isArray(item[label])){
-              let newElement = xmlroot.createElement(label)
-              let contentString = "";
-              item[label].forEach((content) => {
-                  if(contentString.length === 0){contentString = content;}
-                  else{contentString = contentString + " " + content;}
-              })
-              newElement.textContent = contentString;
-              xmlDoc.appendChild(newElement);
-            }
-            else if (item[label] !== null && typeof (item[label]) === "object"){
-              const tempKeys = Object.keys(item[label])
-              if(tempKeys !== null || tempKeys.length !== 0){
-                  let newElement = xmlroot.createElement(item)
-                  tempKeys.map((tempItem) => {
-                  let childElement = xmlroot.createElement(tempItem)
-                      childElement.textContent = `${item[label][tempItem]}`
-                      newElement.appendChild(childElement)
-                  })
-                  xmlDoc.appendChild(newElement)
-              }
-            }
-            else {
-              if(item[label] !== null){
-                let newElement = xmlroot.createElement(label)
-                newElement.textContent = `${item[label]}`
-                xmlDoc.appendChild(newElement)
-              }
-            }
-          })
-          console.log(xmlDoc)
-          let tempString = xmlString.serializeToString(xmlDoc);
-
-          const response = await fetch(`${import.meta.env.VITE_API_URL}sync_offline_data/work/propose_maintenance_ws_swb/`, {
-            method : "POST",
-            headers: {
-                'Content-Type': 'application/xml',
-            },
-            body: tempString
-          })
-
-          let result = await response.json()
-          if(result.sync_status){
-            toast.success("Your Maintainence submission synced successfully to ODK.");
-          }
-          else{
-            remainingData.push(item)
+          switch (item) {
+            case "settlement":
+              payload = {
+                layer_name: "settlement_layer",
+                resource_type: "settlement",
+                plan_id: MainStore.currentPlan.id,
+                plan_name: MainStore.currentPlan.plan,
+                district_name: MainStore.districtName,
+                block_name: MainStore.blockName,
+              };
+              break;
+            case "well":
+              payload = {
+                layer_name: "well_layer",
+                resource_type: "well",
+                plan_id: MainStore.currentPlan.id,
+                plan_name: MainStore.currentPlan.plan,
+                district_name: MainStore.districtName,
+                block_name: MainStore.blockName,
+              };
+              break;
+            case "waterstructure":
+              payload = {
+                layer_name: "waterbody_layer",
+                resource_type: "waterbody",
+                plan_id: MainStore.currentPlan.id,
+                plan_name: MainStore.currentPlan.plan,
+                district_name: MainStore.districtName,
+                block_name: MainStore.blockName,
+              };
+              break;
+            case "cropping":
+              payload = {
+                layer_name: "cropping_layer",
+                resource_type: "cropping",
+                plan_id: MainStore.currentPlan.id,
+                plan_name: MainStore.currentPlan.plan,
+                district_name: MainStore.districtName,
+                block_name: MainStore.blockName,
+              };
+              break;
+            case "irrigation":
+              payload = {
+                layer_name: "planning_layer",
+                work_type: "plan_agri",
+                plan_id: MainStore.currentPlan.id,
+                plan_name: MainStore.currentPlan.plan,
+                district_name: MainStore.districtName,
+                block_name: MainStore.blockName,
+              };
+              await fetch(`${import.meta.env.VITE_API_URL}add_works/`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+              });
+              continue;
+            case "livelihood":
+              payload = {
+                layer_name: "planning_layer",
+                work_type: "livelihood",
+                plan_id: MainStore.currentPlan.id,
+                plan_name: MainStore.currentPlan.plan,
+                district_name: MainStore.districtName,
+                block_name: MainStore.blockName,
+              };
+              await fetch(`${import.meta.env.VITE_API_URL}add_works/`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+              });
+              continue;
+            case "recharge":
+              payload = {
+                layer_name: "planning_layer",
+                work_type: "plan_gw",
+                plan_id: MainStore.currentPlan.id,
+                plan_name: MainStore.currentPlan.plan,
+                district_name: MainStore.districtName,
+                block_name: MainStore.blockName,
+              };
+              await fetch(`${import.meta.env.VITE_API_URL}add_works/`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+              });
+              continue;
+            default:
+              continue;
           }
 
-          if(idx === formData["maintainWB"].length - 1){
-            tempFormData['maintainWB'] = remainingData
-            setFormData(tempFormData)
-            const arrayString = JSON.stringify(tempFormData);
-            localStorage.setItem(currentPlan.id, arrayString);
+          // For resource types
+          if (payload.resource_type) {
+            await fetch(`${import.meta.env.VITE_API_URL}add_resources/`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+            });
           }
-        })
-
-        tempSyncItems = tempSyncItems.filter(item => item !== "maintainWB")
-      }
-      else if(item === "Maintain"){
-        let xmlString = new XMLSerializer();
-        let remainingData = []
-
-        formData["Maintain"].map(async(item, idx) => {
-          
-          let xmlParser = new DOMParser();
-          let xmlroot = xmlParser.parseFromString(propose_maintainence_irrigation_structure, "text/xml");
-          let xmlDoc = xmlroot.documentElement;
-
-          let itemKeys = Object.keys(item)
-          
-          itemKeys.forEach((label) => {
-            if(label === "GPS_point"){
-              let newElement = xmlroot.createElement(label)
-              let childElement = xmlroot.createElement("point_mapsappearance")
-              childElement.textContent = `${item[label]["latitude"]} ${item[label]["longitude"]}`;
-              newElement.appendChild(childElement)
-              xmlDoc.appendChild(newElement)
-            }
-            else if(item[label] !== null && Array.isArray(item[label])){
-              let newElement = xmlroot.createElement(label)
-              let contentString = "";
-              item[label].forEach((content) => {
-                  if(contentString.length === 0){contentString = content;}
-                  else{contentString = contentString + " " + content;}
-              })
-              newElement.textContent = contentString;
-              xmlDoc.appendChild(newElement);
-            }
-            else if (item[label] !== null && typeof (item[label]) === "object"){
-              const tempKeys = Object.keys(item[label])
-              if(tempKeys !== null || tempKeys.length !== 0){
-                  let newElement = xmlroot.createElement(item)
-                  tempKeys.map((tempItem) => {
-                  let childElement = xmlroot.createElement(tempItem)
-                      childElement.textContent = `${item[label][tempItem]}`
-                      newElement.appendChild(childElement)
-                  })
-                  xmlDoc.appendChild(newElement)
-              }
-            }
-            else {
-              if(item[label] !== null){
-                let newElement = xmlroot.createElement(label)
-                newElement.textContent = `${item[label]}`
-                xmlDoc.appendChild(newElement)
-              }
-            }
-          })
-          let tempString = xmlString.serializeToString(xmlDoc);
-
-          const response = await fetch(`${import.meta.env.VITE_API_URL}sync_offline_data/work/propose_maintenance_irrigation_st/`, {
-            method : "POST",
-            headers: {
-                'Content-Type': 'application/xml',
-            },
-            body: tempString
-          })
-
-          let result = await response.json()
-          if(result.sync_status){
-            toast.success("Your Maintainence submission synced successfully to ODK.");
-          }
-          else{
-            remainingData.push(item)
-          }
-
-          if(idx === formData["Maintain"].length - 1){
-            tempFormData['Maintain'] = remainingData
-            setFormData(tempFormData)
-            const arrayString = JSON.stringify(tempFormData);
-            localStorage.setItem(currentPlan.id, arrayString);
-          }
-        })
-
-        tempSyncItems = tempSyncItems.filter(item => item !== "Maintain")
-      }
-      else if(item === "feedbackSWB"){
-        let xmlString = new XMLSerializer();
-        let remainingData = []
-
-        formData["feedbackSWB"].map(async(item, idx) => {
-          
-          let xmlParser = new DOMParser();
-          let xmlroot = xmlParser.parseFromString(feedback_surface_waterbodies, "text/xml");
-          let xmlDoc = xmlroot.documentElement;
-
-          let itemKeys = Object.keys(item)
-          
-          itemKeys.forEach((label) => {
-            if(label === "GPS_point"){
-              let newElement = xmlroot.createElement(label)
-              let childElement = xmlroot.createElement("point_mapappearance")
-              childElement.textContent = `${item[label]["latitude"]} ${item[label]["longitude"]}`;
-            }
-            else if(item[label] !== null && Array.isArray(item[label])){
-              let newElement = xmlroot.createElement(label)
-              let contentString = "";
-              item[label].forEach((content) => {
-                  if(contentString.length === 0){contentString = content;}
-                  else{contentString = contentString + " " + content;}
-              })
-              newElement.textContent = contentString;
-              xmlDoc.appendChild(newElement);
-            }
-            else if (item[label] !== null && typeof (item[label]) === "object"){
-              const tempKeys = Object.keys(item[label])
-              if(tempKeys !== null || tempKeys.length !== 0){
-                  let newElement = xmlroot.createElement(item)
-                  tempKeys.map((tempItem) => {
-                  let childElement = xmlroot.createElement(tempItem)
-                      childElement.textContent = `${item[label][tempItem]}`
-                      newElement.appendChild(childElement)
-                  })
-                  xmlDoc.appendChild(newElement)
-              }
-            }
-            else {
-              if(item[label] !== null){
-                let newElement = xmlroot.createElement(label)
-                newElement.textContent = `${item[label]}`
-                xmlDoc.appendChild(newElement)
-              }
-            }
-          })
-          let tempString = xmlString.serializeToString(xmlDoc);
-
-          const response = await fetch(`${import.meta.env.VITE_API_URL}sync_offline_data/feedback/swb_feedback/`, {
-            method : "POST",
-            headers: {
-                'Content-Type': 'application/xml',
-            },
-            body: tempString
-          })
-
-          let result = await response.json()
-          if(result.sync_status){
-            toast.success("Your Feedback submission synced successfully to ODK.");
-          }
-          else{
-            remainingData.push(item)
-          }
-
-          if(idx === formData["feedbackSWB"].length - 1){
-            tempFormData['feedbackSWB'] = remainingData
-            setFormData(tempFormData)
-            const arrayString = JSON.stringify(tempFormData);
-            localStorage.setItem(currentPlan.id, arrayString);
-          }
-        })
-
-        tempSyncItems = tempSyncItems.filter(item => item !== "feedbackSWB")
-      }
-      else if(item === "feedbackGW"){
-        let xmlString = new XMLSerializer();
-        let remainingData = []
-
-        formData["feedbackGW"].map(async(item, idx) => {
-          
-          let xmlParser = new DOMParser();
-          let xmlroot = xmlParser.parseFromString(feedback_groundwater, "text/xml");
-          let xmlDoc = xmlroot.documentElement;
-
-          let itemKeys = Object.keys(item)
-          
-          itemKeys.forEach((label) => {
-            if(label === "GPS_point"){
-              let newElement = xmlroot.createElement(label)
-              let childElement = xmlroot.createElement("point_mapappearance")
-              childElement.textContent = `${item[label]["latitude"]} ${item[label]["longitude"]}`;
-            }
-            else if(item[label] !== null && Array.isArray(item[label])){
-              let newElement = xmlroot.createElement(label)
-              let contentString = "";
-              item[label].forEach((content) => {
-                  if(contentString.length === 0){contentString = content;}
-                  else{contentString = contentString + " " + content;}
-              })
-              newElement.textContent = contentString;
-              xmlDoc.appendChild(newElement);
-            }
-            else if (item[label] !== null && typeof (item[label]) === "object"){
-              const tempKeys = Object.keys(item[label])
-              if(tempKeys !== null || tempKeys.length !== 0){
-                  let newElement = xmlroot.createElement(item)
-                  tempKeys.map((tempItem) => {
-                  let childElement = xmlroot.createElement(tempItem)
-                      childElement.textContent = `${item[label][tempItem]}`
-                      newElement.appendChild(childElement)
-                  })
-                  xmlDoc.appendChild(newElement)
-              }
-            }
-            else {
-              if(item[label] !== null){
-                let newElement = xmlroot.createElement(label)
-                newElement.textContent = `${item[label]}`
-                xmlDoc.appendChild(newElement)
-              }
-            }
-          })
-          let tempString = xmlString.serializeToString(xmlDoc);
-
-          const response = await fetch(`${import.meta.env.VITE_API_URL}sync_offline_data/feedback/gw_feedback/`, {
-            method : "POST",
-            headers: {
-                'Content-Type': 'application/xml',
-            },
-            body: tempString
-          })
-
-          let result = await response.json()
-          if(result.sync_status){
-            toast.success("Your Feedback submission synced successfully to ODK.");
-          }
-          else{
-            remainingData.push(item)
-          }
-
-          if(idx === formData["feedbackGW"].length - 1){
-            tempFormData['feedbackGW'] = remainingData
-            setFormData(tempFormData)
-            const arrayString = JSON.stringify(tempFormData);
-            localStorage.setItem(currentPlan.id, arrayString);
-          }
-        })
-
-        tempSyncItems = tempSyncItems.filter(item => item !== "feedbackGW")
-      }
-      else if(item === "feedbackAgri"){
-        let xmlString = new XMLSerializer();
-        let remainingData = []
-
-        formData["feedbackAgri"].map(async(item, idx) => {
-          
-          let xmlParser = new DOMParser();
-          let xmlroot = xmlParser.parseFromString(feedback_agriculture, "text/xml");
-          let xmlDoc = xmlroot.documentElement;
-
-          let itemKeys = Object.keys(item)
-          
-          itemKeys.forEach((label) => {
-            if(label === "GPS_point"){
-              let newElement = xmlroot.createElement(label)
-              let childElement = xmlroot.createElement("point_mapappearance")
-              childElement.textContent = `${item[label]["latitude"]} ${item[label]["longitude"]}`;
-            }
-            else if(item[label] !== null && Array.isArray(item[label])){
-              let newElement = xmlroot.createElement(label)
-              let contentString = "";
-              item[label].forEach((content) => {
-                  if(contentString.length === 0){contentString = content;}
-                  else{contentString = contentString + " " + content;}
-              })
-              newElement.textContent = contentString;
-              xmlDoc.appendChild(newElement);
-            }
-            else if (item[label] !== null && typeof (item[label]) === "object"){
-              const tempKeys = Object.keys(item[label])
-              if(tempKeys !== null || tempKeys.length !== 0){
-                  let newElement = xmlroot.createElement(item)
-                  tempKeys.map((tempItem) => {
-                  let childElement = xmlroot.createElement(tempItem)
-                      childElement.textContent = `${item[label][tempItem]}`
-                      newElement.appendChild(childElement)
-                  })
-                  xmlDoc.appendChild(newElement)
-              }
-            }
-            else {
-              if(item[label] !== null){
-                let newElement = xmlroot.createElement(label)
-                newElement.textContent = `${item[label]}`
-                xmlDoc.appendChild(newElement)
-              }
-            }
-          })
-          let tempString = xmlString.serializeToString(xmlDoc);
-
-          const response = await fetch(`${import.meta.env.VITE_API_URL}sync_offline_data/feedback/agri_feedback/`, {
-            method : "POST",
-            headers: {
-                'Content-Type': 'application/xml',
-            },
-            body: tempString
-          })
-
-          let result = await response.json()
-          if(result.sync_status){
-            toast.success("Your Feedback submission synced successfully to ODK.");
-          }
-          else{
-            remainingData.push(item)
-          }
-
-          if(idx === formData["feedbackAgri"].length - 1){
-            tempFormData['feedbackAgri'] = remainingData
-            setFormData(tempFormData)
-            const arrayString = JSON.stringify(tempFormData);
-            localStorage.setItem(currentPlan.id, arrayString);
-          }
-        })
-
-        tempSyncItems = tempSyncItems.filter(item => item !== "feedbackAgri")
-      }
-    })
-
-    selectedItems.forEach(async(item) => {
-      if(item === "settlement"){
-        try{
-          const payload = {
-            layer_name: "settlement_layer",
-            resource_type: "settlement",
-            plan_id: MainStore.currentPlan.id,
-            plan_name: MainStore.currentPlan.plan,
-            district_name: MainStore.districtName,
-            block_name: MainStore.blockName,
-          }
-          let result = await fetch(`${import.meta.env.VITE_API_URL}add_resources/`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(payload)
-          })
-          const data = await result.json();
-          console.log(payload)
-          console.log(data)
         } catch (error) {
-          console.error("Error:", error);
+          console.error("Error in add_resources/add_works:", error);
         }
       }
-      else if(item === "well"){
-        const payload = {
-          layer_name: "well_layer",
-          resource_type: "well",
-          plan_id: MainStore.currentPlan.id,
-          plan_name: MainStore.currentPlan.plan,
-          district_name: MainStore.districtName,
-          block_name: MainStore.blockName,
-        }
 
-        try {
-         await fetch(`${import.meta.env.VITE_API_URL}add_resources/`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(payload)
-          })
-          
-        } catch(err) {
-          console.error(err)
-        }
-      }
-      else if(item === "waterstructure"){
-        const payload = {
-          layer_name: "waterbody_layer",
-          resource_type: "waterbody",
-          plan_id: MainStore.currentPlan.id,
-          plan_name: MainStore.currentPlan.plan,
-          district_name: MainStore.districtName,
-          block_name: MainStore.blockName,
-        }
-
-        try {
-          await fetch(`${import.meta.env.VITE_API_URL}add_resources/`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(payload)
-          })
-          
-        } catch(err) {
-          console.error(err)
-        }
-      }
-      else if(item === "cropping"){
-        const payload = {
-          layer_name: "cropping_layer",
-          resource_type: "cropping",
-          plan_id: MainStore.currentPlan.id,
-          plan_name: MainStore.currentPlan.plan,
-          district_name: MainStore.districtName,
-          block_name: MainStore.blockName,
-        }
-
-        try {
-          await fetch(`${import.meta.env.VITE_API_URL}add_resources/`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(payload)
-          })
-          
-        } catch(err) {
-          console.error(err)
-        }
-      }
-      else if(item === "irrigation"){
-        const payload = {
-          layer_name: "planning_layer",
-          work_type: "plan_agri",
-          plan_id: MainStore.currentPlan.id,
-          plan_name: MainStore.currentPlan.plan,
-          district_name: MainStore.districtName,
-          block_name: MainStore.blockName,
-        }
-
-        try {
-          await fetch(`${import.meta.env.VITE_API_URL}add_works/`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(payload)
-          })
-        } catch(err) {
-          console.error(err)
-        }
-      }
-      else if(item === "livelihood"){
-        const payload = {
-          layer_name: "planning_layer",
-          work_type: "livelihood",
-          plan_id: MainStore.currentPlan.id,
-          plan_name: MainStore.currentPlan.plan,
-          district_name: MainStore.districtName,
-          block_name: MainStore.blockName,
-        }
-
-        try {
-          await fetch(`${import.meta.env.VITE_API_URL}add_works/`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(payload)
-          })
-        } catch(err) {
-          console.error(err)
-        }
-      }
-      else if(item === "recharge"){
-        const payload = {
-          layer_name: "planning_layer",
-          work_type: "plan_gw",
-          plan_id: MainStore.currentPlan.id,
-          plan_name: MainStore.currentPlan.plan,
-          district_name: MainStore.districtName,
-          block_name: MainStore.blockName,
-        }
-
-        try {
-          await fetch(`${import.meta.env.VITE_API_URL}add_works/`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(payload)
-          })
-
-        } catch(err) {
-          console.error(err)
-        }
-      }
-    })
-
-    setSelectedItems(tempSyncItems)
-  }
+      setSelectedItems([]); // Clear selected items after sync
+      toast.success("Sync completed successfully!");
+    } catch (error) {
+      console.error("Error during sync:", error);
+      toast.error("An error occurred during sync. Please try again.");
+    } finally {
+      setIsSyncing(false); // STOP LOADING - IMPORTANT: This runs whether success or error
+    }
+  };
 
   const handleDeleteSubmission = (formType, index) => {
     // Show confirmation dialog
@@ -2017,7 +1153,7 @@ const InfoBox = () => {
                               : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                           }`}
                         >
-                          {formatFormType(submissionNameMapping[item])} ({formData[item]?.length || 0})
+                          {submissionNameMapping[item]} ({formData[item]?.length || 0})
                         </button> : <></>
                       ))}
                       </div>
@@ -2139,7 +1275,7 @@ const InfoBox = () => {
                 <button
                   onClick={handleSyncData}
                   disabled={isSyncing || selectedItems.length === 0}
-                  className="w-full py-3 px-4 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-all duration-200 transform hover:scale-105 disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none"
+                  className="w-full py-3 px-4 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-all duration-200 transform hover:scale-105 disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none disabled:hover:bg-green-600"
                 >
                   <div className="flex items-center justify-center space-x-2">
                     {isSyncing ? (
@@ -2148,7 +1284,7 @@ const InfoBox = () => {
                           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
-                        <span>Syncing...</span>
+                        <span>Syncing... Please wait</span>
                       </>
                     ) : (
                       <>

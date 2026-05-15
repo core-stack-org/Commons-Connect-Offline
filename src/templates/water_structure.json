@@ -504,7 +504,7 @@
               }
             },
             {
-              "value": "PM_KUSUM",
+              "value": "PM-KUSUM",
               "text": {
                 "default": "PM-KUSUM",
                 "hi": "पीएम-कुसुम"
@@ -525,21 +525,21 @@
               }
             },
             {
-              "value": "Self_funded",
+              "value": "Self funded",
               "text": {
                 "default": "Self funded",
                 "hi": "खुद का खर्च "
               }
             },
             {
-              "value": "Dont_know",
+              "value": "Don't know",
               "text": {
                 "default": "Don't know",
                 "hi": "पता नहीं"
               }
             },
             {
-              "value": "Other",
+              "value": "other",
               "text": {
                 "default": "Other",
                 "hi": "अन्य"
@@ -550,7 +550,7 @@
         {
           "type": "text",
           "name": "select_one_scheme_other",
-          "visibleIf": "{select_one_scheme} anyof ['Other']",
+          "visibleIf": "{select_one_scheme} anyof ['other']",
           "title": {
             "default": "Specify other",
             "hi": "अन्य निर्दिष्ट करें"

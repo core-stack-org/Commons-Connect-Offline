@@ -115,7 +115,7 @@
           "isRequired": true,
           "choices": [
             {
-              "value": "Public well",
+              "value": "Community well",
               "text": {
                 "default": "Community Well",
                 "hi": "सामुदायिक कुआँ"
